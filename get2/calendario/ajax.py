@@ -118,19 +118,6 @@ def tipo_turno_form(request, form):
             dajax.add_css_class('#id_%s' % error, 'ui-state-error')
     return dajax.json()
 
-@dajaxice_register
-def render_form_requisiti(request):
-    html_form=''
-    for mansione in Mansione.objects.all():
-        html_form+='<div class="riga">'+str(mansione)+': <select><option value="">---</option>'
-        for operatore in OPERATORI:
-            html_form+='<option value="'+str(operatore)+'">'+str(operatore)+'</option>'
-        html_form+='</select> <input type="text" name="valore">'
-    dajax = Dajax()
-    #dajax.alert(str(html_form))
-    dajax.assign('#form_requisiti', 'innerHTML', html_form)
-    dajax.script('$("#form_requisiti" ).dialog("open");')
-    return dajax.json()
 
 @dajaxice_register
 def requisito_form(request, form):
@@ -138,12 +125,11 @@ def requisito_form(request, form):
     form = TipoTurnoForm(deserialize_form(form))
     if form.is_valid():
         form.save()
-        dajax.script('$("#form_tipo_turno" ).dialog("close");')
-        html='<div class="riga" id="tipo_turno-'+str(form.cleaned_data.get('id'))+'"><div class="col">'+str(form.cleaned_data.get('identificativo'))+'</div><div class="col">modifica requisiti</div></div><div class="riga" id="requisiti-'+str(form.cleaned_data.get('id'))+'"></div>'
-        dajax.append('#elenco', 'innerHTML', html)
-        #dajax.alert("aggiunto!")
+        dajax.script('$("#form_requisito" ).dialog("close");')
+        #dajax.append('#elenco', 'innerHTML', html)
+        dajax.alert("aggiunto!")
     else:
-        dajax.remove_css_class('#form_tipo_turno input', 'error')
+        dajax.remove_css_class('#form_requisito input', 'error')
         for error in form.errors:
             dajax.add_css_class('#id_%s' % error, 'ui-state-error')
     return dajax.json()

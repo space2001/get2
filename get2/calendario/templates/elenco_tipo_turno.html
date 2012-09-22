@@ -12,8 +12,8 @@
 </div>
 
 
-<div id="div_form_requisiti"><form action="" method="post" id="form_requisiti" accept-charset="utf-8">
-    ciao
+<div id="div_form_requisito"><form action="" method="post" id="form_requisito" accept-charset="utf-8">
+    {{ requisito_form.as_p }}
 </form>
 </div>
 
@@ -32,13 +32,13 @@
 				}
 			}
 		});
-		$( "#form_requisiti" ).dialog({
+		$( "#form_requisito" ).dialog({
 			resizable: false,
 			modal: true,
 			autoOpen: false,
 			buttons: {
 				"Invia": function() {
-					send_form_requisiti(tipo_id);
+					send_form_requisiti();
 				},
 				Cancel: function() {
 					$( this ).dialog( "close" );
@@ -51,7 +51,7 @@
     Dajaxice.get2.calendario.tipo_turno_form(Dajax.process,{'form':$('#form_tipo_turno').serialize(true)});
 	}
 	function send_form_requisiti(){
-    Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$('#form_requisiti').serialize(true)});
+    Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$('#form_requisito').serialize(true)});
 	}
 	</script>
 <div id="elenco">
@@ -60,7 +60,7 @@
 
 	<div class="riga" id="tipo_turno-{{tipo_turno.id}}">
 	<div class="col">{{tipo_turno}}</div>
-	<div class="col operazioni"><a href="#" onclick='Dajaxice.get2.calendario.render_form_requisiti(Dajax.process);'>modifica requisiti</a></div>
+	<div class="col operazioni"><a href="#" onclick='$("#form_requisito" ).dialog("open");'>aggiungi requisito</a></div>
 	</div>
 	<div class="riga" id="requisiti-{{tipo_turno.id}}">
 		{% for requisito in tipo_turno.req_tipo_turno.all %}

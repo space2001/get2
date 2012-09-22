@@ -20,7 +20,7 @@ class Persona(models.Model):
 	competenze = models.ManyToManyField(Mansione)
 	def notifiche_non_lette(self):
 		n=0
-		for m in Notifiche.objects.filter(destinatario=self.user):
+		for m in Notifica.objects.filter(destinatario=self.user):
 			if(m.letto == False):
 				n+=1
 		return n
@@ -55,10 +55,11 @@ class Requisito(models.Model):
 	valore=models.IntegerField()
 	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno")
 
-class RequisitoForm(forms.Form):
+class RequisitoForm(forms.ModelForm):
 	class Meta:
 		model = Requisito
-		esclude = ('tipo_turno')
+		exclude = ('tipo_turno')
+
 GIORNO = (
   (0, 'lunedi'),
   (1, 'martedi'),
@@ -132,7 +133,7 @@ class Disponibilita(models.Model):
 	mansione = models.ForeignKey(Mansione)
 
 
-class Notifiche(models.Model):
+class Notifica(models.Model):
 	destinatario = models.ForeignKey(User, related_name='destinatario_user')
 	data =  models.DateTimeField()
 	testo = models.CharField(max_length=1000)

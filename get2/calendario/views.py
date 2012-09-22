@@ -261,6 +261,6 @@ def nuovo_tipo_turno(request):
 
 def elenco_tipo_turno(request):
 	tipi_turno=TipoTurno.objects.all()
-	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'request':request})
+	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'requisito_form':RequisitoForm(),'request':request})
 
 #### fine tipo turno ####
