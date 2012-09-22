@@ -1,0 +1,20 @@
+{% load dajaxice_templatetags %}
+{% load static %}
+<html>
+<head>
+	<title>{% block title %}Get 2.0{% endblock %}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}" />
+    {% dajaxice_js_import %}
+    <script type="text/javascript" src="{% static "jquery.core.js" %}"></script>
+    <script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
+	{% block head %}{% endblock %}
+</head>
+<body>
+	<div id="user">	{% if request.user.id%}<div id="nome"><a href="/accounts/logout">Salve, <b>{{request.user}} (ESCI)</b></a></div>	
+	{%else%}
+	<div id="nome"><a href="/accounts/login"> Accedi</b></a></div>
+	{% endif %}</div>
+	<div id='main'>
+	{% block main %}{% endblock %}</div>
+</body>
+</html>

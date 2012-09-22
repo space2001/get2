@@ -1,0 +1,80 @@
+# Create your views here.
+
+from django.http import HttpResponse,HttpResponseRedirect
+from get2.calendario.models import *
+from django.shortcuts import render_to_response
+import calendar,datetime,locale
+from django.db.models import Q, Count
+from django.core.urlresolvers import reverse
+from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
+import pdb
+
+import settings_calendario
+
+
+def disponibilita_verifica_tempo(request, turno):
+	if request.user.is_staff:
+		verifica=True
+		errore=''
+	else:
+		now=datetime.datetime.now()
+		diff=turno.inizio-now
+		if diff<0:
+			verifica=False
+			errore='passato'
+		elif diff<DISP_MIN:
+			verifica=False
+			errore='vicino'
+		elif diff>DISP_MAX:
+			verifica=False
+			errore='lontano'
+		else:
+			verifica=True
+			errore=''
+	return (verifica,errore)
+
+
+def disponibilita_risolvi_esistente(disponibilita,esistente):
+	pass
+
+
+def disponibilita_risolvi_contemporaneo(disponibilita,contemporaneo):
+	pass
+
+
+def nuovo_disponibilita(request, tipo_disponibilita, persona_id, user_id, turno_id, mansione_id):
+	#inizializzo ma non salvo un oggetto disponibilita
+	disponibilita=Disponibilita()
+	disponibilita.tipo=tipo_disponibilita
+	disponibilita.persona=Persona.objects.get(id=persona_id)
+	disponibilita.ultima_modifica=datetime.datetime.now()
+	disponibilita.creata_da=User.objects.get(id=user_id)
+	disponibilita.turno=Turno.objects.get(id=turno_id)
+	disponibilita.mansione=Mansione.objects.get(id=mansione_id)
+	#verifico se la disponibilita e entro i tempi corretti
+	if disponibilita_verifica_tempo(request, turno)[0]:
+		#una persona puo avere una sola disponibilita per turno
+		if Disponibilita.objects.filter(persona=persona, turno=turno ).exists():
+			esistente=Disponibilita.objects.get(persona=persona, turno=turno )
+			disponibilita_risolvi_esistente(disponibilita,esistente)
+		#risolvo i conflitti con i turni contemporanei
+		for contemporaneo in turno.contemporanei():
+			disponibilita_risolvi_contemporaneo(disponibilita,contemporaneo)
+		disponibilita.save()
+
+
+
+def notifica_disponibilita(request, destinatario, persona, turno, azione):
+	messaggio=str(persona) + ' si e <b>' + str(azione) + '</b> dal turno: ' + 'turno'
+	now=datetime.datetime.now()
+	notifica=Notifica()
+	notifica.testo=messaggio
+	notifica.destinatario=destinatario
+	notifica.data=now
+	notifica.letto=False
+	notifica.save()
+	return True
+
+
+

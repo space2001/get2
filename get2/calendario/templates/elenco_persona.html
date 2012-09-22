@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
+<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
+{% endblock %}
+{% block main %}
+
+
+
+{% for persona in persone %}
+
+	<div class="persona riga" id="persona-{{persona.id}}">
+	<div class="nome col">{{persona}}</div>
+	<div class="mansioni col">{% for m in persona.competenze.all %} {{m}} {% endfor %}</div>
+	<div class="operazioni col"><a href="/persona/modifica/{{persona.id}}"> modifica</a><a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'>elimina</a>
+	</div>
+	</div>
+	<script>
+	$(function() {
+		$( "#elimina-persona-{{persona.id}}" ).dialog({
+			resizable: false,
+			modal: true,
+			autoOpen: false,
+			buttons: {
+				"Elimina": function() {
+					Dajaxice.get2.calendario.elimina_persona(Dajax.process,{'persona_id':{{persona.id}}});
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	});
+	
+	</script>
+	<div id="elimina-persona-{{persona.id}}" title="Elimina {{persona}}">
+	<p>
+		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+		Vuoi veramente eliminare {{persona}}?
+	</p>
+	</div>
+
+{% endfor %}
+
+
+
+{% endblock %}
