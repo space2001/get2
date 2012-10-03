@@ -6,14 +6,10 @@
 {% endblock %}
 {% block main %}
 
-<div id="div_form_tipo_turno"><form action="" method="post" id="form_tipo_turno" accept-charset="utf-8">
+
+
+<div id="div_tipo_turno"><form action="" method="post" id="form_tipo_turno" accept-charset="utf-8">
     {{ tipo_turno_form.as_p }}
-</form>
-</div>
-
-
-<div id="div_form_requisito"><form action="" method="post" id="form_requisito" accept-charset="utf-8">
-    {{ requisito_form.as_p }}
 </form>
 </div>
 
@@ -32,26 +28,17 @@
 				}
 			}
 		});
-		$( "#form_requisito" ).dialog({
-			resizable: false,
-			modal: true,
-			autoOpen: false,
-			buttons: {
-				"Invia": function() {
-					send_form_requisiti();
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		});
 	});
-	$(document).ready(function(){$( "a", ".operazioni" ).button();});
+	
+	$(document).ready(function(){
+		$( "a", ".operazioni" ).button();
+		$( ".dettagli_requisito").hide();});
+	
 	function send_form(){
-    Dajaxice.get2.calendario.tipo_turno_form(Dajax.process,{'form':$('#form_tipo_turno').serialize(true)});
+    	Dajaxice.get2.calendario.tipo_turno_form(Dajax.process,{'form':$('#form_tipo_turno').serialize(true)});
 	}
-	function send_form_requisiti(){
-    Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$('#form_requisito').serialize(true)});
+	function send_form_requisiti(form_id){
+    	Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$(form_id).serialize(true),'form_id':form_id});
 	}
 	</script>
 <div id="elenco">
@@ -60,14 +47,33 @@
 
 	<div class="riga" id="tipo_turno-{{tipo_turno.id}}">
 	<div class="col">{{tipo_turno}}</div>
-	<div class="col operazioni"><a href="#" onclick='$("#form_requisito" ).dialog("open");'>aggiungi requisito</a></div>
+	<div class="col operazioni"><a href="#" onclick='$("#dettagli_requisito-{{tipo_turno.id}}").show();'>dettagli</a></div>
 	</div>
 	<div class="riga" id="requisiti-{{tipo_turno.id}}">
 		{% for requisito in tipo_turno.req_tipo_turno.all %}
-			{{requisito.mansione}} {{requisito.operatore}} {{requisito.valore}}
+			
+			<script>$(document).ready(function(){
+				$("#id_form-operatore-{{requisito.mansione.id}}-{{tipo_turno.id}}").val("{{requisito.operatore|escapejs}}");
+				$("#id_form-valore-{{requisito.mansione.id}}-{{tipo_turno.id}}").val("{{requisito.valore}}");
+			});</script>
+			# con javascript devo inzializzare il form ai valori salvati e poi con gli onchange uso dajax per fare modifche
 		{% endfor %}
 	</div>
-
+	<div class="riga dettagli_requisito" id="dettagli_requisito-{{tipo_turno.id}}">
+		{% for mansione in mansioni %}
+		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
+		<p>{{mansione}} 
+			<select name="form-operatore" id="id_form-operatore-{{mansione.id}}-{{tipo_turno.id}}">
+			<option value="" selected="selected">----</option>
+			{% for op,op_val in operatori %}
+			<option value="{{op}}">{{op_val}}</option>
+			{% endfor %}
+			<input type="text" name="fomr-valore" id="id_form-valore-{{mansione.id}}-{{tipo_turno.id}}"/>
+			</select>
+		</p>
+    	</div>
+    	{% endfor %}
+	</div>
 {% endfor %}
 
 </div>

@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 import pdb
 from django.template import RequestContext
-
+from django.forms.formsets import formset_factory
 import settings_calendario
 
 ####   persona   ####
@@ -192,7 +192,7 @@ def notifica_disponibilita(request,persona,turno,tipo_disponibilita,mansione):
 
 def elenco_notifica(request):
 	u=request.user
-	notifiche=Notifiche.objects.filter(destinatario=u).order_by('data').reverse()
+	notifiche=Notifica.objects.filter(destinatario=u).order_by('data').reverse()
 	return render_to_response('notifiche.html',{'notifiche':notifiche,'request':request})
 
 ####   fine notifica   ####
@@ -261,6 +261,6 @@ def nuovo_tipo_turno(request):
 
 def elenco_tipo_turno(request):
 	tipi_turno=TipoTurno.objects.all()
-	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'requisito_form':RequisitoForm(),'request':request})
+	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request})
 
 #### fine tipo turno ####

@@ -120,17 +120,19 @@ def tipo_turno_form(request, form):
 
 
 @dajaxice_register
-def requisito_form(request, form):
+def requisito_form(request, form, form_id):
     dajax = Dajax()
-    form = TipoTurnoForm(deserialize_form(form))
+    #dajax.alert(str(form_id))
+    form = RequisitoForm(deserialize_form(form))
     if form.is_valid():
         form.save()
-        dajax.script('$("#form_requisito" ).dialog("close");')
+        #dajax.script('$("#form_requisito" ).dialog("close");')
         #dajax.append('#elenco', 'innerHTML', html)
         dajax.alert("aggiunto!")
     else:
-        dajax.remove_css_class('#form_requisito input', 'error')
+        dajax.remove_css_class(str(form_id)+ 'input', 'error')
         for error in form.errors:
             dajax.add_css_class('#id_%s' % error, 'ui-state-error')
+            #dajax.alert(str(error))
     return dajax.json()
   
