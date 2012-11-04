@@ -1,4 +1,9 @@
-{% extends "base.html" %}	
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
+<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
+{% endblock %}
 
 {% block title %} Inserimento/Modifica di una persona {% endblock %}	
 
@@ -7,7 +12,30 @@
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
-
+  <div id="div_form_mansione"><form action="" method="post" id="form_mansione" accept-charset="utf-8">{% csrf_token %}
+    {{ mansione_form.as_p }}
+	</form>
+  </div>
+  <script>
+  	$(function() {
+		$( "#form_mansione" ).dialog({
+			resizable: false,
+			modal: true,
+			autoOpen: false,
+			buttons: {
+				"Invia": function() {
+					send_form();
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	});
+  	function send_form(){
+    	Dajaxice.get2.calendario.mansione_form(Dajax.process,{'form':$('#form_mansione').serialize(true)});
+	}
+  </script>
   {% ifequal azione 'nuovo' %}
   <form action="/persona/nuovo/" method="post">{% csrf_token %}
   {% endifequal %}
@@ -20,6 +48,6 @@
   </table>
   <input type="submit" value="Invia" /> <input type="reset" value="cancella">
   </form>    	
-  
+  <a href="#" onclick='$("#form_mansione" ).dialog("open");'>aggiungi mansione</a>
   
 {% endblock %}

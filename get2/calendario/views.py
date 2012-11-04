@@ -36,7 +36,7 @@ def nuovo_persona(request):
 			return HttpResponseRedirect('/calendario') 
 	else:
 		form = PersonaForm()
-	return render_to_response('form_persona.html',{'form': form,'azione': azione,}, RequestContext(request))
+	return render_to_response('form_persona.html',{'form': form,'azione': azione,'mansione_form':MansioneForm()}, RequestContext(request))
 	#else:
 	#	return render_to_response('staff-no.html')
 
@@ -50,7 +50,7 @@ def modifica_persona(request,persona_id):
 			return HttpResponseRedirect('/persona/elenco') # Redirect after POST
 	else:
 		form = PersonaForm(instance=per)
-	return render_to_response('form_persona.html',{'request': request, 'form': form,'azione': azione, 'per': per,}, RequestContext(request))
+	return render_to_response('form_persona.html',{'request': request, 'form': form,'azione': azione, 'per': per,'mansione_form':MansioneForm()}, RequestContext(request))
 
 ####   fine persona   ####
 

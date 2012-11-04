@@ -1,6 +1,6 @@
 from django.db import models
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 import operator, datetime
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm, AdminPasswordChangeForm
 
@@ -10,6 +10,9 @@ class Mansione(models.Model):
 		return '%s' % (self.descrizione)
 	# Milite tipo A, milite tipo B, centralinista ecc...
 
+class MansioneForm(forms.ModelForm):
+	class Meta:
+		model = Mansione
 
 class Persona(models.Model):
 	user = models.ForeignKey(User, unique=True, blank=True, null=True, related_name='pers_user')
@@ -17,7 +20,7 @@ class Persona(models.Model):
 	cognome = models.CharField('Cognome',max_length=200)
 	nascita = models.DateField('Data di nascita')
 	#caratteristiche della persona
-	competenze = models.ManyToManyField(Mansione)
+	competenze = models.ManyToManyField(Mansione, blank=True, null=True)
 	def notifiche_non_lette(self):
 		n=0
 		for m in Notifica.objects.filter(destinatario=self.user):

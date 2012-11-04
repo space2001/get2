@@ -5,6 +5,24 @@ from get2.calendario.models import *
 from dajaxice.utils import deserialize_form
 
 @dajaxice_register
+def mansione_form(request, form):
+    dajax = Dajax()
+    form = MansioneForm(deserialize_form(form))
+    if form.is_valid():
+        form.save()
+        
+        dajax.script('$("#form_mansione" ).dialog("close");')
+        html='<option value="x">'+'x'+'</option>'
+        dajax.append('#id_competenze', 'innerHTML', html)
+        #dajax.alert("aggiunto!")
+    else:
+        dajax.remove_css_class('#form_tipo_turno input', 'error')
+        for error in form.errors:
+            dajax.add_css_class('#id_%s' % error, 'ui-state-error')
+    return dajax.json()
+
+
+@dajaxice_register
 def elimina_persona(request,persona_id):
     per=Persona.objects.get(id=persona_id)
     #per.delete()
