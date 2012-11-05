@@ -38,7 +38,7 @@
     	Dajaxice.get2.calendario.tipo_turno_form(Dajax.process,{'form':$('#form_tipo_turno').serialize(true)});
 	}
 	function send_form_requisiti(form_id){
-    	Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$(form_id).serialize(true),'form_id':form_id});
+    	Dajaxice.get2.calendario.requisiti_form(Dajax.process,{'form':$(form_id).serialize(true),'form_id':form_id});
 	}
 	</script>
 <div id="elenco">
@@ -54,7 +54,6 @@
 		{% for requisito in tipo_turno.req_tipo_turno.all %}
 			
 			<script>$(document).ready(function(){
-//da rivedere!
 				$("#id_form-operatore-{{requisito.mansione.id}}-{{tipo_turno.id}}").val("{{requisito.operatore|escapejs}}");
 				$("#id_form-valore-{{requisito.mansione.id}}-{{tipo_turno.id}}").val("{{requisito.valore}}");
 				
@@ -63,24 +62,26 @@
 		{% endfor %}
 	
 	<div class="riga dettagli_requisito" id="dettagli_requisito-{{tipo_turno.id}}">
+		<script>$(document).ready(function(){$("#applica-{{tipo_turno.id}}").hide();});</script>
+		<form id="form-{{tipo_turno.id}}">
 		{% for mansione in mansioni %}
-		<script>$(document).ready(function(){$("#applica-{{mansione.id}}-{{tipo_turno.id}}").hide();});</script>
 		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
-		<form id="form-{{mansione.id}}-{{tipo_turno.id}}" action="" method="post" accept-charset="utf-8">{% csrf_token %}
+		
 		<p>{{mansione}} 
-			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'>
+			<select name="form-operatore" id="id_form-operatore-{{mansione.id}}-{{tipo_turno.id}}" onchange='$("#applica-{{tipo_turno.id}}").show()'>
 			<option value="" selected="selected">----</option>
 			{% for op,op_val in operatori %}
 			<option value="{{op}}">{{op_val}}</option>
 			{% endfor %}
-			<input type="text" name="valore" id="id_valore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'/>
+			<input type="text" name="fomr-valore" id="id_form-valore-{{mansione.id}}-{{tipo_turno.id}}" onchange='$("#applica-{{tipo_turno.id}}").show()'/>
 			</select>
 		</p>
-		</div></form><div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')">applica</div>
+		</div>
 
-    	{% endfor %}</div></div>
+    	{% endfor %}</form><div id="applica-{{tipo_turno.id}}" onclick="alert('form-{{tipo_turno.id}}')">applica</div>
+	</div>
 {% endfor %}
 </div>
-
+</div>
 
 {% endblock %}

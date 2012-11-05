@@ -68,12 +68,12 @@
 		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
 		<form id="form-{{mansione.id}}-{{tipo_turno.id}}" action="" method="post" accept-charset="utf-8">{% csrf_token %}
 		<p>{{mansione}} 
-			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'>
+			<select name="operatore" id="id_operatore" onchange='$("#applica-{{tipo_turno.id}}").show()'>
 			<option value="" selected="selected">----</option>
 			{% for op,op_val in operatori %}
 			<option value="{{op}}">{{op_val}}</option>
 			{% endfor %}
-			<input type="text" name="valore" id="id_valore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'/>
+			<input type="text" name="valore" id="id_valore" onchange='$("#applica-{{tipo_turno.id}}").show()'/>
 			</select>
 		</p>
 		</div></form><div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')">applica</div>

@@ -143,7 +143,6 @@ def requisito_form(request, form, form_id):
     dajax = Dajax()
     pdb.set_trace()
     #dajax.alert(str(form_id))
-    f=deserialize_form(form)
     form = RequisitoForm(deserialize_form(form))
     if form.is_valid():
         form.save()

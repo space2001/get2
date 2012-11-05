@@ -1,7 +1,8 @@
 from django.db import models
 from django import forms
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User,Group
 import operator, datetime
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm, AdminPasswordChangeForm
 
 class Mansione(models.Model):
 	descrizione = models.CharField('Descrizione',max_length=200)
@@ -9,6 +10,9 @@ class Mansione(models.Model):
 		return '%s' % (self.descrizione)
 	# Milite tipo A, milite tipo B, centralinista ecc...
 
+class MansioneForm(forms.ModelForm):
+	class Meta:
+		model = Mansione
 
 class Persona(models.Model):
 	user = models.ForeignKey(User, unique=True, blank=True, null=True, related_name='pers_user')
@@ -16,13 +20,15 @@ class Persona(models.Model):
 	cognome = models.CharField('Cognome',max_length=200)
 	nascita = models.DateField('Data di nascita')
 	#caratteristiche della persona
-	competenze = models.ManyToManyField(Mansione)
+	competenze = models.ManyToManyField(Mansione, blank=True, null=True)
 	def notifiche_non_lette(self):
 		n=0
-		for m in Notifiche.objects.filter(destinatario=self.user):
+		for m in Notifica.objects.filter(destinatario=self.user):
 			if(m.letto == False):
 				n+=1
 		return n
+	def __unicode__(self):
+		return '%s %s' % (self.nome,self.cognome)
 
 class PersonaForm(forms.ModelForm):
 	#nascita = forms.DateField(label='Data di nascita', required=False, widget=widgets.AdminDateWidget)
@@ -35,7 +41,13 @@ class Gruppo(models.Model):
 
 
 class TipoTurno(models.Model):
-	identificativo = models.CharField(max_length=30, blank=False) 
+	identificativo = models.CharField(max_length=30, blank=False)
+	def __unicode__(self):
+		return '%s' % (self.identificativo)
+
+class TipoTurnoForm(forms.ModelForm):
+	class Meta:
+		model = TipoTurno
 
 
 OPERATORI=(('=','Uguale a'),('>','Maggiore di'))
@@ -44,8 +56,12 @@ class Requisito(models.Model):
 	mansione=models.ForeignKey(Mansione)
 	operatore=models.CharField('operatore', max_length=10, choices=OPERATORI )
 	valore=models.IntegerField()
-	tipo_turno=models.ForeignKey(TipoTurno)
+	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno")
 
+class RequisitoForm(forms.ModelForm):
+	class Meta:
+		model = Requisito
+		exclude = ('tipo_turno')
 
 GIORNO = (
   (0, 'lunedi'),
@@ -66,17 +82,18 @@ class Turno(models.Model):
 	identificativo = models.CharField(max_length=30, blank=True , default='')
 	inizio = models.DateTimeField()
 	fine = models.DateTimeField()
-	tipo = models.ForeignKey(TipoTurno)
+	tipo = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
 	def coperto(self):
-		for r in Requisito.objects.filter(tipo_turno=self.tipo_id):
-			contatore=0
-			for d in self.turno_disponibilita.all():
-				if (d.mansione==r.mansione):
-					contatore+=1
-			operatore=ops[r.operatore]
-			if not operatore(contatore,r.valore):
-				return False
+		if self.tipo:
+			for r in Requisito.objects.filter(tipo_turno=self.tipo_id):
+				contatore=0
+				for d in self.turno_disponibilita.all():
+					if (d.mansione==r.mansione):
+						contatore+=1
+						operatore=ops[r.operatore]
+						if not operatore(contatore,r.valore):
+							return False
 		return True
 	def contemporanei(self):
 		i=self.inizio+datetime.timedelta(seconds=1)
@@ -108,7 +125,7 @@ class TurnoFormRipeti(TurnoForm):
 
 
 
-DISPONIBILITA = (("Disponibile","Disponibile"),("Indisponibile","Indisponibile"))
+DISPONIBILITA = (("Disponibile","Disponibile"),("Indisponibile","Indisponibile"),)
 
 class Disponibilita(models.Model):
 	tipo = models.CharField(max_length=20, choices=DISPONIBILITA)
@@ -117,36 +134,9 @@ class Disponibilita(models.Model):
 	creata_da = models.ForeignKey(User, related_name='creata_da_disponibilita')
 	turno = models.ForeignKey(Turno, related_name='turno_disponibilita')
 	mansione = models.ForeignKey(Mansione)
-	def esistente(self,persona,turno):
-		# ci dice se un volontario ha gia una mansione in quel turno
-		if Disponibilita.objects.filter(persona=persona, turno=turno ).exists():
-			d=Disponibilita.objects.get(persona=persona, turno=turno )
-			return (d.mansione,d.tipo)
-		else:
-			return False
-	def verifica_tempo(self, request, turno):
-		if request.user.is_staff:
-			verifica=True
-			errore=''
-		else:
-			now=datetime.datetime.now()
-			diff=turno.inizio-now
-			if diff<0:
-				verifica=False
-				errore='passato'
-			elif diff<DISP_MIN:
-				verifica=False
-				errore='vicino'
-			elif diff>DISP_MAX:
-				verifica=False
-				errore='lontano'
-			else:
-				verifica=True
-				errore=''
-		return (verifica,errore)
 
 
-class Notifiche(models.Model):
+class Notifica(models.Model):
 	destinatario = models.ForeignKey(User, related_name='destinatario_user')
 	data =  models.DateTimeField()
 	testo = models.CharField(max_length=1000)
@@ -156,4 +146,18 @@ class Notifiche(models.Model):
 class Log(models.Model):
 	testo = models.CharField(max_length=50)
 	data = models.DateTimeField()
+
+class UserCreationForm2(UserCreationForm):
+	email = forms.EmailField(label = "Email")
+	class Meta:
+		model = User
+		fields = ("username", "email", )
+
+class UserChangeForm2(UserChangeForm):
+	class Meta:
+		model = User
+		fields = ("username", "email",)
+	def clean_password(self):
+		return "" # This is a temporary fix for a django 1.4 bug
+
 

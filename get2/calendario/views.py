@@ -248,19 +248,8 @@ def modifica_password_utente(request,utente_id):
 
 #### inzio tipo turno ####
 
-def nuovo_tipo_turno(request):
-	azione = 'nuovo'
-	if request.method == 'POST': # If the form has been submitted...
-		form = TipoTurnoForm(request.POST) # A form bound to the POST data
-		if form.is_valid():
-			form.save()
-			return HttpResponseRedirect('/tipo_turno/elenco') # Redirect after POST
-	else:
-		form = TipoTurnoForm()
-	return render_to_response('form_tipo_turno.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))
-
 def elenco_tipo_turno(request):
 	tipi_turno=TipoTurno.objects.all()
-	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request})
+	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request}, RequestContext(request))
 
 #### fine tipo turno ####

@@ -28,6 +28,7 @@ urlpatterns += patterns('get2.calendario',
     # notifica
     (r'^notifica/elenco/$', 'views.elenco_notifica'),
     # tipo turno
+    (r'^tipo_turno/nuovo/$', 'views.nuovo_tipo_turno'),
     (r'^tipo_turno/elenco/$', 'views.elenco_tipo_turno'),
 
 )
