@@ -54,12 +54,9 @@
 		{% for requisito in tipo_turno.req_tipo_turno.all %}
 			
 			<script>$(document).ready(function(){
-//da rivedere!
-				$("#id_form-operatore-{{requisito.mansione.id}}-{{tipo_turno.id}}").val("{{requisito.operatore|escapejs}}");
-				$("#id_form-valore-{{requisito.mansione.id}}-{{tipo_turno.id}}").val("{{requisito.valore}}");
-				
+				$("#form-{{requisito.mansione.id}}-{{tipo_turno.id}} select#id_operatore").val("{{requisito.operatore|escapejs}}");
+				$("#form-{{requisito.mansione.id}}-{{tipo_turno.id}} input#id_valore").val("{{requisito.valore}}")
 			});</script>
-			# con javascript devo inzializzare il form ai valori salvati e poi con gli onchange uso dajax per fare modifche
 		{% endfor %}
 	
 	<div class="riga dettagli_requisito" id="dettagli_requisito-{{tipo_turno.id}}">
@@ -67,13 +64,15 @@
 		<script>$(document).ready(function(){$("#applica-{{mansione.id}}-{{tipo_turno.id}}").hide();});</script>
 		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
 		<form id="form-{{mansione.id}}-{{tipo_turno.id}}" action="" method="post" accept-charset="utf-8">{% csrf_token %}
-		<p>{{mansione}} 
+		<input type="hidden" name="mansione" value="{{mansione.id}}">
+		<input type="hidden" name="tipo_turno" value="{{tipo_turno.id}}">
+		<p>{{mansione}}
 			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'>
-			<option value="" selected="selected">----</option>
+			<option value="NULL" selected="selected">----</option>
 			{% for op,op_val in operatori %}
 			<option value="{{op}}">{{op_val}}</option>
 			{% endfor %}
-			<input type="text" name="valore" id="id_valore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'/>
+			<input type="text" name="valore" id="id_valore" onkeydown='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'/>
 			</select>
 		</p>
 		</div></form><div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')">applica</div>

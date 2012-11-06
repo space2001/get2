@@ -61,7 +61,6 @@ class Requisito(models.Model):
 class RequisitoForm(forms.ModelForm):
 	class Meta:
 		model = Requisito
-		exclude = ('tipo_turno')
 
 GIORNO = (
   (0, 'lunedi'),

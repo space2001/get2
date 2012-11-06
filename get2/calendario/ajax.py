@@ -1,4 +1,4 @@
-from django.utils import simplejson
+#from django.utils import simplejson
 from dajaxice.decorators import dajaxice_register
 from dajax.core import Dajax
 from get2.calendario.models import *
@@ -10,15 +10,16 @@ def mansione_form(request, form):
     dajax = Dajax()
     form = MansioneForm(deserialize_form(form))
     if form.is_valid():
-        i=form.save()
+        i = form.save()
         dajax.script('$("#form_mansione" ).dialog("close");')
         #pdb.set_trace()
-        html='<option value="'+str(i.id)+'">'+str(i.descrizione)+'</option>'
+        html = '<option value="' + str(i.id) + '">' + str(i.descrizione) + '</option>'
         dajax.append('#id_competenze', 'innerHTML', html)
         #dajax.alert("aggiunto!")
     else:
         dajax.remove_css_class('#form_tipo_turno input', 'error')
         for error in form.errors:
+            # error  il nome del campo
             dajax.add_css_class('#id_%s' % error, 'ui-state-error')
     return dajax.json()
 
@@ -26,7 +27,7 @@ def mansione_form(request, form):
 @dajaxice_register
 def elimina_persona(request,persona_id):
     per=Persona.objects.get(id=persona_id)
-    #per.delete()
+    per.delete()
     dajax = Dajax()
     dajax.remove('#persona-'+str(persona_id))
     return dajax.json()
@@ -70,7 +71,7 @@ def utente_persona(request,user_id,persona_id):
     #dajax.script(s)
     per.save()
     return dajax.json()
-           
+
 @dajaxice_register
 def utente_staff(request,user_id):
     dajax = Dajax()
@@ -88,7 +89,7 @@ def utente_staff(request,user_id):
         if u.is_staff:
             dajax.assign('input#staff-'+str(user_id),'checked',True)
         else:
-            dajax.assign('input#staff-'+str(user_id),'checked',False)          
+            dajax.assign('input#staff-'+str(user_id),'checked',False)
     return dajax.json()
 
 @dajaxice_register
@@ -97,10 +98,10 @@ def notifiche(request,option,url):
     i=0
     dajax.assign('#sele','value','')
     for not_id in url.rsplit('_'):
-        i+=1
+        i += 1
         selector='#not-'+not_id
         m = Notifiche.objects.get(id=not_id)
-        
+
         if (option == 'letto'):
             m.letto=True
             m.save()
@@ -141,19 +142,35 @@ def tipo_turno_form(request, form):
 @dajaxice_register
 def requisito_form(request, form, form_id):
     dajax = Dajax()
-    pdb.set_trace()
+    #pdb.set_trace()
     #dajax.alert(str(form_id))
-    f=deserialize_form(form)
-    form = RequisitoForm(deserialize_form(form))
-    if form.is_valid():
-        form.save()
-        #dajax.script('$("#form_requisito" ).dialog("close");')
-        #dajax.append('#elenco', 'innerHTML', html)
-        dajax.alert("aggiunto!")
+    f = deserialize_form(form)
+    if Requisito.objects.filter(mansione=f['mansione'],tipo_turno=f['tipo_turno']).exists():
+        r = Requisito.objects.get(mansione=f['mansione'],tipo_turno=f['tipo_turno'])
+        form = RequisitoForm(f,instance=r)
     else:
-        dajax.remove_css_class(str(form_id)+ 'input', 'error')
+        form = RequisitoForm(f)
+    if form.data.get('operatore')=='NULL':
+        r=Requisito.objects.get(mansione=form.data.get('mansione'),tipo_turno=form.data.get('tipo_turno'))
+        r.delete()
+        dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
+        dajax.remove_css_class(str(form_id)+ ' #id_operatore', 'ui-state-error')
+        dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
+        dajax.assign(str(form_id)+ ' input', 'value','')
+    elif form.is_valid():
+        form.save()
+        dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
+        dajax.remove_css_class(str(form_id)+ ' #id_operatore', 'ui-state-error')
+        dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
+        #dajax.append('#elenco', 'innerHTML', html)
+        #dajax.alert('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
+    else:
+        #da sistemare
+        dajax.remove_css_class(str(form_id)+ ' input', 'ui-state-error')
+        dajax.remove_css_class(str(form_id)+ ' select', 'ui-state-error')
         for error in form.errors:
-            dajax.add_css_class('#id_%s' % error, 'ui-state-error')
+            #error  il nome del campo che manca
+            #form-{{requisito.mansione.id}}-{{tipo_turno.id}} input#id_valore
+            dajax.add_css_class('%(form)s #id_%(error)s' % {"form": form_id, "error": error}, 'ui-state-error')
             #dajax.alert(str(error))
     return dajax.json()
-  
