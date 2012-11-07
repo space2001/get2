@@ -1,8 +1,8 @@
 from django.db import models
 from django import forms
-from django.contrib.auth.models import User,Group
+from django.contrib.auth.models import User
 import operator, datetime
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm, SetPasswordForm, AdminPasswordChangeForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 class Mansione(models.Model):
 	descrizione = models.CharField('Descrizione',max_length=200)
@@ -14,12 +14,15 @@ class MansioneForm(forms.ModelForm):
 	class Meta:
 		model = Mansione
 
+STATI=(('disponibile','Disponibile'),('ferie','In ferie'),('malattia','In malattia'),('indisponibile','Indisponibile'))
+
 class Persona(models.Model):
 	user = models.ForeignKey(User, unique=True, blank=True, null=True, related_name='pers_user')
 	nome = models.CharField('Nome',max_length=200)
 	cognome = models.CharField('Cognome',max_length=200)
 	nascita = models.DateField('Data di nascita')
 	#caratteristiche della persona
+	stato = models.DateField('Stato', choices=STATI, default='disponibile' )
 	competenze = models.ManyToManyField(Mansione, blank=True, null=True)
 	def notifiche_non_lette(self):
 		n=0
@@ -81,7 +84,7 @@ class Turno(models.Model):
 	identificativo = models.CharField(max_length=30, blank=True , default='')
 	inizio = models.DateTimeField()
 	fine = models.DateTimeField()
-	tipo = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
+	tipo = models.ForeignKey(TipoTurno, default='NULL', null=True, on_delete=models.SET_NULL)
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
 	def coperto(self):
 		if self.tipo:
@@ -132,7 +135,7 @@ class Disponibilita(models.Model):
 	ultima_modifica = models.DateTimeField()
 	creata_da = models.ForeignKey(User, related_name='creata_da_disponibilita')
 	turno = models.ForeignKey(Turno, related_name='turno_disponibilita')
-	mansione = models.ForeignKey(Mansione)
+	mansione = models.ForeignKey(Mansione, blank=True, null=True, on_delete=models.SET_NULL)
 
 
 class Notifica(models.Model):

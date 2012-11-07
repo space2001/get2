@@ -1,0 +1,104 @@
+
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
+<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
+<script type="text/javascript" src="{% static "jquery-ui-timepicker-addon.js" %}" ></script>
+<script type="text/javascript" src="{% static "touch.js" %}" ></script>
+{% endblock %}
+{% block main %}
+
+<script type="text/javascript">
+jQuery(function()
+    { 
+      $('#id_inizio_1').timepicker({timeFormat:'hh:mm:ss' ,stepMinute: 15,	timeText: 'Ora',
+	hourText: 'ora',
+	minuteText: 'minuto',
+	currentText: 'adesso',
+	timeOnlyTitle: 'Ora inizio turno',
+	closeText: 'chiudi',addSliderAccess: true,sliderAccessArgs: { touchonly: false }});
+      $('#id_fine_1').timepicker({timeFormat:'hh:mm:ss' ,stepMinute: 15,	timeText: 'Ora',
+	hourText: 'ora',
+	minuteText: 'minuto',
+	currentText: 'adesso',
+	timeOnlyTitle:'Ora fine turno',
+	closeText: 'chiudi',addSliderAccess: true,sliderAccessArgs: { touchonly: false }});
+    });
+
+window.onload = function() 
+{ 
+     document.getElementById("id_tipo").onchange = function() 
+     { 
+         Dajaxice.get2.calendario.nuovo_turno(Dajax.process,{'tipo':this.value}); 
+     }; 
+     
+     
+	$(function() {
+		var dates = $( "#id_ripeti_da, #id_ripeti_al" ).datepicker({
+			defaultDate: "+1w",
+			changeMonth: true,
+			numberOfMonths: 3,
+			onSelect: function( selectedDate ) {
+				var option = this.id == "id_ripeti_da" ? "minDate" : "maxDate",
+					instance = $( this ).data( "datepicker" ),
+					date = $.datepicker.parseDate(
+						instance.settings.dateFormat ||
+						$.datepicker._defaults.dateFormat,
+						selectedDate, instance.settings );
+				dates.not( this ).datepicker( "option", option, date );
+			}
+		});
+	});
+    
+     $("#id_fine_0").hide();
+     $('#id_ripeti_al').prop('disabled', true);
+     $('#id_ripeti_da').prop('disabled', true);
+     $(':checkbox[name=ripeti_il_giorno]').prop('disabled', true);
+        
+     document.getElementById("id_inizio_0").onchange = function() 
+     { 
+         id_fine_0.value = id_inizio_0.value;
+     };
+     
+     $(function() {
+		$( "#id_inizio_0" ).datepicker();
+	});
+
+     
+     document.getElementById("id_ripeti").onchange = function() 
+     { 
+     	if (document.getElementById("id_ripeti").checked) {
+     		$('#id_ripeti_al').prop('disabled', false);
+     		$('#id_ripeti_da').prop('disabled', false);
+     		$(':checkbox[name=ripeti_il_giorno]').prop('disabled', false);
+     		
+    	} else {
+        	$('#id_ripeti_al').prop('disabled', true);
+        	$('#id_ripeti_da').prop('disabled', true);
+        	$(':checkbox[name=ripeti_il_giorno]').prop('disabled', true);
+    	}    
+     };
+
+}; 
+
+</script>
+
+
+  {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+  {% endif %}
+
+  {% ifequal azione 'Aggiungi' %}
+  <form action="/turno/nuovo/" method="post">
+  {% endifequal %}
+
+  {% ifequal azione 'Modifica' %}
+  <form action="/turno/modifica/{{ turno_id }}/" method="post">
+  {% endifequal %}
+  <table id="form_turno">
+  {{form.as_table}}
+  </table>
+  <input type="submit" value="invia" />
+  </form>
+{% endblock %}

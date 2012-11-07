@@ -254,3 +254,53 @@ def elenco_tipo_turno(request):
 	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request}, RequestContext(request))
 
 #### fine tipo turno ####
+
+#### inizio turno ####
+
+def nuovo_turno(request):
+	azione = 'Aggiungi'
+	if request.method == 'POST': # If the form has been submitted...
+		form = TurnoFormRipeti(request.POST) # A form bound to the POST data
+		if form.is_valid():
+			data = form.cleaned_data
+			form.save()
+			if data.get('ripeti'):
+				#pdb.set_trace()
+				o=Occorrenza()
+				o.save()
+				data['occorrenza']=o.id
+				start=data.get('ripeti_da')
+				stop=data.get('ripeti_al')
+				giorno=data.get('ripeti_il_giorno')
+				ora_inizio=data.get('inizio').time()
+				start=datetime.datetime.combine(start,ora_inizio)
+				durata=data.get('fine')-data.get('inizio')
+				delta = datetime.timedelta(days=1)
+				while (start.date()<=stop):
+					data['inizio_0']=start.date()
+					data['fine_0']=(start+durata).date()
+					data['inizio_1']=start.time()
+					data['fine_1']=(start+durata).time()
+					f=TurnoFormRipeti(data)
+					if str(start.weekday()) in giorno and f.is_valid():
+						f.save()
+					start+=delta
+				#pdb.set_trace()
+			return HttpResponseRedirect('/calendario/') # Redirect after POST
+	else:
+		form = TurnoFormRipeti()
+	return render_to_response('form_turno.html',{'form': form,'azione': azione,'request':request}, RequestContext(request))
+
+def modifica_turno(request, turno_id):
+	azione = 'Modifica';
+	turno = Turno.objects.get(id=turno_id)
+	if request.method == 'POST': # If the form has been submitted...
+		form = TurnoForm(request.POST, instance=turno) # necessario per modificare la riga preesistente
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/calendario/') # Redirect after POST
+	else:
+		form = TurnoForm(instance=turno)
+	return render_to_response('form_turno.html',{'form': form,'azione': azione, 'turno_id': turno_id,'request':request}, RequestContext(request))
+
+#### fine turno ####

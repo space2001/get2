@@ -20,16 +20,20 @@ urlpatterns += patterns('get2.calendario',
 	(r'^persona/nuovo/$', 'views.nuovo_persona'),
 	(r'^persona/elenco/$', 'views.elenco_persona'),
 	(r'^persona/modifica/(?P<persona_id>\w+)/$', 'views.modifica_persona'),
-    # utente
-    (r'^utente/nuovo/$', 'views.nuovo_utente'),
-    (r'^utente/elenco/$', 'views.elenco_utente'),
-    (r'^utente/modifica/(?P<utente_id>\w+)/password/$', 'views.modifica_password_utente'),
-    (r'^utente/modifica/(?P<utente_id>\w+)/$', 'views.modifica_utente'),
-    # notifica
-    (r'^notifica/elenco/$', 'views.elenco_notifica'),
-    # tipo turno
-    (r'^tipo_turno/elenco/$', 'views.elenco_tipo_turno'),
-
+	# utente
+	(r'^utente/nuovo/$', 'views.nuovo_utente'),
+	(r'^utente/elenco/$', 'views.elenco_utente'),
+	(r'^utente/modifica/(?P<utente_id>\w+)/password/$', 'views.modifica_password_utente'),
+	(r'^utente/modifica/(?P<utente_id>\w+)/$', 'views.modifica_utente'),
+	# notifica
+	(r'^notifica/elenco/$', 'views.elenco_notifica'),
+	# tipo turno
+	(r'^tipo_turno/elenco/$', 'views.elenco_tipo_turno'),
+	# turno
+	(r'^turno/nuovo/$', 'views.nuovo_turno'),
+	(r'^turno/modifica/(?P<turno_id>\w+)/$', 'views.modifica_turno'),
+	(r'^turno/elimina/(?P<turno_id>\w+)/$', 'views.elimina_turno'),
+	# occorrenza
 )
 
 urlpatterns += patterns('django.contrib.auth.views',
