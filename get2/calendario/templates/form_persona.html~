@@ -42,7 +42,7 @@
             changeMonth: true,
             changeYear: true,
             defaultDate: "-18y",
-            maxDate: "-15y",
+            maxDate: "-15y"
             yearRange: "1900:2012"
         });
 	});

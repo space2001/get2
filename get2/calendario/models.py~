@@ -22,7 +22,7 @@ class Persona(models.Model):
 	cognome = models.CharField('Cognome',max_length=200)
 	nascita = models.DateField('Data di nascita')
 	#caratteristiche della persona
-	stato = models.DateField('Stato', choices=STATI, default='disponibile' )
+	stato = models.CharField('Stato',max_length=40, choices=STATI, default='disponibile' )
 	competenze = models.ManyToManyField(Mansione, blank=True, null=True)
 	def notifiche_non_lette(self):
 		n=0
@@ -86,6 +86,17 @@ class Turno(models.Model):
 	fine = models.DateTimeField()
 	tipo = models.ForeignKey(TipoTurno, blank=True, null=True, on_delete=models.SET_NULL)
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
+	#da rivedere! anche coperto
+	def verifica_requisito(self,requisito):
+		contatore=0
+		#ottimizzare sotto con filter
+		for d in self.turno_disponibilita.all():
+			if (d.mansione==requisito.mansione):
+				contatore+=1
+		operatore=ops[requisito.operatore]
+		if not operatore(contatore,requisito.valore):
+			return False
+		return True
 	def coperto(self):
 		if self.tipo:
 			for r in Requisito.objects.filter(tipo_turno=self.tipo_id):
@@ -103,6 +114,11 @@ class Turno(models.Model):
 		return Turno.objects.filter( (models.Q(inizio__lte=i) & models.Q(fine__gte=f)) | models.Q(inizio__range=(i ,f)) | models.Q(fine__range=(i,f)) ).exclude(id=self.id)
 
 class TurnoForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(TurnoForm, self).__init__(*args, **kwargs)
+		self.fields['tipo'].required = True
+	inizio=forms.DateTimeField(widget=forms.SplitDateTimeWidget)
+	fine=forms.DateTimeField(widget=forms.SplitDateTimeWidget)
 	class Meta:
 		model = Turno
 		exclude = ('occorrenza')

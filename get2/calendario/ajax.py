@@ -4,6 +4,7 @@ from dajax.core import Dajax
 from get2.calendario.models import *
 from dajaxice.utils import deserialize_form
 import pdb
+from django.template.loader import render_to_string
 
 @dajaxice_register
 def mansione_form(request, form):
@@ -127,10 +128,13 @@ def tipo_turno_form(request, form):
     dajax = Dajax()
     form = TipoTurnoForm(deserialize_form(form))
     if form.is_valid():
-        form.save()
-        dajax.script('$("#form_tipo_turno" ).dialog("close");')
-        html='<div class="riga" id="tipo_turno-'+str(form.cleaned_data.get('id'))+'"><div class="col">'+str(form.cleaned_data.get('identificativo'))+'</div><div class="col">modifica requisiti</div></div><div class="riga" id="requisiti-'+str(form.cleaned_data.get('id'))+'"></div>'
-        dajax.append('#elenco', 'innerHTML', html)
+        f=form.save()
+        tipo_turno=TipoTurno.objects.get(id=f.id)
+        mansioni=Mansione.objects.all()
+        html_dettagli = render_to_string( 'elenco_tipo_turno/dettagli.html', { 'tipo_turno': tipo_turno, 'mansioni': mansioni,'operatori': OPERATORI } )
+        #dajax.alert(html_dettagli)
+        dajax.append('#elenco', 'innerHTML', html_dettagli)
+        dajax.script('$("#form_tipo_turno" ).dialog("close"); $( "div#tipo_turno-'+str(f.id)+'.riga a").button(); $( ".dettagli_requisito").hide();')
         #dajax.alert("aggiunto!")
     else:
         dajax.remove_css_class('#form_tipo_turno input', 'error')
@@ -142,7 +146,7 @@ def tipo_turno_form(request, form):
 @dajaxice_register
 def requisito_form(request, form, form_id):
     dajax = Dajax()
-    #pdb.set_trace()
+    #
     #dajax.alert(str(form_id))
     f = deserialize_form(form)
     if Requisito.objects.filter(mansione=f['mansione'],tipo_turno=f['tipo_turno']).exists():
@@ -150,24 +154,19 @@ def requisito_form(request, form, form_id):
         form = RequisitoForm(f,instance=r)
     else:
         form = RequisitoForm(f)
+    dajax.remove_css_class(str(form_id)+ ' #id_operatore', 'ui-state-error')
+    dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
     if form.data.get('operatore')=='NULL':
         r=Requisito.objects.get(mansione=form.data.get('mansione'),tipo_turno=form.data.get('tipo_turno'))
         r.delete()
         dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
-        dajax.remove_css_class(str(form_id)+ ' #id_operatore', 'ui-state-error')
-        dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
         dajax.assign(str(form_id)+ ' input', 'value','')
     elif form.is_valid():
         form.save()
         dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
-        dajax.remove_css_class(str(form_id)+ ' #id_operatore', 'ui-state-error')
-        dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
         #dajax.append('#elenco', 'innerHTML', html)
         #dajax.alert('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
     else:
-        #da sistemare
-        dajax.remove_css_class(str(form_id)+ ' input', 'ui-state-error')
-        dajax.remove_css_class(str(form_id)+ ' select', 'ui-state-error')
         for error in form.errors:
             #error  il nome del campo che manca
             #form-{{requisito.mansione.id}}-{{tipo_turno.id}} input#id_valore

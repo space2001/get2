@@ -44,40 +44,7 @@
 <div id="elenco">
 <div class="riga"><a href="#" onclick='$("#form_tipo_turno" ).dialog("open");'>aggiungi tipo turno</a></div>
 {% for tipo_turno in tipi_turno %}
-
-	<div class="riga" id="tipo_turno-{{tipo_turno.id}}">
-	<div class="col">{{tipo_turno}}</div>
-	<div class="col operazioni"><a href="#" onclick='$("#dettagli_requisito-{{tipo_turno.id}}").show();'>dettagli</a></div>
-	</div>
-	<div class="riga" id="requisiti-{{tipo_turno.id}}">
-
-		{% for requisito in tipo_turno.req_tipo_turno.all %}
-			
-			<script>$(document).ready(function(){
-				$("#form-{{requisito.mansione.id}}-{{tipo_turno.id}} select#id_operatore").val("{{requisito.operatore|escapejs}}");
-				$("#form-{{requisito.mansione.id}}-{{tipo_turno.id}} input#id_valore").val("{{requisito.valore}}")
-			});</script>
-		{% endfor %}
-	
-	<div class="riga dettagli_requisito" id="dettagli_requisito-{{tipo_turno.id}}">
-		{% for mansione in mansioni %}
-		<script>$(document).ready(function(){$("#applica-{{mansione.id}}-{{tipo_turno.id}}").hide();});</script>
-		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
-		<form id="form-{{mansione.id}}-{{tipo_turno.id}}" action="" method="post" accept-charset="utf-8">{% csrf_token %}
-		<input type="hidden" name="mansione" value="{{mansione.id}}">
-		<input type="hidden" name="tipo_turno" value="{{tipo_turno.id}}">
-		<p>{{mansione}}
-			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'>
-			<option value="NULL" selected="selected">----</option>
-			{% for op,op_val in operatori %}
-			<option value="{{op}}">{{op_val}}</option>
-			{% endfor %}
-			<input type="text" name="valore" id="id_valore" onkeydown='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'/>
-			</select>
-		</p>
-		</div></form><div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')">applica</div>
-
-    	{% endfor %}</div></div>
+	{% include "elenco_tipo_turno/dettagli.html" %}
 {% endfor %}
 </div>
 
