@@ -40,6 +40,16 @@
 	function send_form_requisiti(form_id){
     	Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$(form_id).serialize(true),'form_id':form_id});
 	}
+	
+	function dettagli(tipo_turno_id,azione){
+	if (azione=="apri"){
+		$("#dettagli_requisito-"+tipo_turno_id).show();}
+	else {
+		$("#dettagli_requisito-"+tipo_turno_id).hide();}
+	}
+</script>
+	
+	
 	</script>
 <div id="elenco">
 <div class="riga"><a href="#" onclick='$("#form_tipo_turno" ).dialog("open");'>aggiungi tipo turno</a></div>

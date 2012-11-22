@@ -44,7 +44,7 @@
 <div id="elenco">
 <div class="riga"><a href="#" onclick='$("#form_tipo_turno" ).dialog("open");'>aggiungi tipo turno</a></div>
 {% for tipo_turno in tipi_turno %}
-	{%include "elenco_tipo_turno/dettagli.html"%}
+	{% include "elenco_tipo_turno/dettagli.html" %}
 {% endfor %}
 </div>
 

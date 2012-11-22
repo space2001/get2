@@ -1,7 +1,17 @@
+<script type="">
+function dettagli(tipo_turno_id,azione){
+if (azione=="apri"){
+	$("#dettagli_requisito-"+tipo_turno_id).show();}
+else {
+	$("#dettagli_requisito-"+tipo_turno_id).hide();}
+}
+</script>
+
 <div class="riga" id="tipo_turno-{{tipo_turno.id}}">
 	<div class="col">{{tipo_turno}}</div>
 	<div class="col operazioni">
-	<a href="#" onclick='$("#dettagli_requisito-{{tipo_turno.id}}").show();'>dettagli</a>
+	<a href="#" onclick='dettagli({{tipo_turno.id}},"apri");'>apri dettagli</a>
+	<a href="#" onclick='dettagli({{tipo_turno.id}},"chiudi");'>chiudi dettagli</a>
 	<a href="/tipo_turno/elimina/{{tipo_turno.id}}">elimina</a>
 	</div>
 	</div>
