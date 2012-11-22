@@ -7,6 +7,7 @@ import calendar,datetime,locale
 from django.db.models import Q, Count
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
+from django.contrib.auth.forms import AdminPasswordChangeForm 
 from django.contrib.auth.decorators import login_required
 import pdb
 from django.template import RequestContext
@@ -252,6 +253,13 @@ def modifica_password_utente(request,utente_id):
 def elenco_tipo_turno(request):
 	tipi_turno=TipoTurno.objects.all()
 	return render_to_response('elenco_tipo_turno.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request}, RequestContext(request))
+
+
+def elimina_tipo_turno(request,tipo_turno_id):
+	t=TipoTurno.objects.get(id=tipo_turno_id)
+	t.delete()
+	return HttpResponseRedirect('/tipo_turno/elenco')
+
 
 #### fine tipo turno ####
 

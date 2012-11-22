@@ -1,6 +1,9 @@
 <div class="riga" id="tipo_turno-{{tipo_turno.id}}">
 	<div class="col">{{tipo_turno}}</div>
-	<div class="col operazioni"><a href="#" onclick='$("#dettagli_requisito-{{tipo_turno.id}}").show();'>dettagli</a></div>
+	<div class="col operazioni">
+	<a href="#" onclick='$("#dettagli_requisito-{{tipo_turno.id}}").show();'>dettagli</a>
+	<a href="/tipo_turno/elimina/{{tipo_turno.id}}">elimina</a>
+	</div>
 	</div>
 	<div class="riga" id="requisiti-{{tipo_turno.id}}">
 

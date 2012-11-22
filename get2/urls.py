@@ -29,11 +29,12 @@ urlpatterns += patterns('get2.calendario',
 	(r'^notifica/elenco/$', 'views.elenco_notifica'),
 	# tipo turno
 	(r'^tipo_turno/elenco/$', 'views.elenco_tipo_turno'),
+	(r'^tipo_turno/elimina/(?P<tipo_turno_id>\w+)/$', 'views.elimina_tipo_turno'),
 	# turno
 	(r'^turno/nuovo/$', 'views.nuovo_turno'),
 	(r'^turno/modifica/(?P<turno_id>\w+)/$', 'views.modifica_turno'),
 	(r'^turno/elimina/(?P<turno_id>\w+)/$', 'views.elimina_turno'),
-	# occorrenza
+	(r'^turno/cerca_persona/(?P<turno_id>\w+)/(?P<mansione_id>\w+)/$', 'views.turno_cerca'),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',

@@ -29,8 +29,7 @@
 			</select>
 		</p>
 		</div></form>
-		<div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')">applica
-		<script>$("#applica-{{mansione.id}}-{{tipo_turno.id}}").hide();</script>
+		<div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')" style="display: none">applica
 		</div>
 
     	{% endfor %}</div></div>

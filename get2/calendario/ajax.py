@@ -142,12 +142,17 @@ def tipo_turno_form(request, form):
             dajax.add_css_class('#id_%s' % error, 'ui-state-error')
     return dajax.json()
 
+@dajaxice_register
+def elimina_tipo_turno(request,turno_id):
+    dajax = Dajax()
+    t=TipoTurno.objects.get(id=turno_id)
+    t.delete()
+    return dajax.json()
 
 @dajaxice_register
 def requisito_form(request, form, form_id):
     dajax = Dajax()
-    #
-    #dajax.alert(str(form_id))
+    #pdb.set_trace()
     f = deserialize_form(form)
     if Requisito.objects.filter(mansione=f['mansione'],tipo_turno=f['tipo_turno']).exists():
         r = Requisito.objects.get(mansione=f['mansione'],tipo_turno=f['tipo_turno'])
@@ -156,7 +161,7 @@ def requisito_form(request, form, form_id):
         form = RequisitoForm(f)
     dajax.remove_css_class(str(form_id)+ ' #id_operatore', 'ui-state-error')
     dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
-    if form.data.get('operatore')=='NULL':
+    if form.data.get('operatore')=='NULL' and Requisito.objects.filter(mansione=f['mansione'],tipo_turno=f['tipo_turno']).exists():
         r=Requisito.objects.get(mansione=form.data.get('mansione'),tipo_turno=form.data.get('tipo_turno'))
         r.delete()
         dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
@@ -164,12 +169,7 @@ def requisito_form(request, form, form_id):
     elif form.is_valid():
         form.save()
         dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
-        #dajax.append('#elenco', 'innerHTML', html)
-        #dajax.alert('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
     else:
         for error in form.errors:
-            #error  il nome del campo che manca
-            #form-{{requisito.mansione.id}}-{{tipo_turno.id}} input#id_valore
             dajax.add_css_class('%(form)s #id_%(error)s' % {"form": form_id, "error": error}, 'ui-state-error')
-            #dajax.alert(str(error))
     return dajax.json()
