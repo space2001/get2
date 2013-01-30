@@ -1,8 +1,24 @@
 {% extends "base.html" %} 
 
+
+{% block menu2 %}
+<ul>
+<li class="nuovo-turno"><a href="/turno/nuovo">Nuovo Turno</a></li>
+<li class="avanti"><a href="/calendario/settavanti">Avanti</a></li>
+<li class="oggi"><a href="/calendario/oggi">Oggi</a></li>
+<li class="indietro"><a href="/calendario/settindietro">Indietro</a></li>
+
+</ul>
+
+<div id="navigazione">
+<div class="nav-solo nav"><span class="calendario-nav"> Calendario</span></div>
+</div>
+
+{% endblock %}
+
 {% block main %}
 
-<div id='calendario'>
+<div id="calendario">
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
@@ -23,5 +39,6 @@
 	</div>
 {% endfor %}
 </div>
+
 
 {% endblock %}

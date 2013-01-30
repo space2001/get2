@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 
 {% block main %}
-
+<div id="login2">
 {% if form.errors %}
-<p>Your username and password didn't match. Please try again.</p>
+<span class="login_error">Your username and password didn't match. Please try again.</span>
 {% endif %}
 
 <form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %}
@@ -18,8 +18,8 @@
 </tr>
 </table>
 
-<input type="submit" value="login" />
+<input type="submit" value="" class="invio"/>
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
-
+</div>
 {% endblock %}

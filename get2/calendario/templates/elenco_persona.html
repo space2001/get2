@@ -4,18 +4,37 @@
 <link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
 <script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
 {% endblock %}
+
+
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-solo nav"><span class="persone-nav"> Persone</span></div>
+</div>
+
+<ul>
+<li class="nuovo-persona"><a href="/persone/nuovo">Nuova persona</a></li>
+<li class="cerca"><a href="#">Cerca persona</a></li>
+
+</ul>
+
+{% endblock %}
+
 {% block main %}
 
-
-
+<table>
+<tr class="intestazione">
+<td>Nome</td><td>Mansioni</td><td>Operazioni</td>
+</tr>
 {% for persona in persone %}
 
-	<div class="persona riga" id="persona-{{persona.id}}">
-	<div class="nome col">{{persona}}</div>
-	<div class="mansioni col">{% for m in persona.competenze.all %} {{m}} {% endfor %}</div>
-	<div class="operazioni col"><a href="/persona/modifica/{{persona.id}}"> modifica</a><a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'>elimina</a>
-	</div>
-	</div>
+	<tr class="persona {% cycle 'riga1' 'riga2' %}" id="persona-{{persona.id}}">
+	<td class="nome">{{persona}}</td>
+	<td class="mansioni">{% for m in persona.competenze.all %} {{m}} {% endfor %}</td>
+	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
+		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
+	</td>
+	</tr>
 	<script>
 	$(function() {
 		$( "#elimina-persona-{{persona.id}}" ).dialog({
@@ -43,7 +62,7 @@
 	</div>
 
 {% endfor %}
-
+</table>
 
 
 {% endblock %}

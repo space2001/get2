@@ -1,0 +1,33 @@
+
+{% extends "base.html" %}
+{% load static %}
+
+
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-inizio nav"><a href="/impostazioni"><span class="calendario-nav"> Impostazioni</span></a></div>
+<div class="nav-fine nav">Nuova mansione</div>
+</div>
+
+{% endblock %}
+
+{% block main %}
+
+  {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+  {% endif %}
+
+  {% ifequal azione 'Aggiungi' %}
+  <form action="/mansioni/nuovo/" method="post">{% csrf_token %}
+  {% endifequal %}
+
+  {% ifequal azione 'Modifica' %}
+  <form action="/mansioni/modifica/{{ mansione_id }}/" method="post">{% csrf_token %}
+  {% endifequal %}
+  <table id="form_mansione">
+  {{form.as_table}}
+  </table>
+  <input type="submit" value="invia" />
+  </form>
+{% endblock %}

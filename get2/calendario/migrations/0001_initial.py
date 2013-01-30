@@ -22,7 +22,7 @@ class Migration(SchemaMigration):
             ('nome', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('cognome', self.gf('django.db.models.fields.CharField')(max_length=200)),
             ('nascita', self.gf('django.db.models.fields.DateField')()),
-            ('stato', self.gf('django.db.models.fields.DateField')(default='disponibile')),
+            ('stato', self.gf('django.db.models.fields.CharField')(default='disponibile', max_length=40)),
         ))
         db.send_create_signal('calendario', ['Persona'])
 
@@ -78,7 +78,7 @@ class Migration(SchemaMigration):
             ('identificativo', self.gf('django.db.models.fields.CharField')(default='', max_length=30, blank=True)),
             ('inizio', self.gf('django.db.models.fields.DateTimeField')()),
             ('fine', self.gf('django.db.models.fields.DateTimeField')()),
-            ('tipo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.User'], null=True, on_delete=models.SET_NULL, blank=True)),
+            ('tipo', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['calendario.TipoTurno'], null=True, on_delete=models.SET_NULL, blank=True)),
             ('occorrenza', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['calendario.Occorrenza'], null=True, blank=True)),
         ))
         db.send_create_signal('calendario', ['Turno'])
@@ -91,7 +91,7 @@ class Migration(SchemaMigration):
             ('ultima_modifica', self.gf('django.db.models.fields.DateTimeField')()),
             ('creata_da', self.gf('django.db.models.fields.related.ForeignKey')(related_name='creata_da_disponibilita', to=orm['auth.User'])),
             ('turno', self.gf('django.db.models.fields.related.ForeignKey')(related_name='turno_disponibilita', to=orm['calendario.Turno'])),
-            ('mansione', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['calendario.Mansione'])),
+            ('mansione', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['calendario.Mansione'], null=True, on_delete=models.SET_NULL, blank=True)),
         ))
         db.send_create_signal('calendario', ['Disponibilita'])
 
@@ -186,7 +186,7 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'Disponibilita'},
             'creata_da': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'creata_da_disponibilita'", 'to': "orm['auth.User']"}),
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'mansione': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calendario.Mansione']"}),
+            'mansione': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calendario.Mansione']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'}),
             'persona': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'persona_disponibilita'", 'to': "orm['calendario.Persona']"}),
             'tipo': ('django.db.models.fields.CharField', [], {'max_length': '20'}),
             'turno': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'turno_disponibilita'", 'to': "orm['calendario.Turno']"}),
@@ -228,7 +228,7 @@ class Migration(SchemaMigration):
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'nascita': ('django.db.models.fields.DateField', [], {}),
             'nome': ('django.db.models.fields.CharField', [], {'max_length': '200'}),
-            'stato': ('django.db.models.fields.DateField', [], {'default': "'disponibile'"}),
+            'stato': ('django.db.models.fields.CharField', [], {'default': "'disponibile'", 'max_length': '40'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'pers_user'", 'unique': 'True', 'null': 'True', 'to': "orm['auth.User']"})
         },
         'calendario.requisito': {
@@ -251,7 +251,7 @@ class Migration(SchemaMigration):
             'identificativo': ('django.db.models.fields.CharField', [], {'default': "''", 'max_length': '30', 'blank': 'True'}),
             'inizio': ('django.db.models.fields.DateTimeField', [], {}),
             'occorrenza': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calendario.Occorrenza']", 'null': 'True', 'blank': 'True'}),
-            'tipo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'})
+            'tipo': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['calendario.TipoTurno']", 'null': 'True', 'on_delete': 'models.SET_NULL', 'blank': 'True'})
         },
         'contenttypes.contenttype': {
             'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},

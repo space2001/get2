@@ -7,6 +7,17 @@
 <script type="text/javascript" src="{% static "jquery-ui-timepicker-addon.js" %}" ></script>
 <script type="text/javascript" src="{% static "touch.js" %}" ></script>
 {% endblock %}
+
+
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-inizio nav"><span class="calendario-nav"> Calendario</span></div>
+<div class="nav-fine nav">Nuovo turno</div>
+</div>
+
+{% endblock %}
+
 {% block main %}
 
 <script type="text/javascript">
@@ -90,11 +101,11 @@ window.onload = function()
   {% endif %}
 
   {% ifequal azione 'Aggiungi' %}
-  <form action="/turno/nuovo/" method="post">
+  <form action="/turno/nuovo/" method="post">{% csrf_token %}
   {% endifequal %}
 
   {% ifequal azione 'Modifica' %}
-  <form action="/turno/modifica/{{ turno_id }}/" method="post">
+  <form action="/turno/modifica/{{ turno_id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table id="form_turno">
   {{form.as_table}}

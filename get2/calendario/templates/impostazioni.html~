@@ -4,10 +4,16 @@
 <link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
 <script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
 {% endblock %}
+
+
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-solo nav"><span class="impostazioni-nav"> Impostazioni</span></div>
+</div>
+
+{% endblock %}
 {% block main %}
-
-
-
 <div id="div_tipo_turno"><form action="" method="post" id="form_tipo_turno" accept-charset="utf-8">{% csrf_token %}
     {{ tipo_turno_form.as_p }}
 </form>
@@ -31,7 +37,7 @@
 	});
 	
 	$(document).ready(function(){
-		$( "a", ".operazioni" ).button();
+		
 		$( ".dettagli_requisito").hide();});
 	
 	function send_form(){
@@ -51,12 +57,44 @@
 	
 	
 	</script>
+
+
+<div id="mansioni">
+<span class="titolo impostazioni">Mansioni</span>
+<menu class="impostazioni">
+<ul>
+<li class="aggiungi"><a href="#">Aggiungi mansione</a></li>
+</ul>
+</menu>
+<table>
+
+{% for mansione in mansioni %}
+	<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="masnione-{{mansione.id}}">
+	<td class="mansioni">{{mansione}}</td>
+	<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione.id}}"><span class="img_modifica"></span></a>
+		<a href="/impostazioni/mansione/elimina/{{mansione.id}}"><span class="img_elimina"></span></a>
+	</td>
+	</tr>
+{% endfor %}
+</table>
+
+</div>
+
+
+<div id="tipo_turno">
+<span class="titolo impostazioni">Tipi di turno</span>
+<menu class="impostazioni">
+<ul>
+<li class="aggiungi"><a href="#">Aggiungi mansione</a></li>
+</ul>
+</menu>
 <div id="elenco">
-<div class="riga"><a href="#" onclick='$("#form_tipo_turno" ).dialog("open");'>aggiungi tipo turno</a></div>
 {% for tipo_turno in tipi_turno %}
 	{% include "elenco_tipo_turno/dettagli.html" %}
 {% endfor %}
 </div>
+</div>
+
 
 
 {% endblock %}

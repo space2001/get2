@@ -12,9 +12,27 @@
 <body>
 	<div id="user">	{% if request.user.id%}<div id="nome"><a href="/accounts/logout">Salve, <b>{{request.user}} (ESCI)</b></a></div>	
 	{%else%}
-	<div id="nome"><a href="/accounts/login"> Accedi</b></a></div>
+	<div id="login_up">
+		<form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %} utente: <input id="id_username" type="text" name="username" maxlength="30">  password: <input type="password" name="password" id="id_password" ><input type="submit" value="" class="invio"/></form></div>
 	{% endif %}</div>
-	<div id='main'>
-	{% block main %}{% endblock %}</div>
+	<menu id='menu1'>
+	<ul>
+	<li class="calendario"><a href="/calendario/">Calendario</a></li>
+	<li class="persone"><a href="/persone/">Persone</a></li>
+	<li class="statistiche"><a href="/statistiche/">Statistiche</a></li>
+	<li class="utenti"><a href="/utenti/">Utenti</a></li>
+	<li class="notifiche"><a href="/notifiche/">Notifiche</a></li>
+	<li class="impostazioni"><a href="/impostazioni/">Ipostazioni</a></li>	
+	</ul>
+	<script>
+	var url="{{request.path}}";
+	$("li."+url.split("/")[1]).addClass("pulsante_selezionato")
+	</script>
+	</menu >
+	<div id="main">
+	<menu id="menu2">{% block menu2 %}{% endblock %}</menu>
+	<div id="contenuto">{% block main %}{% endblock %}</div>
+	
+	</div>
 </body>
 </html>

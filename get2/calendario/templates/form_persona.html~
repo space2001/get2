@@ -8,6 +8,15 @@
 {% block title %} Inserimento/Modifica di una persona {% endblock %}	
 
 
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-inizio nav"><a href="/persone"><span class="persone-nav"> Persone</span></a></div>
+<div class="nav-fine nav">Nuova persona</div>
+</div>
+
+{% endblock %}
+
 {% block main %}
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
@@ -42,7 +51,7 @@
             changeMonth: true,
             changeYear: true,
             defaultDate: "-18y",
-            maxDate: "-15y"
+            maxDate: "-15y",
             yearRange: "1900:2012"
         });
 	});

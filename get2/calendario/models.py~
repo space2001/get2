@@ -8,7 +8,7 @@ class Mansione(models.Model):
 	descrizione = models.CharField('Descrizione',max_length=200)
 	def __unicode__(self):
 		return '%s' % (self.descrizione)
-	# Milite tipo A, milite tipo B, centralinista ecc...
+	# Milite tipo A, milite tipo B, centralinista ecc...   Login 
 
 class MansioneForm(forms.ModelForm):
 	class Meta:
@@ -124,8 +124,6 @@ class TurnoForm(forms.ModelForm):
 		exclude = ('occorrenza')
 
 class TurnoFormRipeti(TurnoForm):
-	inizio=forms.DateTimeField(widget=forms.SplitDateTimeWidget)
-	fine=forms.DateTimeField(widget=forms.SplitDateTimeWidget)
 	ripeti = forms.BooleanField(required=False)
 	ripeti_da = forms.DateField(required=False)
 	ripeti_al = forms.DateField(required=False)

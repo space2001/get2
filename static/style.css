@@ -1,0 +1,408 @@
+@font-face {
+	font-family: Ubuntu;
+	src: url(Ubuntu-M.ttf);
+	font-weight: bold;
+}
+
+@font-face {
+	font-family: Ubuntu;
+	src: url(Ubuntu-R.ttf);
+}
+
+a {
+	color: #1982d1;
+	text-decoration: none;
+}
+a:focus,
+a:active,
+a:hover {
+	text-decoration: underline;
+}
+
+
+body {
+	background: #fff;
+	padding: 0px;
+	margin: 0px;
+	font-family:Ubuntu;
+	font-size: 16px;
+	background-color:#f2f0ed;
+}
+
+table {
+	margin:0px;
+	border:0px;
+	border-collapse: collapse;
+}
+
+td {
+	padding: 3px 12px;
+	vertical-align: top;
+	font-size: 16px;
+}
+
+tr.riga1 {
+	border-bottom: 1px solid rgb(255, 102, 102);
+}
+
+tr.riga2 {
+	border-bottom: 1px solid rgb(255, 102, 102);
+	background: #fff7e3;
+}
+
+tr.intestazione {
+	font-weight: bold;
+	font-size: 19px;
+	border-bottom: 0.2em solid rgb(255, 102, 102);
+}
+
+span.img_rimuovi{
+	height: 16px;
+	width: 16px;
+	margin: 0;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(rimuovi.png) no-repeat center top;
+	display: block;
+	float:right;
+}
+
+span.img_aggiungi{
+	height: 16px;
+	width: 16px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(aggiungi2.png) no-repeat center top;
+	display: block;
+	float:right;
+}
+
+span.img_modifica{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(modifica.png) no-repeat center top;
+	display: block;
+	float:left;
+}
+
+span.img_stampa{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(stampa.png) no-repeat center top;
+	display: block;
+	float:left;
+}
+
+span.img_elimina{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(elimina.png) no-repeat center top;
+	display: block;
+	float:left;
+}
+
+#login2 {
+	width:500px;
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin: 20px auto;
+	padding-top:32px;
+	padding-bottom: 32px;
+}
+
+#login2 input {
+	border: 1px solid #bbb;
+}
+
+#login2 input.invio {
+	border: none;
+	height:32px;
+	width:32px;
+	float: right;
+	background: url(invio.png) repeat-x center center;
+	cursor:pointer;
+	display: block;
+}
+
+#login_up {
+	height: 36px;
+	width: 590px;
+	margin: 0px auto;
+	border:0px;
+	border-right: 1px solid #bbb;
+	padding-left:20px;
+	border-left: 1px solid #bbb;
+	display: block;
+	font-size: 15px;
+	background-color: #ddd;
+}
+
+#login_up input {
+	margin: 0px;
+	margin-top: 6px;
+	margin-right: 10px;
+	border: 1px solid #bbb;
+}
+
+#login_up input.invio {
+	border: none;
+	margin-top:2px;
+	height:32px;
+	width:32px;
+	background: url(invio.png) repeat-x center center;
+	cursor:pointer;
+}
+
+
+#user {
+	border-bottom: 1px solid #888;
+	margin: 0px;
+	height: 36px;
+	background: url(sfondo_user.png) repeat-x center top;
+	
+}
+
+#menu1{
+	float:left;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+#menu1 ul {
+	list-style-type: none;
+	overflow: hidden;
+	padding-left:0px;
+}
+
+#menu1 li {
+	width: 96px;
+	height: 96px;
+	margin-left:0px;
+
+}
+
+#menu1 li a {
+	text-indent:-9999px;
+	display: block;
+	overflow: hidden; 
+    	height:96px;
+}
+
+#main{
+	/*float:left;*/
+	margin-left: 116px;
+	padding:0;
+}
+
+#contenuto{
+background-color:#fff;
+padding:10px;
+border-top:1px solid #ccc;
+border-left:1px solid #ccc;
+border-bottom:1px solid #ccc;
+border-top-left-radius:1em;
+border-bottom-left-radius:1em; 
+}
+
+
+#menu2{
+	padding: 0px;
+	margin: 0px;
+	border: none;
+	margin-top: 10px;
+	margin-bottom:5px;
+	position: relative;
+	height:48px;
+}
+
+#menu2 ul {
+	list-style-type: none;
+	overflow: hidden;
+	padding-right: 20px;
+}
+
+#menu2 li {
+	float:right;
+	width: 48px;
+	height: 48px;
+	margin-left:5px;
+
+}
+
+#menu2 li a {
+	text-indent:-9999px;
+	display: block;
+	overflow: hidden; 
+    	height:48px; 
+}
+
+#menu2 li.avanti {
+	background: url(avanti.png) no-repeat center top;
+}
+
+#menu2 li.indietro {
+	background: url(indietro.png) no-repeat center top;
+}
+
+#menu2 li.oggi {
+	background: url(home.png) no-repeat center top;
+}
+
+#menu2 li.nuovo-turno {
+	background: url(nuovo-turno.png) no-repeat center top;
+}
+
+#menu2 li.cerca {
+	background: url(cerca.png) no-repeat center top;
+}
+
+#menu2 li.nuovo-persona {
+	background: url(nuovo-persona.png) no-repeat center top;
+}
+
+
+#navigazione {
+	position: absolute;
+	height: 32px;
+	top: 16px;
+	left: 16px;
+}
+
+#navigazione .nav{
+	float: left;
+	padding: 5px;
+	font-size:17px;
+	line-height:26px;
+}
+
+#navigazione .nav :hover{
+	text-decoration: none;
+}
+
+#navigazione a{
+	color:#333;
+}
+
+#navigazione .nav-inizio{
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	border-bottom: 1px solid #666;
+	border-right: 0px solid #666;
+	border-top-left-radius:0.3em;
+	border-bottom-left-radius:0.3em;
+	background: url(nav.png) repeat-x center top;
+}
+
+#navigazione .nav-inizio:hover {
+	background: url(nav-hover.png) repeat-x center top;
+}
+
+#navigazione .nav-centro{
+	border-top: 1px solid #999;
+	border-left: 1px solid #999;
+	border-bottom: 1px solid #666;
+	border-right: 0px solid #666;
+	background: url(nav.png) repeat-x center top;
+}
+
+#navigazione .nav-centro:hover {
+	background: url(nav-hover.png) repeat-x center top;
+}
+
+#navigazione .nav-fine{
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+	border-bottom: 1px solid #999;
+	border-right: 1px solid #999;
+	border-top-right-radius:0.3em;
+	border-bottom-right-radius:0.3em;
+	background: url(nav-fine.png) repeat-x center top;
+	font-weight: bold;
+}
+
+#navigazione .nav-solo{
+	border-top: 1px solid #666;
+	border-left: 1px solid #666;
+	border-bottom: 1px solid #999;
+	border-right: 1px solid #999;
+	border-radius:0.3em;
+	background: url(nav-fine.png) repeat-x center top;
+	font-weight: bold;
+}
+
+
+span.calendario-nav{
+	padding-left: 30px;
+	background: url(24/calendario.png) no-repeat left center;
+	display: block;
+}
+
+span.persone-nav{
+	padding-left: 30px;
+	background: url(24/persone.png) no-repeat left center;
+	display: block;
+}
+
+#calendario {
+	height:300px;
+}
+
+#calendario .giorno {
+	margin-left:0.2%;
+	margin-top:0px;
+	float:left;
+	width: 13.6%;
+	border: 1px solid #000;
+}
+
+.azioni {
+	height: 32px;
+	width: 100%;
+	margin-bottom:10px;
+}
+
+.pulsante {
+	height: 100px;
+	width: 100px;
+	margin-right: 10px;
+}
+
+#menu1 .pulsante_selezionato{
+	border-left: 0.3em solid rgb(255, 102, 102);
+}
+
+#menu1 li.calendario{
+	background: url(calendario.png) no-repeat center top;
+}
+
+#menu1 li.persone{
+	background: url(persone.png) no-repeat center top;
+}
+
+#menu1 li.statistiche{
+	background: url(statistiche.png) no-repeat center top;
+}
+
+#menu1 li.utenti{
+	background: url(utenti.png) no-repeat center top;
+}
+
+#menu1 li.notifiche{
+	background: url(notifiche-ok.png) no-repeat center top;
+
+}
+
