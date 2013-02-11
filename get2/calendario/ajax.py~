@@ -2,6 +2,7 @@
 from dajaxice.decorators import dajaxice_register
 from dajax.core import Dajax
 from get2.calendario.models import *
+from get2.calendario.views import *
 from dajaxice.utils import deserialize_form
 import pdb
 from django.template.loader import render_to_string
@@ -67,7 +68,7 @@ def utente_persona(request,user_id,persona_id):
         per=Persona.objects.get(id=persona_id)
         u=User.objects.get(id=user_id)
         per.user=u
-        #s=s+'noty({"text":"Il volontario <b>'+str(vol)+'</b> e stato assegnato all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
+        #s=s+'noty({"text":"Il volontario <b>'+str(volprestazioni/)+'</b> e stato assegnato all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
 
     #dajax.script(s)
     per.save()
@@ -152,7 +153,7 @@ def elimina_tipo_turno(request,turno_id):
 @dajaxice_register
 def requisito_form(request, form, form_id):
     dajax = Dajax()
-    pdb.set_trace()
+    #pdb.set_trace()
     f = deserialize_form(form)
     if Requisito.objects.filter(mansione=f['mansione'],tipo_turno=f['tipo_turno']).exists():
         r = Requisito.objects.get(mansione=f['mansione'],tipo_turno=f['tipo_turno'])
@@ -173,3 +174,11 @@ def requisito_form(request, form, form_id):
         for error in form.errors:
             dajax.add_css_class('%(form)s #id_%(error)s' % {"form": form_id, "error": error}, 'ui-state-error')
     return dajax.json()
+
+@dajaxice_register
+def disp(request, turno_id, mansione_id, persona_id, disp):
+	dajax = Dajax()
+	pdb.set_trace()
+	disponibilita(request, turno_id, mansione_id, persona_id, disp)
+	#dajax.alert(disponibilita)
+	return dajax.json()

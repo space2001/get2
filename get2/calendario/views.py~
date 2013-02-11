@@ -22,7 +22,7 @@ def elenco_persona(request):
 	persone = Persona.objects.all().order_by('cognome')
 	gruppi = Gruppo.objects.all()
 	mansioni = Mansione.objects.all()
-	risposta = HttpResponse(render_to_response('elenco_persona.html',{'persone':persone,'request':request,'gruppi':gruppi,'mansioni':mansioni}))
+	risposta = HttpResponse(render_to_response('elenco_persona.html',{'persone':persone,'stati':STATI,'request':request,'gruppi':gruppi,'mansioni':mansioni}))
 	return risposta
 	#else:
 	#	return render_to_response('staff-no.html')
@@ -115,6 +115,13 @@ def calendarioazione(request,azione):
 	risposta.set_cookie('giorno', value=start.day)
 	return risposta
 
+def cerca_persona(request, turno_id, mansione_id):
+	mansione=Mansione.objects.get(id=mansione_id)
+	persone=Persona.objects.filter(competenze=mansione)
+	turno=Turno.objects.get(id=turno_id)
+	return render_to_response('cerca_persona.html',{'persone':persone,'turno':turno,'mansione':mansione,'disponibilita':DISPONIBILITA,'request':request})
+
+
 ####   fine calendario   ####
 
 ####   disponibilita   ####
@@ -150,30 +157,31 @@ def disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo):
 			d.delete()
 
 
-def nuovo_disponibilita(request, tipo_disponibilita, persona_id, user_id, turno_id, mansione_id):
+def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 	#inizializzo ma non salvo un oggetto disponibilita
-	disponibilita=Disponibilita()
-	disponibilita.tipo=tipo_disponibilita
-	disponibilita.persona=Persona.objects.get(id=persona_id)
-	disponibilita.ultima_modifica=datetime.datetime.now()
-	disponibilita.creata_da=User.objects.get(id=user_id)
-	disponibilita.turno=Turno.objects.get(id=turno_id)
-	disponibilita.mansione=Mansione.objects.get(id=mansione_id)
+	#pdb.set_trace()
+	disp=Disponibilita()
+	disp.tipo=disponibilita
+	disp.persona=Persona.objects.get(id=persona_id)
+	disp.ultima_modifica=datetime.datetime.now()
+	disp.creata_da=request.user
+	disp.turno=Turno.objects.get(id=turno_id)
+	disp.mansione=Mansione.objects.get(id=mansione_id)
 	#verifico se la disponibilita e entro i tempi corretti
-	if disponibilita_verifica_tempo(request, disponibilita.turno)[0]:
+	if disponibilita_verifica_tempo(request, disp.turno)[0] or true:
 		#una persona puo avere una sola disponibilita per turno
-		if Disponibilita.objects.filter(persona=disponibilita.persona,turno=disponibilita.turno ).exists():
-			esistente=Disponibilita.objects.get(persona=disponibilita.persona, turno=disponibilita.turno )
-			if esistente.tipo=='Disponibile':
-				notifica_disponibilita(request,esistente.persona,esistente.turno,'Non piu disponibile',esistente.mansione)
+		if Disponibilita.objects.filter(persona=disp.persona,turno=disp.turno ).exists():
+			esistente=Disponibilita.objects.get(persona=disp.persona, turno=disp.turno )
+			#if esistente.tipo=='Disponibile':
+				#notifica_disponibilita(request,esistente.persona,esistente.turno,'Non piu disponibile',esistente.mansione)
 			esistente.delete()
 		#risolvo i conflitti con i turni contemporanei
-		for contemporaneo in disponibilita.turno.contemporanei():
+		for contemporaneo in disp.turno.contemporanei():
 			disponibilita_risolvi_contemporaneo(persona_id,contemporaneo)
-		disponibilita.save()
-		if not request.user.is_staff:
-			notifica_disponibilita(request,disponibilita.persona,disponibilita.turno,tipo_disponibilita,disponibilita.mansione)
-
+		disp.save()
+		#if not request.user.is_staff:
+			#notifica_disponibilita(request,disponibilita.persona,disponibilita.turno,tipo_disponibilita,disponibilita.mansione)
+	return HttpResponseRedirect('/calendario')
 ####   fine disponibilita   ####
 
 ####   notifica   ####
@@ -250,7 +258,7 @@ def modifica_password_utente(request,utente_id):
 
 #### inizio mansioni ####
 
-def nuova_mansione(request):
+def nuovo_mansione(request):
 	azione = 'nuovo'
 	if request.method == 'POST': # If the form has been submitted...
 		form = MansioneForm(request.POST) # A form bound to the POST data
@@ -261,7 +269,24 @@ def nuova_mansione(request):
 		form = MansioneForm()
 	return render_to_response('form_mansione.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))	
 
-#### fine manioni ####
+def modifica_mansione(request, mansione_id):
+	azione = 'modifica'
+	mansione = Mansione.objects.get(id=mansione_id)
+	if request.method == 'POST': # If the form has been submitted...
+		form = MansioneForm(request.POST, instance=mansione) # necessario per modificare la riga preesistente
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/impostazioni/') # Redirect after POST
+	else:
+		form = MansioneForm(instance=mansione)
+	return render_to_response('form_mansione.html',{'form':form,'azione': azione, 'mansione': mansione,'request':request}, RequestContext(request))
+
+def elimina_mansione(request,mansione_id):
+	m=TipoTurno.objects.get(id=mansione_id)
+	m.delete()
+	return HttpResponseRedirect('/impostazioni/')
+
+#### fine mansioni ####
 
 #### inzio tipo turno ####
 
@@ -270,10 +295,33 @@ def impostazioni(request):
 	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request}, RequestContext(request))
 
 
+def nuovo_tipo_turno(request):
+	azione = 'nuovo'
+	if request.method == 'POST': # If the form has been submitted...
+		tipo_turno_form = TipoTurnoForm(request.POST) # A form bound to the POST data
+		if tipo_turno_form.is_valid():
+			tipo_turno_form.save()
+			return HttpResponseRedirect('/impostazioni/') # Redirect after POST
+	else:
+		tipo_turno_form = TipoTurnoForm()
+	return render_to_response('form_tipo_turno.html',{'tipo_turno_form':tipo_turno_form,'azione':azione,'request':request}, RequestContext(request))
+
+def modifica_tipo_turno(request, tipo_turno_id):
+	azione = 'modifica';
+	tipo_turno = TipoTurno.objects.get(id=tipo_turno_id)
+	if request.method == 'POST': # If the form has been submitted...
+		tipo_turno_form = TipoTurnoForm(request.POST, instance=tipo_turno) # necessario per modificare la riga preesistente
+		if tipo_turno_form.is_valid():
+			tipo_turno_form.save()
+			return HttpResponseRedirect('/impostazioni/') # Redirect after POST
+	else:
+		tipo_turno_form = TipoTurnoForm(instance=tipo_turno)
+	return render_to_response('form_tipo_turno.html',{'tipo_turno_form': tipo_turno_form,'azione': azione, 'tipo_turno': tipo_turno,'request':request}, RequestContext(request))
+
 def elimina_tipo_turno(request,tipo_turno_id):
 	t=TipoTurno.objects.get(id=tipo_turno_id)
 	t.delete()
-	return HttpResponseRedirect('/tipo_turno/elenco')
+	return HttpResponseRedirect('/impostazioni/')
 
 
 #### fine tipo turno ####
@@ -288,10 +336,8 @@ def nuovo_turno(request):
 			data = form.cleaned_data
 			form.save()
 			if data.get('ripeti'):
-				#pdb.set_trace()
 				o=Occorrenza()
 				o.save()
-				data['occorrenza']=o.id
 				start=data.get('ripeti_da')
 				stop=data.get('ripeti_al')
 				giorno=data.get('ripeti_il_giorno')
@@ -299,6 +345,9 @@ def nuovo_turno(request):
 				start=datetime.datetime.combine(start,ora_inizio)
 				durata=data.get('fine')-data.get('inizio')
 				delta = datetime.timedelta(days=1)
+				data['tipo']=data['tipo'].id
+				data['occorrenza']=o.id
+				#pdb.set_trace()
 				while (start.date()<=stop):
 					data['inizio_0']=start.date()
 					data['fine_0']=(start+durata).date()
@@ -306,9 +355,11 @@ def nuovo_turno(request):
 					data['fine_1']=(start+durata).time()
 					f=TurnoFormRipeti(data)
 					if str(start.weekday()) in giorno and f.is_valid():
-						f.save()
+						t=f.save()
+						t.occorrenza=o
+						t.save()
 					start+=delta
-				#pdb.set_trace()
+				
 			return HttpResponseRedirect('/calendario/') # Redirect after POST
 	else:
 		form = TurnoFormRipeti()

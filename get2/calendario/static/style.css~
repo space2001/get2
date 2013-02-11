@@ -47,7 +47,7 @@ tr.riga1 {
 
 tr.riga2 {
 	border-bottom: 1px solid rgb(255, 102, 102);
-	background: #fff7e3;
+	background: #ffe1b7;
 }
 
 tr.intestazione {
@@ -65,6 +65,7 @@ span.img_rimuovi{
 	background: url(rimuovi.png) no-repeat center top;
 	display: block;
 	float:right;
+	cursor:pointer;
 }
 
 span.img_aggiungi{
@@ -77,6 +78,7 @@ span.img_aggiungi{
 	background: url(aggiungi2.png) no-repeat center top;
 	display: block;
 	float:right;
+	cursor:pointer;
 }
 
 span.img_modifica{
@@ -101,6 +103,34 @@ span.img_stampa{
 	background: url(stampa.png) no-repeat center top;
 	display: block;
 	float:left;
+	cursor:pointer;
+}
+
+span.img_chiudi{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(24/chiudi.png) no-repeat center top;
+	display: block;
+	float:left;
+	cursor:pointer;
+}
+
+
+span.img_dettagli{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(24/dettagli.png) no-repeat center top;
+	display: block;
+	float:left;
+	cursor:pointer;
 }
 
 span.img_elimina{
@@ -113,7 +143,22 @@ span.img_elimina{
 	background: url(elimina.png) no-repeat center top;
 	display: block;
 	float:left;
+	cursor:pointer;
 }
+
+span.img_applica{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(24/applica.png) no-repeat center top;
+	display: block;
+	float:left;
+	cursor:pointer;
+}
+
 
 #login2 {
 	width:500px;
@@ -137,6 +182,21 @@ span.img_elimina{
 	cursor:pointer;
 	display: block;
 }
+
+#nome {
+	height: 36px;
+	width: 260px;
+	margin: 0px auto;
+	border:0px;
+	border-right: 1px solid #bbb;
+	padding-left:20px;
+	padding-right:20px;
+	border-left: 1px solid #bbb;
+	display: block;
+	font-size: 15px;
+	background-color: #ddd;
+}
+
 
 #login_up {
 	height: 36px;
@@ -179,7 +239,7 @@ span.img_elimina{
 #menu1{
 	float:left;
 	padding-left: 10px;
-	padding-right: 10px;
+	padding-right: 0px;
 }
 
 #menu1 ul {
@@ -210,13 +270,13 @@ span.img_elimina{
 
 #contenuto{
 background-color:#fff;
-padding:10px;
-padding-left: 20px;
 border-top:1px solid #ccc;
 border-left:1px solid #ccc;
 border-bottom:1px solid #ccc;
 border-top-left-radius:1em;
-border-bottom-left-radius:1em; 
+border-bottom-left-radius:1em;
+overflow: hidden;
+ height: auto !important;
 }
 
 
@@ -272,7 +332,7 @@ ul {
 }
 
 #menu2 li.nuovo-persona {
-	background: url(nuovo-persona.png) no-repeat center top;
+	background: url(64/aggiungi.png) no-repeat center top;
 }
 
 
@@ -365,16 +425,20 @@ span.impostazioni-nav{
 }
 
 
-#calendario {
-	height:300px;
-}
 
-#calendario .giorno {
-	margin-left:0.2%;
+.giorno {
+	margin-left:0px;
 	margin-top:0px;
 	float:left;
-	width: 13.6%;
-	border: 1px solid #000;
+	width: 14.2%;
+}
+
+.giorno1{
+
+}
+
+.giorno2{
+	background: #ffe1b7;
 }
 
 .azioni {
@@ -387,6 +451,7 @@ span.impostazioni-nav{
 	height: 100px;
 	width: 100px;
 	margin-right: 10px;
+	cursor:pointer;
 }
 
 #menu1 .pulsante_selezionato{
@@ -431,6 +496,7 @@ span.impostazioni.titolo {
 
 menu.impostazioni {
 	margin:0px;
+	margin-top: 5px;
 }
 
 
@@ -451,4 +517,153 @@ menu.impostazioni li a {
 
 menu.impostazioni li.aggiungi {
 	background: url(32/aggiungi.png) no-repeat center top;
+	cursor:pointer;
+}
+
+div.dettagli_requisito{
+	margin-top:10px;
+	border-top: 1px solid #ccc;
+	padding: 8px;
+
+}
+
+span.mansione{
+	width: 100px;
+	float: left;
+	display: block;
+}
+
+.s {
+	float: left;
+	margin-left:15px;
+}
+
+.titolo-giorno {
+	padding-top:5px;
+	font-weight: bold;
+	font-size: 18px;
+	margin-right: 20px;
+	margin-left: 20px;
+	border-bottom: 1px solid rgb(255, 102, 102);
+	display:block;
+	
+}
+
+.turno {
+	margin: 5px;
+	margin-top:10px;
+	border: 1px solid #bbb;
+	border-radius:0.3em;
+	background: rgb(242, 240, 237);
+
+}
+
+div.titolo-turno-True {
+	background: url(16/si.png) no-repeat right top;
+	width:16px;
+	height:16px;
+	float:right;
+	margin-top:-5px;
+	margin-right:5px;
+	text-indent:-9999px;
+}
+
+div.titolo-turno-False {
+	background: url(16/no.png) no-repeat right top;
+	width:16px;
+	height:16px;
+	float:right;
+	margin-top:-5px;
+	margin-right:5px;
+	text-indent:-9999px;
+
+}
+
+.titolo-turno {
+	background: url(sfondo_user.png) repeat-x center top;
+	border-bottom:1px solid #aaa;
+	font-size:15px;
+	margin-bottom:10px;
+	padding-left:5px;
+
+}
+
+div.footer-turno {
+	background: url(sfondo_user.png) repeat-x center top;
+	border-top:1px solid #aaa;
+	margin-bottom:0px;
+	height:24px;
+	padding-left:5px;
+	padding-top:0px;
+	font-size:14px;
+
+}
+
+table {
+margin-left:20px;
+margin-bottom:20px;
+}
+
+.mansione-calendario {
+	border-bottom:1px solid #ddd;
+	text-align: right;
+	padding-right:3px;
+	font-size:13px;
+	display:block;
+	color: #666;
+	margin-top: 10px;
+}
+
+span.aggiungi {
+	background: url(16/aggiungi.png) no-repeat right top;
+	height:20px;
+	display:block;
+	text-align:right;
+	margin-right:3px;
+	padding-right:20px;
+	font-size: 12px;
+}
+
+.img_modifica.turno, .img_elimina.turno {
+float: right;}
+
+span.persona-turno{
+margin-left:5px;
+padding-left:10px;
+line-height:18px;
+}
+
+span.tipo_turno {
+	font-style: italic;
+	float: left;
+	display: block;
+	line-height:24px;
+	color:#888;
+}
+
+span.competenza {
+	display:block
+	margin:2px;
+	float:left;
+	margin-right: 5px;
+	padding: 2px;
+	border:1px solid #bbb;
+	border-radius:0.2em;
+	background: #eee;
+}
+
+span.esci {
+	background: url(32/esci.png) no-repeat right top;
+	width:32px;
+	line-height:32px;
+	display: block;
+	margin-left:5px;
+	text-indent:-9999px;
+	float:right;
+}
+
+span.salve {
+	display:block;
+	float:left;
+	line-height:32px;
 }

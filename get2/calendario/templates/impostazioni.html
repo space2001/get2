@@ -63,7 +63,7 @@
 <span class="titolo impostazioni">Mansioni</span>
 <menu class="impostazioni">
 <ul>
-<li class="aggiungi"><a href="/mansioni/nuovo">Aggiungi mansione</a></li>
+<li class="aggiungi"><a href="/impostazioni/mansione/nuovo">Aggiungi mansione</a></li>
 </ul>
 </menu>
 <table>
@@ -85,14 +85,14 @@
 <span class="titolo impostazioni">Tipi di turno</span>
 <menu class="impostazioni">
 <ul>
-<li class="aggiungi"><a href="#">Aggiungi mansione</a></li>
+<li class="aggiungi"><a href="/impostazioni/tipo_turno/nuovo">Aggiungi Tipo Turno</a></li>
 </ul>
 </menu>
-<div id="elenco">
+<table>
 {% for tipo_turno in tipi_turno %}
-	{% include "elenco_tipo_turno/dettagli.html" %}
+	 <!-- {% cycle 'riga1' 'riga2' as riga %} --> {% include "elenco_tipo_turno/dettagli.html" %}
 {% endfor %}
-</div>
+</table>
 </div>
 
 

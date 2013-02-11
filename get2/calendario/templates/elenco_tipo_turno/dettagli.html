@@ -1,21 +1,33 @@
 <script type="">
+$(document).ready(function(){
+$("#tipo_turno-{{tipo_turno.id}} span.img_chiudi").hide();
+$("#dettagli_requisito-{{tipo_turno.id}}").hide();
+});
+
 function dettagli(tipo_turno_id,azione){
 if (azione=="apri"){
-	$("#dettagli_requisito-"+tipo_turno_id).show();}
+	$("#dettagli_requisito-"+tipo_turno_id).show();
+	$("#tipo_turno-"+tipo_turno_id+" span.img_dettagli").hide();
+	$("#tipo_turno-"+tipo_turno_id+" span.img_chiudi").show();
+}
 else {
-	$("#dettagli_requisito-"+tipo_turno_id).hide();}
+	$("#dettagli_requisito-"+tipo_turno_id).hide();
+	$("#tipo_turno-"+tipo_turno_id+" span.img_dettagli").show();
+	$("#tipo_turno-"+tipo_turno_id+" span.img_chiudi").hide();
+	}
 }
 </script>
 
-<div class="riga" id="tipo_turno-{{tipo_turno.id}}">
-	<div class="col">{{tipo_turno}}</div>
-	<div class="col operazioni">
-	<a href="#" onclick='dettagli({{tipo_turno.id}},"apri");'>apri dettagli</a>
-	<a href="#" onclick='dettagli({{tipo_turno.id}},"chiudi");'>chiudi dettagli</a>
-	<a href="/tipo_turno/elimina/{{tipo_turno.id}}">elimina</a>
-	</div>
-	</div>
-	<div class="riga" id="requisiti-{{tipo_turno.id}}">
+<tr class="mansioni {{riga}}" id="tipo_turno-{{tipo_turno.id}}">
+
+	<td class="tipo_turno">{{tipo_turno}}</td>
+	<td class="operazioni">
+	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica"></span></a>
+	<a href="#" onclick='dettagli({{tipo_turno.id}},"apri");'><span class="img_dettagli"></span></a>
+	<a href="#" onclick='dettagli({{tipo_turno.id}},"chiudi");'><span class="img_chiudi"></span></a>
+	<a href="impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina"></span></a>
+	</td>
+	<td class="dettagli">
 
 		{% for requisito in tipo_turno.req_tipo_turno.all %}
 			
@@ -25,24 +37,28 @@ else {
 			});</script>
 		{% endfor %}
 	
-	<div class="riga dettagli_requisito" id="dettagli_requisito-{{tipo_turno.id}}">
+	<div id="dettagli_requisito-{{tipo_turno.id}}" class="dettagli_requisito">
 		{% for mansione in mansioni %}
 		
 		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
 		<form id="form-{{mansione.id}}-{{tipo_turno.id}}" action="" method="post" accept-charset="utf-8">{% csrf_token %}
 		<input type="hidden" name="mansione" value="{{mansione.id}}">
 		<input type="hidden" name="tipo_turno" value="{{tipo_turno.id}}">
-		<p>{{mansione}}
-			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'>
+		<span class="mansione">{{mansione}}</span>
+		
+			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()' class="s">
 			<option value="NULL" selected="selected">----</option>
 			{% for op,op_val in operatori %}
 			<option value="{{op}}">{{op_val}}</option>
 			{% endfor %}
-			<input type="text" name="valore" id="id_valore" onkeydown='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()'/>
+			<input class="s" type="text" name="valore" id="id_valore" onkeydown='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()' size="1"/>
 			</select>
-		</p>
+		
+		<span id="applica-{{mansione.id}}-{{tipo_turno.id}}"  style="display: none" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')" class="img_applica"></span>
 		</div></form>
-		<div id="applica-{{mansione.id}}-{{tipo_turno.id}}" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')" style="display: none">applica
-		</div>
+		
 
-    	{% endfor %}</div></div>
+    	{% endfor %}</div>
+</td>
+</tr>
+	

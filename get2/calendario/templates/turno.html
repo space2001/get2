@@ -1,0 +1,31 @@
+<script>	
+$(document).ready(function(){
+var maxHeight = Math.max.apply(null, $(".giorno").map(function ()
+{
+    return $(this).height();
+}).get());
+
+$(".giorno").height(maxHeight);});
+</script>
+
+	<div class="turno" id="turno-{{t.id}}" >
+		<div class="titolo-turno-{{t.coperto}}">{{t.coperto}}</div>
+		<div class="titolo-turno">
+		<b><i>{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</i> {{t.identificativo}} </b>
+		</div>
+		{% for requisito in t.tipo.req_tipo_turno.all %}
+			<span class="mansione-calendario">{{requisito.mansione}} ({{requisito.operatore}} {{requisito.valore}})</span>
+			{% for disp in t.turno_disponibilita.all %}
+				{% if disp.mansione = requisito.mansione and disp.tipo = 'Disponibile' %}
+				<span class="persona-turno">{{disp.persona}}</span><span class="img_rimuovi"></span></br>
+				{% endif %}
+			{% endfor %}
+		<a href="/calendario/cerca_persona/{{t.id}}/{{requisito.mansione.id}}"><span class="aggiungi">aggiungi {{requisito.mansione}}</span></a>
+		{% endfor %}
+		<div class="footer-turno">
+			
+			<a href="/calendario/turno/elimina/{{t.id}}"><span class="img_elimina turno"></span></a>
+			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica turno"></span></a>
+			<span class="tipo_turno">{{t.tipo}}</span>
+		</div>
+		</div>

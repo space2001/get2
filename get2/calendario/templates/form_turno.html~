@@ -5,14 +5,13 @@
 <link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
 <script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
 <script type="text/javascript" src="{% static "jquery-ui-timepicker-addon.js" %}" ></script>
-<script type="text/javascript" src="{% static "touch.js" %}" ></script>
 {% endblock %}
 
 
 {% block menu2 %}
 
 <div id="navigazione">
-<div class="nav-inizio nav"><span class="calendario-nav"> Calendario</span></div>
+<div class="nav-inizio nav"><a href="/calendario"><span class="calendario-nav"> Calendario</span></a></div>
 <div class="nav-fine nav">Nuovo turno</div>
 </div>
 
@@ -48,6 +47,7 @@ window.onload = function()
 	$(function() {
 		var dates = $( "#id_ripeti_da, #id_ripeti_al" ).datepicker({
 			defaultDate: "+1w",
+			dateFormat: "dd-mm-yy",
 			changeMonth: true,
 			numberOfMonths: 3,
 			onSelect: function( selectedDate ) {
@@ -73,7 +73,7 @@ window.onload = function()
      };
      
      $(function() {
-		$( "#id_inizio_0" ).datepicker();
+		$( "#id_inizio_0" ).datepicker({ dateFormat: "dd-mm-yy" });
 	});
 
      
@@ -101,11 +101,11 @@ window.onload = function()
   {% endif %}
 
   {% ifequal azione 'Aggiungi' %}
-  <form action="/turno/nuovo/" method="post">{% csrf_token %}
+  <form action="calendario/turno/nuovo/" method="post">{% csrf_token %}
   {% endifequal %}
 
   {% ifequal azione 'Modifica' %}
-  <form action="/turno/modifica/{{ turno_id }}/" method="post">{% csrf_token %}
+  <form action="calendario/turno/modifica/{{ turno_id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table id="form_turno">
   {{form.as_table}}

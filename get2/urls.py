@@ -28,14 +28,20 @@ urlpatterns += patterns('get2.calendario',
 	# notifiche
 	(r'^notifiche/$', 'views.elenco_notifica'),
 	# mansioni
-	(r'^mansioni/nuovo/$', 'views.nuovo_mansione'),
+	(r'^impostazioni/mansione/nuovo/$', 'views.nuovo_mansione'),
+	(r'^impostazioni/mansione/modifica/(?P<mansione_id>\w+)/$', 'views.modifica_mansione'),
+	(r'^impostazioni/mansione/elimina/(?P<mansione_id>\w+)/$', 'views.elimina_mansione'),
 	# turno
-	(r'^turno/nuovo/$', 'views.nuovo_turno'),
-	(r'^turno/modifica/(?P<turno_id>\w+)/$', 'views.modifica_turno'),
-	(r'^turno/elimina/(?P<turno_id>\w+)/$', 'views.elimina_turno'),
+	(r'^calendario/turno/nuovo/$', 'views.nuovo_turno'),
+	(r'^calendario/turno/modifica/(?P<turno_id>\w+)/$', 'views.modifica_turno'),
+	(r'^calendario/turno/elimina/(?P<turno_id>\w+)/$', 'views.elimina_turno'),
+	(r'^calendario/cerca_persona/(?P<turno_id>\w+)/(?P<mansione_id>\w+)', 'views.cerca_persona'),
+	(r'^calendario/disponibilita/(?P<turno_id>\w+)/(?P<mansione_id>\w+)/(?P<persona_id>\w+)/(?P<disponibilita>\w+)', 'views.disponibilita'),
 	#(r'^turno/cerca_persona/(?P<turno_id>\w+)/(?P<mansione_id>\w+)/$', 'views.turno_cerca'),
 	# impostazioni
 	(r'^impostazioni/$', 'views.impostazioni'),
+	(r'^impostazioni/tipo_turno/nuovo/$', 'views.nuovo_tipo_turno'),
+	(r'^impostazioni/tipo_turno/modifica/(?P<tipo_turno_id>\w+)/$', 'views.modifica_tipo_turno'),
 	(r'^impostazioni/tipo_turno/elimina/(?P<tipo_turno_id>\w+)/$', 'views.elimina_tipo_turno'),
 )
 

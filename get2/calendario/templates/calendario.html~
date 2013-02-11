@@ -11,34 +11,29 @@
 </ul>
 
 <div id="navigazione">
-<div class="nav-solo nav"><img src="/static/24/calendario.png""> Calendario</div>
+<div class="nav-solo nav"><span class="calendario-nav"> Calendario</span></div>
 </div>
 
 {% endblock %}
 
 {% block main %}
 
-<div id="calendario">
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
 
 {% for giorno, turno in calendario %}
-    <div id="giorno-{{forloop.counter}}" class="giorno">
-    <div id="{{giorno|date:"D"}}" class="titolo-giorno">{{giorno|date:"D d M"}}</div>
+    <div id="giorno-{{forloop.counter}}" class="giorno {% cycle 'giorno1' 'giorno2' %}">
+    <span class="titolo-giorno">{{giorno|date:"D d M"}}</span>
     
 	{% for t in turno%}
-		<div class="turno-{{t.coperto}} turno" id="turno-{{t.id}}" >
-		<div class="titolo-turno"><b>{{t.identificativo}} </b><br>{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</div>
-		{% for requisito in t.tipo.req_tipo_turno.all %}
-			{{requisito.mansione}} {{requisito.operatore}}
-		{% endfor %}
-		</div>
+ciao
+	{% include "turno.html" %}
 	{% endfor %}
 
 	</div>
 {% endfor %}
-</div>
+
 
 
 {% endblock %}

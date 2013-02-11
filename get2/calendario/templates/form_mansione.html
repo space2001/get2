@@ -6,7 +6,7 @@
 {% block menu2 %}
 
 <div id="navigazione">
-<div class="nav-inizio nav"><a href="/impostazioni"><span class="calendario-nav"> Impostazioni</span></a></div>
+<div class="nav-inizio nav"><a href="/impostazioni"><span class="impostazioni-nav"> Impostazioni</span></a></div>
 <div class="nav-fine nav">Nuova mansione</div>
 </div>
 
@@ -19,11 +19,11 @@
   {% endif %}
 
   {% ifequal azione 'nuovo' %}
-  <form action="/mansioni/nuovo/" method="post">{% csrf_token %}
+  <form action="/impostazioni/mansione/nuovo/" method="post">{% csrf_token %}
   {% endifequal %}
 
-  {% ifequal azione 'Modifica' %}
-  <form action="/mansioni/modifica/{{ mansione_id }}/" method="post">{% csrf_token %}
+  {% ifequal azione 'modifica' %}
+  <form action="/impostazioni/mansione/modifica/{{ mansione.id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table id="form_mansione">
   {{form.as_table}}

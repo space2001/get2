@@ -149,7 +149,7 @@ class Disponibilita(models.Model):
 	ultima_modifica = models.DateTimeField()
 	creata_da = models.ForeignKey(User, related_name='creata_da_disponibilita')
 	turno = models.ForeignKey(Turno, related_name='turno_disponibilita')
-	mansione = models.ForeignKey(Mansione, blank=True, null=True, on_delete=models.SET_NULL)
+	mansione = models.ForeignKey(Mansione, related_name='mansione_disponibilita',blank=True, null=True, on_delete=models.SET_NULL)
 
 
 class Notifica(models.Model):
