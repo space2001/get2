@@ -164,6 +164,11 @@ def requisito_form(request, form, form_id):
     dajax.remove_css_class(str(form_id)+ ' #id_valore', 'ui-state-error')
     if form.data.get('operatore')=='NULL' and Requisito.objects.filter(mansione=f['mansione'],tipo_turno=f['tipo_turno']).exists():
         r=Requisito.objects.get(mansione=form.data.get('mansione'),tipo_turno=form.data.get('tipo_turno'))
+        turni=Turno.objects.filter(tipo=form.data.get('tipo_turno'))
+        for t in turni:
+             for d in Disponibilita.objects.filter(turno=t, mansione=form.data.get('mansione')):
+                d.mansione=None
+                d.save()
         r.delete()
         dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
         dajax.assign(str(form_id)+ ' input', 'value','')

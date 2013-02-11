@@ -66,15 +66,16 @@ span.img_rimuovi{
 	display: block;
 	float:right;
 	cursor:pointer;
+	text-indent:-9999px;
 }
 
 span.img_aggiungi{
 	height: 16px;
-	width: 16px;
+	width:	text-indent:-9999px; 16px;
 	margin: 0px;
 	padding: 0px;
   	padding-right: 10px;
-  	border: 0;
+  	border	text-indent:-9999px;: 0;
 	background: url(aggiungi2.png) no-repeat center top;
 	display: block;
 	float:right;
@@ -431,6 +432,7 @@ span.impostazioni-nav{
 	margin-top:0px;
 	float:left;
 	width: 14.2%;
+	border-right: 1px solid #ddd;
 }
 
 .giorno1{
@@ -438,7 +440,7 @@ span.impostazioni-nav{
 }
 
 .giorno2{
-	background: #ffe1b7;
+
 }
 
 .azioni {
@@ -552,7 +554,7 @@ span.mansione{
 .turno {
 	margin: 5px;
 	margin-top:10px;
-	border: 1px solid #bbb;
+	border: 1px solid #999;
 	border-radius:0.3em;
 	background: rgb(242, 240, 237);
 
@@ -592,6 +594,7 @@ div.footer-turno {
 	background: url(sfondo_user.png) repeat-x center top;
 	border-top:1px solid #aaa;
 	margin-bottom:0px;
+	margin-top:6px;
 	height:24px;
 	padding-left:5px;
 	padding-top:0px;
@@ -604,33 +607,60 @@ margin-left:20px;
 margin-bottom:20px;
 }
 
-.mansione-calendario {
-	border-bottom:1px solid #ddd;
-	text-align: right;
-	padding-right:3px;
-	font-size:13px;
+.mansione-calendario-True {
+	border-bottom:1px solid #999;
+	text-align: left;
+	padding-left:15px;
+	font-size:15px;
 	display:block;
-	color: #666;
+	font-weight:bold;
+	color: #222;
 	margin-top: 10px;
+	background: rgb(204, 255, 153);
 }
 
+.mansione-calendario-False {
+	border-bottom:1px solid #999;
+	text-align: left;
+	padding-left:15px;
+	font-size:15px;
+	display:block;
+	font-weight:bold;
+	color: #222;
+	margin-top: 10px;
+	background: rgb(255, 204, 153);
+}
 span.aggiungi {
 	background: url(16/aggiungi.png) no-repeat right top;
 	height:20px;
 	display:block;
-	text-align:right;
-	margin-right:3px;
-	padding-right:20px;
+	text-align:left;
+	margin-right: 3px;
 	font-size: 13px;
+	margin-top:3px;
+	padding-left:10px;
 }
 
 .img_modifica.turno, .img_elimina.turno {
 float: right;}
 
 span.persona-turno{
-margin-left:5px;
-padding-left:10px;
-line-height:18px;
+
+	margin-top:3px;
+	padding-left:10px;
+	line-height:19px;
+	background: #fff;
+	border-bottom:1px solid #bbb;
+	background: #eee;
+	display:block;
+	background: #ffffff;
+	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
+	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -o-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
 }
 
 span.tipo_turno {

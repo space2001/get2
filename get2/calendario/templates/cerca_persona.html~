@@ -31,18 +31,16 @@ function disp(selettore){
 {%for persona in persone%}
 	{% for d in turno.turno_disponibilita.all %}
 	{% if persona = d.persona %}
-	{{persona}}
+	{{persona}}{{d.tipo}}
 	<script type="text/javascript">
 	$(document).ready(function(){
 		var s = $('#sel-{{persona.id}}');
 		//s.remove(0);
 		if('{{d.mansione.id}}'!='{{mansione.id}}'){
 			if('{{d.tipo}}'=='Disponibile'){s.empty(); s.append("<option value=''>Gia Impeganto</option>");}
-		//s.remove(0);
-		//s.remove(0);
-		
+			else {$('#sel-{{persona.id}} option').filter(function() { return this.text == '{{d.tipo}}';}).attr('selected', true);}
 		}
-		else { $('#sel-{{persona.id}} option').filter(function() { return this.text == 'd.tipo';}).attr('selected', true);}}
+		else { $('#sel-{{persona.id}} option').filter(function() { return this.text == '{{d.tipo}}';}).attr('selected', true);} }
 	);
 	</script>
 	{% endif %}
@@ -54,8 +52,7 @@ function disp(selettore){
 		<SELECT NAME="stato"  ONCHANGE="disp(this);" id="sel-{{persona.id}}">
 <OPTION VALUE="">----
 {%for key,value in DISPONIBILITA %}
-<OPTION VALUE="{{turno.id}}/{{mansione.id}}/{{persona.id}}/{{key}}">{{value}}
-{% endfor%}
+<OPTION VALUE="{{turno.id}}/{{mansione.id}}/{{persona.id}}/{{key}}">{{value}}{% endfor%}
 </SELECT>
 	</td>
 	</tr>

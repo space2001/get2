@@ -127,6 +127,7 @@ def cerca_persona(request, turno_id, mansione_id):
 ####   disponibilita   ####
 
 def disponibilita_verifica_tempo(request, turno):
+	#pdb.set_trace()
 	if request.user.is_staff:
 		verifica=True
 		errore=''
@@ -145,16 +146,22 @@ def disponibilita_verifica_tempo(request, turno):
 		else:
 			verifica=True
 			errore=''
+	print errore
 	return (verifica,errore)
 
+def rimuovi_disponibilita(request, disp_id):
+	d=Disponibilita.objects.get(id=disp_id)
+	d.tipo='Indisponibile'
+	d.save()
+	return HttpResponseRedirect('/calendario')
 
 def disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo):
 	if Disponibilita.objects.filter(persona_id=persona_id,turno=contemporaneo).exists():
 		for d in Disponibilita.objects.filter(persona_id=persona_id,turno=contemporaneo):
-			if d.tipo=="Disponibile":
-				persona= Persona.objects.get(id=persona_id)
-				notifica_disponibilita(request,persona,contemporaneo,'Non piu disponibile',contemporaneo.mansione)
-			d.delete()
+			#if d.tipo=="Disponibile":
+				#persona= Persona.objects.get(id=persona_id)
+				#notifica_disponibilita(request,persona,contemporaneo,'Non piu disponibile',contemporaneo.mansione)
+			rimuovi_disponibilita(d.id)
 
 
 def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
@@ -168,7 +175,7 @@ def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 	disp.turno=Turno.objects.get(id=turno_id)
 	disp.mansione=Mansione.objects.get(id=mansione_id)
 	#verifico se la disponibilita e entro i tempi corretti
-	if disponibilita_verifica_tempo(request, disp.turno)[0] or true:
+	if disponibilita_verifica_tempo(request, disp.turno)[0]:
 		#una persona puo avere una sola disponibilita per turno
 		if Disponibilita.objects.filter(persona=disp.persona,turno=disp.turno ).exists():
 			esistente=Disponibilita.objects.get(persona=disp.persona, turno=disp.turno )
@@ -177,11 +184,14 @@ def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 			esistente.delete()
 		#risolvo i conflitti con i turni contemporanei
 		for contemporaneo in disp.turno.contemporanei():
-			disponibilita_risolvi_contemporaneo(persona_id,contemporaneo)
+			disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo)
 		disp.save()
 		#if not request.user.is_staff:
 			#notifica_disponibilita(request,disponibilita.persona,disponibilita.turno,tipo_disponibilita,disponibilita.mansione)
 	return HttpResponseRedirect('/calendario')
+
+
+
 ####   fine disponibilita   ####
 
 ####   notifica   ####

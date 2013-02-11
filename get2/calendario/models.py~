@@ -3,6 +3,7 @@ from django import forms
 from django.contrib.auth.models import User
 import operator, datetime
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+import pdb
 
 class Mansione(models.Model):
 	descrizione = models.CharField('Descrizione',max_length=200)
@@ -56,7 +57,7 @@ class TipoTurnoForm(forms.ModelForm):
 OPERATORI=(('=','Uguale a'),('>','Maggiore di'))
 
 class Requisito(models.Model):
-	mansione=models.ForeignKey(Mansione)
+	mansione=models.ForeignKey(Mansione, related_name="req_mansione")
 	operatore=models.CharField('operatore', max_length=10, choices=OPERATORI )
 	valore=models.IntegerField()
 	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno")
@@ -86,10 +87,9 @@ class Turno(models.Model):
 	fine = models.DateTimeField()
 	tipo = models.ForeignKey(TipoTurno, blank=True, null=True, on_delete=models.SET_NULL)
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
-	#da rivedere! anche coperto
 	def verifica_requisito(self,requisito):
+		#pdb.set_trace()
 		contatore=0
-		#ottimizzare sotto con filter
 		for d in self.turno_disponibilita.all():
 			if (d.mansione==requisito.mansione):
 				contatore+=1
@@ -100,18 +100,16 @@ class Turno(models.Model):
 	def coperto(self):
 		if self.tipo:
 			for r in Requisito.objects.filter(tipo_turno=self.tipo_id):
-				contatore=0
-				for d in self.turno_disponibilita.all():
-					if (d.mansione==r.mansione):
-						contatore+=1
-						operatore=ops[r.operatore]
-						if not operatore(contatore,r.valore):
-							return False
+				if not self.verifica_requisito(r):
+					return False
 		return True
 	def contemporanei(self):
 		i=self.inizio+datetime.timedelta(seconds=1)
 		f=self.fine-datetime.timedelta(seconds=1)
 		return Turno.objects.filter( (models.Q(inizio__lte=i) & models.Q(fine__gte=f)) | models.Q(inizio__range=(i ,f)) | models.Q(fine__range=(i,f)) ).exclude(id=self.id)
+	def mansioni(self):
+		pdb.set_trace()
+		return Mansione.objects.filter(req_mansione__tipo_turno=self.tipo)
 
 class TurnoForm(forms.ModelForm):
 	def __init__(self, *args, **kwargs):
@@ -149,7 +147,7 @@ class Disponibilita(models.Model):
 	ultima_modifica = models.DateTimeField()
 	creata_da = models.ForeignKey(User, related_name='creata_da_disponibilita')
 	turno = models.ForeignKey(Turno, related_name='turno_disponibilita')
-	mansione = models.ForeignKey(Mansione, blank=True, null=True, on_delete=models.SET_NULL)
+	mansione = models.ForeignKey(Mansione, related_name='mansione_disponibilita',blank=True, null=True, on_delete=models.SET_NULL)
 
 
 class Notifica(models.Model):
