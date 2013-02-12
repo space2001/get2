@@ -39,7 +39,6 @@ $(".giorno").height(maxHeight);
 
 {% for giorno, turno in calendario %}
     <div id="giorno-{{forloop.counter}}" class="giorno {% cycle 'giorno1' 'giorno2' %}">
-	{{request.user}}
     <span class="titolo-giorno">{{giorno|date:"D d M"}}</span>
     
 	{% for t in turno%}

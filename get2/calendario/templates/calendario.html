@@ -26,9 +26,6 @@ var maxHeight = Math.max.apply(null, $(".giorno").map(function ()
 }).get());
 
 $(".giorno").height(maxHeight);
-{% if not request.user.is_staff %}
-	$('.staff').hide()
-{% endif %}
 
 });
 </script>

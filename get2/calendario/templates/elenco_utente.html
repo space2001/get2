@@ -33,41 +33,41 @@ function utente_staff(selettore){
 
 </script>
 
+<table>
+<tr class="intestazione">
+<td>Username</td><td>E-mail</td><td>Persona associata</td><td>Privilegi di Staff</td><td>Operazioni</td>
+</tr>
 {% for utente in utenti %}
 
 <script type="text/javascript">
-$(document).ready(function(){
-
-var s = document.getElementById('{{utente.id}}');
-if('{{utente.get_profile.id}}'!=''){
-	for (var i=0 ; i < s.length; i++)
-		if (s.options[i].text=='{{utente.get_profile}}')
-			s.selectedIndex = i;
-}
-$( "a", ".operazioni" ).button();
-
-
-return true;
-})
+	$(document).ready(function(){
+	var s = document.getElementById('{{utente.id}}');
+	if('{{utente.get_profile.id}}'!=''){
+		for (var i=0 ; i < s.length; i++)
+			if (s.options[i].text=='{{utente.get_profile}}')
+				s.selectedIndex = i;}
+	return true;})
 </script>
-	<div class="utente riga" id="utente-{{utente.id}}">
-	<div class="login col">{{utente}}</div>
-	<div class="mail col">{{utente.email}}</div>
-	<div class="persona col">
+
+<tr class="utente {% cycle 'riga1' 'riga2' %}" id="utente-{{utente.id}}">
+	<td class="username">{{utente}}</td>
+	<td class="mail">{{utente.email}}</td>
+	<td class="persona">
 		<SELECT NAME="stato"  ONCHANGE="utente_persona(this)" id="{{utente.id}}">
 		<OPTION VALUE="{{utente.id}}/n">Nessuno
 		{% for persona in persone %}
 		<OPTION VALUE="{{utente.id}}/{{persona.id}}">{{persona}}
 		{% endfor %}
 		</SELECT>
-	</div>
-	<div class="staff col">{%if not utente.is_superuser%}
+	</td>
+	<td class="privilegi_staff">{%if not utente.is_superuser%}
  		<input id="staff-{{utente.id}}" type="checkbox" value="{{utente.id}}" ONCHANGE="utente_staff(this);" 
-		{%if utente.is_staff%}checked="true"{%endif%}/>{%else%} superuser {%endif%}</div>
-	<div class="operazioni col"><a href="/utente/modifica/{{utente.id}}/"> modifica </a>
+		{%if utente.is_staff%}checked="true"{%endif%}/>{%else%} superuser {%endif%}</td>
+	<td class="operazioni"><a href="/utenti/modifica/{{utente.id}}"><span class="img_modifica"></span></a>
 		<a href="/utente/modifica/{{utente.id}}/password" > modifica password </a>
-		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'>elimina</a></div>
-	</div>
+		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
+	</td>
+
 	<script>
 	$(function() {
 		$( "#elimina-utente-{{utente.id}}" ).dialog({
@@ -92,9 +92,9 @@ return true;
 		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>Vuoi veramente eliminare l' utente {{utente}}?
 	</p>
 	</div>
-
+</tr>
 {% endfor %}
-
+</table>
 
 
 {% endblock %}

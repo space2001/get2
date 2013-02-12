@@ -236,7 +236,7 @@ def nuovo_utente(request):
 		form = UserCreationForm2(request.POST) # A form bound to the POST data
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/utente/elenco') # Redirect after POST
+			return HttpResponseRedirect('/utenti/') # Redirect after POST
 	else:
 		form = UserCreationForm2()
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))
@@ -248,7 +248,7 @@ def modifica_utente(request,utente_id):
 		form = UserChangeForm2(request.POST, instance=user,)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/utente/elenco') # Redirect after POST
+			return HttpResponseRedirect('/utenti/') # Redirect after POST
 	else:
 		form = UserChangeForm2(instance=user)
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione, 'user': user,}, RequestContext(request))
@@ -259,7 +259,7 @@ def modifica_password_utente(request,utente_id):
 		form = AdminPasswordChangeForm(user=user, data=request.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/utente/elenco') # Redirect after POST
+			return HttpResponseRedirect('/utenti/') # Redirect after POST
 	else:
 		form = AdminPasswordChangeForm(user=user)
 	return render_to_response('form_password_utente.html',{'request':request, 'form': form, 'user': user,}, RequestContext(request))

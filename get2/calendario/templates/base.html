@@ -3,11 +3,24 @@
 <html>
 <head>
 	<title>{% block title %}Get 2.0{% endblock %}</title>
-    <link rel="stylesheet" type="text/css" href="{% static "style.css" %}" />
-    {% dajaxice_js_import %}
-    <script type="text/javascript" src="{% static "jquery.core.js" %}"></script>
-    <script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}" />
+	{% dajaxice_js_import %}
+	<script type="text/javascript" src="{% static "jquery.core.js" %}"></script>
+	<script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
 	{% block head %}{% endblock %}
+	<script>	
+	$(document).ready(function(){
+	{% if not request.user.is_staff %}
+		$('.staff').hide()
+	{% endif %}
+	{% if not request.user.id %}
+		$('.user').hide()
+	{% endif %}
+	{% if not request.user.is_superuser %}
+		$('.superuser').hide()
+	{% endif %}
+	});
+</script>
 </head>
 <body>
 	<div id="user">	{% if request.user.id%}<div id="nome"><span class="salve">Salve, <b>{{request.user}} </b><a href="/accounts/logout"></span><span class="esci">ESCI</span></a></div>	
@@ -18,11 +31,11 @@
 	<menu id='menu1'>
 	<ul>
 	<li class="calendario"><a href="/calendario/">Calendario</a></li>
-	<li class="persone"><a href="/persone/">Persone</a></li>
-	<li class="statistiche"><a href="/statistiche/">Statistiche</a></li>
-	<li class="utenti"><a href="/utenti/">Utenti</a></li>
-	<li class="notifiche"><a href="/notifiche/">Notifiche</a></li>
-	<li class="impostazioni"><a href="/impostazioni/">Ipostazioni</a></li>	
+	<li class="persone staff"><a href="/persone/">Persone</a></li>
+	<li class="statistiche user"><a href="/statistiche/">Statistiche</a></li>
+	<li class="utenti staff"><a href="/utenti/">Utenti</a></li>
+	<li class="notifiche user"><a href="/notifiche/">Notifiche</a></li>
+	<li class="impostazioni superuser"><a href="/impostazioni/">Ipostazioni</a></li>
 	</ul>
 	<script>
 	var url="{{request.path}}";

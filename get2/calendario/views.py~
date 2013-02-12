@@ -149,6 +149,11 @@ def disponibilita_verifica_tempo(request, turno):
 	print errore
 	return (verifica,errore)
 
+def rimuovi_disponibilita(request, disp_id):
+	d=Disponibilita.objects.get(id=disp_id)
+	d.tipo='Indisponibile'
+	d.save()
+	return HttpResponseRedirect('/calendario')
 
 def disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo):
 	if Disponibilita.objects.filter(persona_id=persona_id,turno=contemporaneo).exists():
@@ -185,11 +190,7 @@ def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 			#notifica_disponibilita(request,disponibilita.persona,disponibilita.turno,tipo_disponibilita,disponibilita.mansione)
 	return HttpResponseRedirect('/calendario')
 
-def rimuovi_disponibilita(request, disp_id):
-	d=Disponibilita.objects.get(id=disp_id)
-	d.tipo='Indisponibile'
-	d.save()
-	return HttpResponseRedirect('/calendario')
+
 
 ####   fine disponibilita   ####
 
@@ -235,7 +236,7 @@ def nuovo_utente(request):
 		form = UserCreationForm2(request.POST) # A form bound to the POST data
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/utente/elenco') # Redirect after POST
+			return HttpResponseRedirect('/utenti/') # Redirect after POST
 	else:
 		form = UserCreationForm2()
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))
@@ -247,7 +248,7 @@ def modifica_utente(request,utente_id):
 		form = UserChangeForm2(request.POST, instance=user,)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/utente/elenco') # Redirect after POST
+			return HttpResponseRedirect('/utenti/') # Redirect after POST
 	else:
 		form = UserChangeForm2(instance=user)
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione, 'user': user,}, RequestContext(request))
@@ -258,7 +259,7 @@ def modifica_password_utente(request,utente_id):
 		form = AdminPasswordChangeForm(user=user, data=request.POST)
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/utente/elenco') # Redirect after POST
+			return HttpResponseRedirect('/utenti/') # Redirect after POST
 	else:
 		form = AdminPasswordChangeForm(user=user)
 	return render_to_response('form_password_utente.html',{'request':request, 'form': form, 'user': user,}, RequestContext(request))
