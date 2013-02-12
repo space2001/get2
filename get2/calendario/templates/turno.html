@@ -1,14 +1,6 @@
 
 {% load template_filters %}
-<script>	
-$(document).ready(function(){
-var maxHeight = Math.max.apply(null, $(".giorno").map(function ()
-{
-    return $(this).height();
-}).get());
 
-$(".giorno").height(maxHeight);});
-</script>
 
 	<div class="turno" id="turno-{{t.id}}" >
 		<div class="titolo-turno-{{t.coperto}}"></div>
@@ -19,20 +11,20 @@ $(".giorno").height(maxHeight);});
 			<span class="mansione-calendario-{{t|verifica_requisito:requisito }}">{{requisito.mansione}}</span>
 			{% for disp in t.turno_disponibilita.all %}
 				{% if disp.mansione = requisito.mansione and disp.tipo = 'Disponibile' %}
-				<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi"></span></span>
+				<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi staff"></span></span>
 				{% endif %}
 		{% endfor %}
-		<a href="/calendario/cerca_persona/{{t.id}}/{{requisito.mansione.id}}"><span class="aggiungi">aggiungi {{requisito.mansione}}</span></a>
+		<a href="/calendario/cerca_persona/{{t.id}}/{{requisito.mansione.id}}"><span class="aggiungi staff">aggiungi {{requisito.mansione}}</span></a>
 		{% endfor %}
 		{% for disp in t.turno_disponibilita.all %}
 			{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
 			{% if forloop.first %}<span class="mansione-calendario">Altre mansioni</span>{% endif  %}
-			<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi"><a href="/calendario/rimuovi_disponibilita/{{disp.id}}">rimuovi</a></span></span>
+			<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi staff"><a href="/calendario/rimuovi_disponibilita/{{disp.id}}">rimuovi</a></span></span>
 			{% endif %}
 		{% endfor %}
 		<div class="footer-turno">
-			<a href="/calendario/turno/elimina/{{t.id}}"><span class="img_elimina turno"></span></a>
-			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica turno"></span></a>
+			<a href="/calendario/turno/elimina/{{t.id}}"><span class="img_elimina turno staff"></span></a>
+			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica turno staff"></span></a>
 			<span class="tipo_turno">{{t.tipo}}</span>
 		</div>
 		</div>

@@ -4,6 +4,19 @@
 <link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
 <script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
 {% endblock %}
+
+{% block menu2 %}
+<ul>
+<li class="nuovo-persona staff"><a href="/utenti/nuovo">Nuovo Utente</a></li>
+</ul>
+
+<div id="navigazione">
+<div class="nav-solo nav"><span class="utenti-nav"> Utenti</span></div>
+</div>
+
+{% endblock %}
+
+
 {% block main %}
 
 <script type="text/javascript">

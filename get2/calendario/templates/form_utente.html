@@ -9,11 +9,11 @@
   {% endif %}
 
   {% ifequal azione 'nuovo' %}
-  <form action="/utente/nuovo/" method="post">{% csrf_token %}
+  <form action="/utenti/nuovo/" method="post">{% csrf_token %}
   {% endifequal %}
 
   {% ifequal azione 'modifica' %}
-  <form action="/utente/modifica/{{ user.id }}/" method="post">{% csrf_token %}
+  <form action="/utenti/modifica/{{ user.id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table>
   {{form.as_table}}

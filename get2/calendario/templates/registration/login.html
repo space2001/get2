@@ -16,6 +16,7 @@
 <form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %}
 <table>
 <div id="login">
+<input type="hidden" name="next" value="/calendario/" />
 <table>
 <tr>
     <td>{{ form.username.label_tag }}</td>
@@ -26,7 +27,7 @@
     <td>{{ form.password }}</td>
 </tr>
 <tr><td></td><td><input type="submit" value="Accedi" />
-<input type="hidden" name="next" value="/calendario/" /></td></tr>
+</td></tr>
 <tr><td colspan="2"><hr></td></tr>
 <tr><td colspan="2"><a href="/utente/reset/">Password dimenticata?</a></td></tr>
 </table>
