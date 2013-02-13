@@ -31,7 +31,6 @@ function disp(selettore){
 {%for persona in persone%}
 	{% for d in turno.turno_disponibilita.all %}
 	{% if persona = d.persona %}
-	{{persona}}{{d.tipo}}
 	<script type="text/javascript">
 	$(document).ready(function(){
 		var s = $('#sel-{{persona.id}}');
