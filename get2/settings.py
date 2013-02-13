@@ -12,7 +12,7 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': '/home/matteo/get2/get2.sqlite',                      # Or path to database file if using sqlite3.
+        'NAME': '/home/betmaster/workspace/Python/get2/get2.sqlite',                      # Or path to database file if using sqlite3.
         'USER': '',                      # Not used with sqlite3.
         'PASSWORD': '',                  # Not used with sqlite3.
         'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
@@ -86,6 +86,7 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
     'django.template.loaders.eggs.Loader',
+    'nano.chunk.loader.Loader'
 )
 
 
@@ -120,6 +121,7 @@ INSTALLED_APPS = (
     'south',
     'dajaxice',
     'dajax',
+    'nano.privmsg',
     'get2.calendario',
     # Uncomment the next line to enable the admin:
     # 'django.contrib.admin',

@@ -1,5 +1,5 @@
-from django.conf.urls import patterns, url, include
-
+from django.conf.urls.defaults import *
+from django.views.generic.simple import direct_to_template
 
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
@@ -25,8 +25,6 @@ urlpatterns += patterns('get2.calendario',
 	(r'^utenti/nuovo/$', 'views.nuovo_utente'),
 	(r'^utenti/modifica/(?P<utente_id>\w+)/password/$', 'views.modifica_password_utente'),
 	(r'^utenti/modifica/(?P<utente_id>\w+)/$', 'views.modifica_utente'),
-	# notifiche
-	(r'^notifiche/$', 'views.elenco_notifica'),
 	# mansioni
 	(r'^impostazioni/mansione/nuovo/$', 'views.nuovo_mansione'),
 	(r'^impostazioni/mansione/modifica/(?P<mansione_id>\w+)/$', 'views.modifica_mansione'),
@@ -61,3 +59,16 @@ urlpatterns += patterns('',
     (r'^accounts/login/$', 'django.contrib.auth.views.login', {'template_name':'login.html'} ),
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/calendario/'}),
     )
+
+#Notifiche
+urlpatterns += patterns('nano.privmsg.views',
+url(r'^notifiche/add$',          'add_pm', name='add_pm'),
+url(r'^notifiche/(?P<msgid>[1-9][0-9]*)/archive$', 'move_to_archive', name='archive_pm'),
+url(r'^notifiche/(?P<msgid>[1-9][0-9]*)/delete$', 'delete', name='delete_pm'),
+#url(r'^(?:(?P<action>(archive|sent))/?)?$', 'show_pms', name='show_pms'),
+url(r'^notifiche/archive/$', 'show_pm_archived', name='show_archived_pms'),
+url(r'^notifiche/sent/$', 'show_pm_sent', name='show_sent_pms'),
+url(r'^notifiche/$', 'show_pm_received', name='show_pms'),
+#url(r'^$', 'show_pms', {u'action': u'received'}, name='show_pms'),
+)
+
