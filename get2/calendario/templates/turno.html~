@@ -1,13 +1,19 @@
-{% load static %}
-{% block head %}
 
-{% endblock %}
 {% load template_filters %}
 
-{% if request.user.id and  not request.user.is_staff %}
-	<div id="disponibilita-{{t.id}}" title="Disponibilita per il turno {{t}}">
-		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>Vuoi veramente eliminare l' utente {{utente}}?
-	</p>
+{% if request.user.get_profile and  not request.user.is_staff %}
+	<div id="disponibilita-{{t.id}}" title="Nuova disponibilita">
+		Seleziona la mansione che vuoi ricoprire per il turno del {{t.inizio|date:"d M"}}, ore {{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}:
+		</br>
+		</br>
+		<select>
+		<option value="">seleziona mansione
+		{% for requisito in t.tipo.req_tipo_turno.all %}
+			{% if requisito.mansione in request.user.get_profile.mansione.all %}
+			<option value="requisito.mansione">{{requisito.mansione}}
+			{% endif %}
+		{% endfor %}
+		</select>
 	</div>
 <script>
 $(document).ready(function(){
