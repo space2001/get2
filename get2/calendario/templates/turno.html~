@@ -1,21 +1,38 @@
+{% load static %}
+{% block head %}
 
+{% endblock %}
 {% load template_filters %}
-<script>	
+
+{% if request.user.id and  not request.user.is_staff %}
+	<div id="disponibilita-{{t.id}}" title="Disponibilita per il turno {{t}}">
+		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>Vuoi veramente eliminare l' utente {{utente}}?
+	</p>
+	</div>
+<script>
 $(document).ready(function(){
-var maxHeight = Math.max.apply(null, $(".giorno").map(function ()
-{
-    return $(this).height();
-}).get());
-
-$(".giorno").height(maxHeight);
-{% if request.user.is_staff %}
-	$('.staff').hide()
-{% endif %}
-
-});
+		$( "#disponibilita-{{t.id}}" ).dialog({
+			resizable: false,
+			modal: true,
+			autoOpen: false,
+			buttons: {
+				"Applica": function() {
+					Dajaxice.get2.calendario.disponibilita_turno(Dajax.process,{'turno_id':{{t.id}}});
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	$('#turno-{{t.id}}').click(function () {$("#disponibilita-{{t.id}}" ).dialog("open");});
+	});
 </script>
 
+
+{% endif %}
 	<div class="turno" id="turno-{{t.id}}" >
+		
 		<div class="titolo-turno-{{t.coperto}}"></div>
 		<div class="titolo-turno">
 		<b><i>{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</i> {{t.identificativo}} </b>

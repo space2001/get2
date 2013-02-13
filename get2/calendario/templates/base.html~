@@ -5,13 +5,25 @@
 	<title>{% block title %}Get 2.0{% endblock %}</title>
 	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}" />
 	{% dajaxice_js_import %}
-	<script type="text/javascript" src="{% static "jquery.core.js" %}"></script>
+<script src="/static/jquery.min.js"></script>
+<script src="/static/jquery-ui.min.js"></script>
+<link type="text/css" href="/static/Delta/theme/jquery-ui.css" rel="stylesheet" />
+<script src="/static/Delta/js/modernizr-2.0.6.min.js"></script>
+<script src="/static/Delta/js/jquery.imgpreload.min.js"></script>
+<script src="/static/Delta/js/jquery-ui.toggleSwitch.js"></script>
+<script src="/static/Delta/js/custom.js"></script>
 	<script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
 	{% block head %}{% endblock %}
 	<script>	
 	$(document).ready(function(){
 	{% if not request.user.is_staff %}
 		$('.staff').hide()
+	{% endif %}
+	{% if not request.user.id %}
+		$('.user').hide()
+	{% endif %}
+	{% if not request.user.is_superuser %}
+		$('.superuser').hide()
 	{% endif %}
 	});
 </script>

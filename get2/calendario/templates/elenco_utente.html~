@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
-<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
+
 {% endblock %}
 
 {% block menu2 %}
@@ -65,7 +64,8 @@ function utente_staff(selettore){
 		{%if utente.is_staff%}checked="true"{%endif%}/>{%else%} superuser {%endif%}</td>
 	<td class="operazioni"><a href="/utenti/modifica/{{utente.id}}"><span class="img_modifica"></span></a>
 		<a href="/utente/modifica/{{utente.id}}/password" > modifica password </a>
-		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'>elimina</a></td>
+		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
+	</td>
 
 	<script>
 	$(function() {
