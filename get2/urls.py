@@ -36,7 +36,7 @@ urlpatterns += patterns('get2.calendario',
 	(r'^calendario/turno/modifica/(?P<turno_id>\w+)/$', 'views.modifica_turno'),
 	(r'^calendario/turno/elimina/(?P<turno_id>\w+)/$', 'views.elimina_turno'),
 	(r'^calendario/cerca_persona/(?P<turno_id>\w+)/(?P<mansione_id>\w+)', 'views.cerca_persona'),
-	(r'^calendario/disponibilita/(?P<turno_id>\w+)/(?P<mansione_id>\w+)/(?P<persona_id>\w+)/(?P<disponibilita>\w+)', 'views.disponibilita'),
+	(r'^calendario/disponibilita/(?P<turno_id>\w+)/(?P<mansione_id>\w+)/(?P<persona_id>\w+)/(?P<disponibilita>\w+)', 'views.disponibilita_url'),
 	(r'^calendario/rimuovi_disponibilita/(?P<disp_id>\w+)', 'views.rimuovi_disponibilita'),
 	#(r'^turno/cerca_persona/(?P<turno_id>\w+)/(?P<mansione_id>\w+)/$', 'views.turno_cerca'),
 	# impostazioni

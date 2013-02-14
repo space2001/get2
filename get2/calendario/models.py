@@ -90,7 +90,7 @@ class Turno(models.Model):
 	def verifica_requisito(self,requisito):
 		#pdb.set_trace()
 		contatore=0
-		for d in self.turno_disponibilita.all():
+		for d in self.turno_disponibilita.filter(tipo="Disponibile").all():
 			if (d.mansione==requisito.mansione):
 				contatore+=1
 		operatore=ops[requisito.operatore]

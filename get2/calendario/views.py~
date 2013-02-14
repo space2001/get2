@@ -126,28 +126,33 @@ def cerca_persona(request, turno_id, mansione_id):
 
 ####   disponibilita   ####
 
+DISP_MIN=1
+DISP_MAX=0
+
 def disponibilita_verifica_tempo(request, turno):
-	#pdb.set_trace()
+#	pdb.set_trace()
 	if request.user.is_staff:
 		verifica=True
 		errore=''
 	else:
 		now=datetime.datetime.now()
 		diff=turno.inizio-now
-		if diff<0:
+		if diff.days<0:
 			verifica=False
 			errore='passato'
-		elif diff<DISP_MIN:
+		elif diff.days<DISP_MIN:
 			verifica=False
 			errore='vicino'
-		elif diff>DISP_MAX:
+		elif diff.days>DISP_MAX:
 			verifica=False
 			errore='lontano'
 		else:
 			verifica=True
 			errore=''
 	print errore
+	print diff.days
 	return (verifica,errore)
+
 
 def rimuovi_disponibilita(request, disp_id):
 	d=Disponibilita.objects.get(id=disp_id)
@@ -164,7 +169,7 @@ def disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo):
 			rimuovi_disponibilita(d.id)
 
 
-def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
+def nuova_disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 	#inizializzo ma non salvo un oggetto disponibilita
 	#pdb.set_trace()
 	disp=Disponibilita()
@@ -175,7 +180,8 @@ def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 	disp.turno=Turno.objects.get(id=turno_id)
 	disp.mansione=Mansione.objects.get(id=mansione_id)
 	#verifico se la disponibilita e entro i tempi corretti
-	if disponibilita_verifica_tempo(request, disp.turno)[0]:
+	verifica_tempo=disponibilita_verifica_tempo(request, disp.turno)
+	if verifica_tempo[0]:
 		#una persona puo avere una sola disponibilita per turno
 		if Disponibilita.objects.filter(persona=disp.persona,turno=disp.turno ).exists():
 			esistente=Disponibilita.objects.get(persona=disp.persona, turno=disp.turno )
@@ -188,9 +194,15 @@ def disponibilita(request, turno_id, mansione_id, persona_id, disponibilita):
 		disp.save()
 		#if not request.user.is_staff:
 			#notifica_disponibilita(request,disponibilita.persona,disponibilita.turno,tipo_disponibilita,disponibilita.mansione)
-	return HttpResponseRedirect('/calendario')
+	return verifica_tempo
 
 
+def disponibilita_url(request, turno_id, mansione_id, persona_id, disponibilita):
+	d=nuova_disponibilita(request, turno_id, mansione_id, persona_id, disponibilita)
+	if d[0]:
+		return HttpResponseRedirect('/calendario')
+	else:
+		print d[1]
 
 ####   fine disponibilita   ####
 

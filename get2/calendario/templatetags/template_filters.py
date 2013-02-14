@@ -11,3 +11,8 @@ def verifica_requisito(instance, arg):
 # template usage
 #{{ instance|verifica_requisito:"value1" }}
 
+@register.filter
+def gia_disponibile(instance, arg):
+	if instance.persona_disponibilita.filter(turno=arg,tipo="Disponibile"):
+		return instance.persona_disponibilita.filter(turno=arg,tipo="Disponibile")[0].id
+	return False

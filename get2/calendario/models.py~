@@ -90,7 +90,7 @@ class Turno(models.Model):
 	def verifica_requisito(self,requisito):
 		#pdb.set_trace()
 		contatore=0
-		for d in self.turno_disponibilita.all():
+		for d in self.turno_disponibilita.filter(tipo="Disponibile").all:
 			if (d.mansione==requisito.mansione):
 				contatore+=1
 		operatore=ops[requisito.operatore]
@@ -108,7 +108,6 @@ class Turno(models.Model):
 		f=self.fine-datetime.timedelta(seconds=1)
 		return Turno.objects.filter( (models.Q(inizio__lte=i) & models.Q(fine__gte=f)) | models.Q(inizio__range=(i ,f)) | models.Q(fine__range=(i,f)) ).exclude(id=self.id)
 	def mansioni(self):
-		pdb.set_trace()
 		return Mansione.objects.filter(req_mansione__tipo_turno=self.tipo)
 
 class TurnoForm(forms.ModelForm):
