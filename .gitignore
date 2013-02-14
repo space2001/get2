@@ -1,3 +1,4 @@
 *.pyc
 *.sqlite
 *.py~
+get2/settings.py
