@@ -174,3 +174,5 @@ class UserChangeForm2(UserChangeForm):
 		return "" # This is a temporary fix for a django 1.4 bug
 
 
+
+

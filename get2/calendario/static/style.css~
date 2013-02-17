@@ -33,12 +33,19 @@ table {
 	margin:0px;
 	border:0px;
 	border-collapse: collapse;
+	width: 100%;
+	margin-left:20px;
+	margin-bottom:20px;
 }
 
 td {
 	padding: 3px 12px;
 	vertical-align: top;
 	font-size: 16px;
+}
+
+th {
+	text-align:left;
 }
 
 tr.riga1 {
@@ -419,6 +426,12 @@ span.persone-nav{
 	display: block;
 }
 
+span.utenti-nav{
+	padding-left: 30px;
+	background: url(24/utenti.png) no-repeat left center;
+	display: block;
+}
+
 span.impostazioni-nav{
 	padding-left: 30px;
 	background: url(24/impostazioni.png) no-repeat left center;
@@ -602,10 +615,6 @@ div.footer-turno {
 
 }
 
-table {
-margin-left:20px;
-margin-bottom:20px;
-}
 
 .mansione-calendario {
 	border-bottom:1px solid #999;
@@ -708,4 +717,9 @@ span.salve {
 	display:block;
 	float:left;
 	line-height:32px;
+}
+
+.bordo {
+	margin:10px;
+
 }

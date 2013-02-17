@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<script language="javascript" type="text/javascript" src="/static/js/flot/jquery.flot.js"></script>
+{% endblock %}
+
+
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-solo nav"><span class="statistiche-nav"> Statistiche</span></div>
+</div>
+
+{% endblock %}
+{% block main %}
+
+<div id="tabs" class="bordo">
+	<ul>
+		{% for statistica in elenco_statistiche %}
+		<li><a href="#tabs-{{ forloop.counter }}">{{statistica}}</a></li>
+		{% endfor %}
+	</ul>
+{% for statistica,dati in dati %}
+
+<div id="tabs-{{ forloop.counter }}">
+
+<div id="placeholder" style="width:100%;height:300px"></div>
+
+
+<table class="cento">
+<tr class="intestazione">
+<th>Posizione</th><th>Persona</th><th>Turni effettuati</th>
+</tr>
+{% for d in dati %}
+<tr class='{% cycle 'riga1' 'riga2' %}'>
+<td>{{forloop.counter}}</td><td>{{d}}</td><td>{{d.tot_turni}}</td>
+</tr>
+{% endfor%}
+</table>
+<script type="text/javascript">
+
+$(function () {
+    $.plot($("#placeholder"),   [ { label: "Turni totali", data: [
+{% for d in dati|slice:":10"%}
+[{{forloop.counter}}, {{d.tot_turni}}],
+{% endfor %}
+ ], bars: { show: true }}], {xaxis: { ticks:[
+{% for d in dati|slice:":10"%}
+[{{forloop.counter}}+0.5,"{{d}}"],
+{% endfor%}
+] }} );
+});
+</script>
+
+</div>
+{% endfor %}
+
+</div>
+{% endblock %}

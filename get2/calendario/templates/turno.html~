@@ -12,7 +12,9 @@
 		<option value="">seleziona mansione
 		{% for requisito in t.tipo.req_tipo_turno.all %}
 			{% if requisito.mansione in request.user.get_profile.competenze.all %}
-			<option value="{{requisito.mansione.id}}">{{requisito.mansione}}
+				{% if not requisito.operatore = "=" or not t|verifica_requisito:requisito  %}
+					<option value="{{requisito.mansione.id}}">{{requisito.mansione}}
+				{% endif %}
 			{% endif %}
 		{% endfor %}
 		</select>
@@ -91,7 +93,7 @@ $(document).ready(function(){
 		{% for disp in t.turno_disponibilita.all %}
 			{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
 			{% if forloop.first %}<span class="mansione-calendario">Altre mansioni</span>{% endif  %}
-			<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi staff"><a href="/calendario/rimuovi_disponibilita/{{disp.id}}">rimuovi</a></span></span>
+			<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff">rimuovi</span></a></span>
 			{% endif %}
 		{% endfor %}
 		<div class="footer-turno">

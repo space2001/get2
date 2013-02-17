@@ -149,8 +149,8 @@ def disponibilita_verifica_tempo(request, turno):
 		else:
 			verifica=True
 			errore=''
-	print errore
-	print diff.days
+	#cprint errore
+	#print diff.days
 	return (verifica,errore)
 
 
@@ -405,3 +405,27 @@ def elimina_turno(request, turno_id):
 	return HttpResponseRedirect('/calendario/')
 
 #### fine turno ####
+
+
+#### inizio statistiche ####
+elenco_statistiche=("Turni totali",
+			)
+
+def statistiche(request):
+	#se l' intervallo non e specificato prendo tutto
+	dati=statistiche_intervallo(request,datetime.date(2000,1,1),datetime.datetime.now().date())
+	return render_to_response('statistiche.html',{'dati': dati,'elenco_statistiche':elenco_statistiche,'request':request}, RequestContext(request))
+
+def statistiche_intervallo(request, inizio, fine):
+	#la funzione calcola le statistiche tra due date, rihiede 2 oggetti datetime.date
+	dati=[]
+	dati.append(elenco_statistiche)
+	stat=[]
+	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile").annotate(tot_turni=Count('persona_disponibilita')))
+	dati.append(stat)
+	dati=zip(*dati)
+	#risp=Persona.objects.filter(persona_disponibilita__tipo="Disponibile").annotate(tot_turni=Count('persona_disponibilita'))
+	return dati
+
+
+#### fine statistiche ####

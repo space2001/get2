@@ -42,6 +42,8 @@ urlpatterns += patterns('get2.calendario',
 	(r'^impostazioni/tipo_turno/nuovo/$', 'views.nuovo_tipo_turno'),
 	(r'^impostazioni/tipo_turno/modifica/(?P<tipo_turno_id>\w+)/$', 'views.modifica_tipo_turno'),
 	(r'^impostazioni/tipo_turno/elimina/(?P<tipo_turno_id>\w+)/$', 'views.elimina_tipo_turno'),
+	# statistiche
+	(r'^statistiche/', 'views.statistiche'),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',

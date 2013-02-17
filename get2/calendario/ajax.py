@@ -184,6 +184,6 @@ def requisito_form(request, form, form_id):
 def disp(request, turno_id, mansione_id, persona_id, disp):
 	dajax = Dajax()
 	#pdb.set_trace()
-	disponibilita(request, turno_id, mansione_id, persona_id, disp)
+	nuova_disponibilita(request, turno_id, mansione_id, persona_id, disp)
 	#dajax.alert(disponibilita)
 	return dajax.json()

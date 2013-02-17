@@ -83,7 +83,7 @@ $(document).ready(function(){
 			<small>{{requisito.operatore}} {{requisito.valore}}</small></span> 
 			{% for disp in t.turno_disponibilita.all %}
 				{% if disp.mansione = requisito.mansione and disp.tipo = 'Disponibile' %}
-				<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi staff"></span></span>
+				<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff"></span></a></span>
 				{% endif %}
 		{% endfor %}
 		{% if not requisito.operatore = "=" or not t|verifica_requisito:requisito  %}
@@ -93,7 +93,7 @@ $(document).ready(function(){
 		{% for disp in t.turno_disponibilita.all %}
 			{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
 			{% if forloop.first %}<span class="mansione-calendario">Altre mansioni</span>{% endif  %}
-			<span class="persona-turno">{{disp.persona}}<span class="img_rimuovi staff"><a href="/calendario/rimuovi_disponibilita/{{disp.id}}">rimuovi</a></span></span>
+			<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff">rimuovi</span></a></span>
 			{% endif %}
 		{% endfor %}
 		<div class="footer-turno">
