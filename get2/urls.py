@@ -60,15 +60,3 @@ urlpatterns += patterns('',
     (r'^accounts/logout/$', 'django.contrib.auth.views.logout', {'next_page': '/calendario/'}),
     )
 
-#Notifiche
-urlpatterns += patterns('nano.privmsg.views',
-url(r'^notifiche/add$',          'add_pm', name='add_pm'),
-url(r'^notifiche/(?P<msgid>[1-9][0-9]*)/archive$', 'move_to_archive', name='archive_pm'),
-url(r'^notifiche/(?P<msgid>[1-9][0-9]*)/delete$', 'delete', name='delete_pm'),
-#url(r'^(?:(?P<action>(archive|sent))/?)?$', 'show_pms', name='show_pms'),
-url(r'^notifiche/archive/$', 'show_pm_archived', name='show_archived_pms'),
-url(r'^notifiche/sent/$', 'show_pm_sent', name='show_sent_pms'),
-url(r'^notifiche/$', 'show_pm_received', name='show_pms'),
-#url(r'^$', 'show_pms', {u'action': u'received'}, name='show_pms'),
-)
-
