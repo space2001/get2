@@ -33,9 +33,13 @@ table {
 	margin:0px;
 	border:0px;
 	border-collapse: collapse;
-	width: 100%;
+
 	margin-left:20px;
 	margin-bottom:20px;
+}
+
+table.cento{
+	width: 100%;
 }
 
 td {
@@ -125,6 +129,10 @@ span.img_chiudi{
 	display: block;
 	float:left;
 	cursor:pointer;
+}
+
+.destra{
+	float: right;
 }
 
 
@@ -278,9 +286,9 @@ span.img_applica{
 
 #contenuto{
 background-color:#fff;
-border-top:1px solid #ccc;
-border-left:1px solid #ccc;
-border-bottom:1px solid #ccc;
+border-top:1px solid #888;
+border-left:1px solid #888;
+border-bottom:1px solid #888;
 border-top-left-radius:1em;
 border-bottom-left-radius:1em;
 overflow: hidden;
@@ -438,6 +446,11 @@ span.impostazioni-nav{
 	display: block;
 }
 
+span.statistiche-nav{
+	padding-left: 30px;
+	background: url(24/statistiche.png) no-repeat left center;
+	display: block;
+}
 
 
 .giorno {
@@ -722,4 +735,21 @@ span.salve {
 .bordo {
 	margin:10px;
 
+}
+
+
+div.menu-main{
+	width: 100%;
+	border-bottom: 1px solid #bbb;
+	background-color: #bbb;
+	text-align:center;
+	padding:7px;
+	line-height: 24px;
+	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
+	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -o-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
 }

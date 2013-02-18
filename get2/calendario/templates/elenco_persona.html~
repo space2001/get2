@@ -19,7 +19,7 @@
 {% block main %}
 <script src="/static/sorttable.js"></script>
 </br>
-<table class="sortable">
+<table class="sortable cento">
 <tr class="intestazione">
 <th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th>
 </tr>
