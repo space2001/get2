@@ -187,3 +187,16 @@ def disp(request, turno_id, mansione_id, persona_id, disp):
 	nuova_disponibilita(request, turno_id, mansione_id, persona_id, disp)
 	#dajax.alert(disponibilita)
 	return dajax.json()
+
+@dajaxice_register
+def aggiorna_statistiche(request,da,al):
+	dajax=Dajax()
+	if (da!="" and al!=""):
+		data_da=datetime.datetime.strptime(da, "%d/%m/%Y").date()
+		data_al=datetime.datetime.strptime(al, "%d/%m/%Y").date()
+		dati=statistiche_intervallo(request,data_da,data_al)
+		html_statistiche = render_to_string( 'statistiche/statistiche.html', { 'dati': dati, 'elenco_statistiche': elenco_statistiche, 'request':request } )
+		dajax.assign('div #stat', 'innerHTML', html_statistiche)
+		#dajax.alert("ciao")
+		#pdb.set_trace()
+	return dajax.json()

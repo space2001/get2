@@ -131,10 +131,6 @@ span.img_chiudi{
 	cursor:pointer;
 }
 
-.destra{
-	float: right;
-}
-
 
 span.img_dettagli{
 	height: 24px;
@@ -201,47 +197,44 @@ span.img_applica{
 
 #nome {
 	height: 36px;
-	width: 260px;
+	display: inline-block;
 	margin: 0px auto;
 	border:0px;
 	border-right: 1px solid #bbb;
 	padding-left:20px;
 	padding-right:20px;
 	border-left: 1px solid #bbb;
-	display: block;
 	font-size: 15px;
 	background-color: #ddd;
+}
+
+#nome input {
+	margin: 0px;
+	margin-top: 3px;
+	margin-right: 10px;
+	border: 1px solid #bbb;
 }
 
 
 #login_up {
 	height: 36px;
-	width: 590px;
 	margin: 0px auto;
 	border:0px;
 	border-right: 1px solid #bbb;
 	padding-left:20px;
 	border-left: 1px solid #bbb;
-	display: block;
 	font-size: 15px;
 	background-color: #ddd;
+	display: inline-block;
 }
 
 #login_up input {
 	margin: 0px;
-	margin-top: 6px;
+	margin-top: 3px;
 	margin-right: 10px;
 	border: 1px solid #bbb;
 }
 
-#login_up input.invio {
-	border: none;
-	margin-top:2px;
-	height:32px;
-	width:32px;
-	background: url(invio.png) repeat-x center center;
-	cursor:pointer;
-}
 
 
 #user {
@@ -249,7 +242,7 @@ span.img_applica{
 	margin: 0px;
 	height: 36px;
 	background: url(sfondo_user.png) repeat-x center top;
-	
+	text-align:center;	
 }
 
 #menu1{

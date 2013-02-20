@@ -3,20 +3,35 @@
 
 
 {% block menu2 %}
-
+<script>
+$(document).ready(function(){ $("div.menu-main").hide(); });
+</script>
 <div id="navigazione">
 <div class="nav-solo nav"><span class="persone-nav"> Persone</span></div>
 </div>
 
 <ul>
 <li class="nuovo-persona"><a href="/persone/nuovo">Nuova persona</a></li>
-<li class="cerca"><a href="#">Cerca persona</a></li>
+<li class="cerca" onclick="$('div.menu-main').slideDown()"><a href="#">Cerca persona</a></li>
 
 </ul>
 
 {% endblock %}
 
 {% block main %}
+
+<div class="menu-main">
+	<span class="img_chiudi destra"  onclick="$('div.menu-main').slideUp()" ></span>
+	Ricerca persone
+	<form method="post" action="" id="intervallo_date">{% csrf_token %}
+	<label for="from">dal: </label>
+	<input type="text" id="from" name="from" /> 
+	<label for="to">al: </label>
+	<input type="text" id="to" name="to" />
+	<input type="button" value="Cerca" onclick=""/></form>
+</div>
+
+
 <script src="/static/sorttable.js"></script>
 </br>
 <table class="sortable cento">

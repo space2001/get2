@@ -421,7 +421,8 @@ def statistiche_intervallo(request, inizio, fine):
 	dati=[]
 	dati.append(elenco_statistiche)
 	stat=[]
-	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile").annotate(tot_turni=Count('persona_disponibilita')))
+	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile", persona_disponibilita__turno__inizio__gte=inizio, persona_disponibilita__turno__fine__lte=fine ).annotate(tot_turni=Count('persona_disponibilita')))
+	#pdb.set_trace()
 	dati.append(stat)
 	dati=zip(*dati)
 	#risp=Persona.objects.filter(persona_disponibilita__tipo="Disponibile").annotate(tot_turni=Count('persona_disponibilita'))
