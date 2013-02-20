@@ -737,7 +737,8 @@ div.menu-main{
 	background-color: #bbb;
 	text-align:center;
 	padding:7px;
-	line-height: 24px;
+	height: 28px;
+	line-height: 20px;
 	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
 	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);

@@ -3,7 +3,7 @@
 
 {% block menu2 %}
 <ul>
-<li class="nuovo-turno staff"><a href="/turno/nuovo">Nuovo Turno</a></li>
+<li class="nuovo-turno staff"><a href="/turni/nuovo">Nuovo Turno</a></li>
 <li class="avanti"><a href="/calendario/settavanti">Avanti</a></li>
 <li class="oggi"><a href="/calendario/oggi">Oggi</a></li>
 <li class="indietro"><a href="/calendario/settindietro">Indietro</a></li>
@@ -39,7 +39,7 @@ $(".giorno").height(maxHeight);
     <span class="titolo-giorno">{{giorno|date:"D d M"}}</span>
     
 	{% for t in turno%}
-		 <!-- {{request}} -->{% include "turno.html" %}
+		{% include "turno.html" %}
 	{% endfor %}
 
 	</div>

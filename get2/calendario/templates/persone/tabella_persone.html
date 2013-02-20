@@ -1,0 +1,46 @@
+<table class="sortable cento">
+<tr class="intestazione">
+<th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th>
+</tr>
+{% for persona in persone %}
+
+	<tr class="persona {% cycle 'riga1' 'riga2' %}" id="persona-{{persona.id}}">
+	<td class="nome">{{persona}}</td>
+	<td class="mansioni">{% for m in persona.competenze.all %} <span class="competenza">{{m}}</span> {% endfor %}</td>
+	<td class="stato"><SELECT NAME="stato"  ONCHANGE="" id="sel-{{persona.id}}">
+		{%for key,value in stati %}
+		<OPTION VALUE="{{d}}">{{value}}
+		{% endfor%}
+		</SELECT></td>
+	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
+		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
+	</td>
+	</tr>
+	<script>
+	$(function() {
+		$( "#elimina-persona-{{persona.id}}" ).dialog({
+			resizable: false,
+			modal: true,
+			autoOpen: false,
+			buttons: {
+				"Elimina": function() {
+					Dajaxice.get2.calendario.elimina_persona(Dajax.process,{'persona_id':{{persona.id}}});
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+					$( this ).dialog( "close" );
+				}
+			}
+		});
+	});
+	
+	</script>
+	<div id="elimina-persona-{{persona.id}}" title="Elimina {{persona}}">
+	<p>
+		<span class="ui-icon ui-icon-alert" style="float:left; margin:0 7px 50px 0;"></span>
+		Vuoi veramente eliminare {{persona}}?
+	</p>
+	</div>
+
+{% endfor %}
+</table>

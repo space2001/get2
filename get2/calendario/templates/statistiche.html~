@@ -28,6 +28,7 @@ $(function() {
  changeMonth: true,
  numberOfMonths: 3,
  dateFormat: "dd/mm/yy",
+ maxDate: "-1D",
  onClose: function( selectedDate ) {
  $( "#to" ).datepicker( "option", "minDate", selectedDate );
  }
@@ -47,7 +48,6 @@ $(function() {
 
 <div class="menu-main">
 	<span class="img_chiudi destra"  onclick="$('div.menu-main').slideUp()" ></span>
-	Statistiche
 	<form method="post" action="" id="intervallo_date">{% csrf_token %}
 	<label for="from">dal: </label>
 	<input type="text" id="from" name="from" /> 
