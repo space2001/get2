@@ -14,35 +14,23 @@
 
 {% endblock %}
 {% block main %}
-<div id="div_tipo_turno"><form action="" method="post" id="form_tipo_turno" accept-charset="utf-8">{% csrf_token %}
-    {{ tipo_turno_form.as_p }}
-</form>
-</div>
+
+<div id="tabs" class="bordo">
+	<ul>
+		<li><a href="#tabs-sistema">Impostazioni di sistema</a></li>
+		<li><a href="#tabs-personali">Impostazioni personali</a></li>
+		
+	</ul>
+
+<div id="tabs-sistema">
+
 
 	<script>
-	$(function() {
-		$( "#form_tipo_turno" ).dialog({
-			resizable: false,
-			modal: true,
-			autoOpen: false,
-			buttons: {
-				"Invia": function() {
-					send_form();
-				},
-				Cancel: function() {
-					$( this ).dialog( "close" );
-				}
-			}
-		});
-	});
 	
 	$(document).ready(function(){
 		
 		$( ".dettagli_requisito").hide();});
 	
-	function send_form(){
-    	Dajaxice.get2.calendario.tipo_turno_form(Dajax.process,{'form':$('#form_tipo_turno').serialize(true)});
-	}
 	function send_form_requisiti(form_id){
     	Dajaxice.get2.calendario.requisito_form(Dajax.process,{'form':$(form_id).serialize(true),'form_id':form_id});
 	}
@@ -94,7 +82,11 @@
 {% endfor %}
 </table>
 </div>
+</div>
+<div id="tabs-personali">
+</div>
 
+</div>
 
 
 {% endblock %}

@@ -49,28 +49,28 @@ def elimina_utente(request,utente_id):
 @dajaxice_register
 def utente_persona(request,user_id,persona_id):
     dajax = Dajax()
-    #s=''
+    s=''
     if Persona.objects.filter(user=user_id):
         a=User.objects.get(id=user_id)
         per=Persona.objects.get(user=user_id)
         per.user=None
         per.save()
         if persona_id=='n':
-            #s=s+'noty({"text":"l\' utente <b>'+str(a)+'</b> non e piu assegnato a <b>nessun volontario</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
+            s=s+'noty({"text":"l\' utente <b>'+str(a)+'</b> non e piu assegnato a <b>nessuna persona</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
             pass
 
     if persona_id!='n' and User.objects.filter(pers_user=persona_id):
         a=User.objects.get(pers_user=persona_id)
         dajax.assign('select#'+str(a.id),'selectedIndex','0')
-        #s=s+'noty({"text":"<b>Attenzione</b>:Il volontario era precedentemente assegnato all\'utente <b>'+str(a)+'</b>","layout":"bottomRight","type":"alert","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
+        s=s+'noty({"text":"<b>Attenzione</b>:La persona era precedentemente assegnato all\'utente <b>'+str(a)+'</b>","layout":"bottomRight","type":"alert","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
 
     if persona_id!='n':
         per=Persona.objects.get(id=persona_id)
         u=User.objects.get(id=user_id)
         per.user=u
-        #s=s+'noty({"text":"Il volontario <b>'+str(volprestazioni/)+'</b> e stato assegnato all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
+        s=s+'noty({"text":"La persona <b>'+str(per)+'</b> e stato assegnata all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
 
-    #dajax.script(s)
+    dajax.script(s)
     per.save()
     return dajax.json()
 
@@ -81,13 +81,13 @@ def utente_staff(request,user_id):
     if request.user.is_superuser:
         if u.is_staff:
             u.is_staff=False
-            #dajax.script('noty({"text":"<b>Rimossi</b> i privilegi di staff all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
+            dajax.script('noty({"text":"<b>Rimossi</b> i privilegi di staff all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
         else:
             u.is_staff=True
-            #dajax.script('noty({"text":"<b>Aggiunti</b> i privilegi di staff all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
+            dajax.script('noty({"text":"<b>Aggiunti</b> i privilegi di staff all\'utente <b>'+str(u)+'</b>","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
         u.save()
     else:
-        #dajax.script('noty({"text":"Solo l\'amministratore puo modificare i permessi degli utenti","layout":"bottomRight","type":"error","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});'
+        dajax.script('noty({"text":"Solo l\'amministratore puo modificare i permessi degli utenti","layout":"bottomRight","type":"error","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
         if u.is_staff:
             dajax.assign('input#staff-'+str(user_id),'checked',True)
         else:
@@ -175,6 +175,7 @@ def requisito_form(request, form, form_id):
     elif form.is_valid():
         form.save()
         dajax.script('$("#applica-'+str(form.data.get('mansione'))+'-'+str(form.data.get('tipo_turno'))+'").hide();')
+	dajax.script('noty({"text":"Modifiche apportate con successo","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
     else:
         for error in form.errors:
             dajax.add_css_class('%(form)s #id_%(error)s' % {"form": form_id, "error": error}, 'ui-state-error')
