@@ -17,6 +17,20 @@
 {% endblock %}
 
 {% block main %}
+<!--<script>-->
+<!-- $(function() {-->
+<!--$( "span.persona-draggable" ).draggable({ revert: true });-->
+<!--$( "div.droppable" ).droppable({-->
+<!--drop: function() {-->
+<!--alert( "dropped" );-->
+<!--}-->
+<!--});-->
+
+<!--});-->
+<!--</script>-->
+<!--<div class="menu-main">-->
+<!--	<span class="persona-draggable"> Matteo Lucchesi </span>-->
+<!--</div>-->
 
 <script>	
 $(document).ready(function(){
@@ -35,8 +49,8 @@ $(".giorno").height(maxHeight);
   {% endif %}
 
 {% for giorno, turno in calendario %}
-    <div id="giorno-{{forloop.counter}}" class="giorno {% cycle 'giorno1' 'giorno2' %}">
-    <span class="titolo-giorno">{{giorno|date:"D d M"}}</span>
+    <div id="giorno-{{forloop.counter}}" class="giorno droppable" >
+    <span class="titolo-giorno {% cycle 'giorno1' 'giorno2' %}">{{giorno|date:"D d M"}}</span>
     
 	{% for t in turno%}
 		{% include "turno.html" %}

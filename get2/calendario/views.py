@@ -38,7 +38,7 @@ def nuovo_persona(request):
 			return HttpResponseRedirect('/persone')
 	else:
 		form = PersonaForm()
-	return render_to_response('form_persona.html',{'form': form,'azione': azione,'mansione_form':MansioneForm()}, RequestContext(request))
+	return render_to_response('form_persona.html',{'request':request,'form': form,'azione': azione,'mansione_form':MansioneForm()}, RequestContext(request))
 	#else:
 	#	return render_to_response('staff-no.html')
 

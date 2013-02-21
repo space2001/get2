@@ -76,7 +76,7 @@ $(document).ready(function(){
 		
 		<div class="titolo-turno-{{t.coperto}}"></div>
 		<div class="titolo-turno">
-		<b><i>{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</i> {{t.identificativo}} </b>
+		<span class="titolo-turno1">{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</span><span class="titolo-turno2"> {{t.identificativo}}</span>
 		</div>
 		{% for requisito in t.tipo.req_tipo_turno.all %}
 			<span class="mansione-calendario-{{t|verifica_requisito:requisito }}">{{requisito.mansione}}

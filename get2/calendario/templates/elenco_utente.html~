@@ -1,8 +1,5 @@
 {% extends "base.html" %}
-{% load static %}
-{% block head %}
 
-{% endblock %}
 
 {% block menu2 %}
 <ul>
@@ -31,10 +28,11 @@ function utente_staff(selettore){
 }
 
 </script>
-
-<table>
+<script src="/static/sorttable.js"></script>
+</br>
+<table class="sortable cento">
 <tr class="intestazione">
-<td>Username</td><td>E-mail</td><td>Persona associata</td><td>Privilegi di Staff</td><td>Operazioni</td>
+<th>Username</th><th>E-mail</th><th>Persona associata</th><th>Privilegi di Staff</th><th class="sorttable_nosort">Operazioni</th>
 </tr>
 {% for utente in utenti %}
 

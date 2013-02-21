@@ -18,6 +18,8 @@
 {% endblock %}
 
 {% block main %}
+
+<div style="margin:10px;">
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
@@ -52,23 +54,25 @@
             changeYear: true,
             defaultDate: "-18y",
             maxDate: "-15y",
-            yearRange: "1900:2012"
+            yearRange: "1900:2012",
+	    dateFormat: "dd/mm/yy",
         });
 	});
 	};
   </script>
+
   {% ifequal azione 'nuovo' %}
-  <form action="/persona/nuovo/" method="post">{% csrf_token %}
+  <form action="/persone/nuovo/" method="post">{% csrf_token %}
   {% endifequal %}
 
   {% ifequal azione 'modifica' %}
-  <form action="/persona/modifica/{{ per.id }}/" method="post">{% csrf_token %}
+  <form action="/persone/modifica/{{ per.id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table>
   {{form.as_table}}
+  <tr><td></td><td><input type="submit" value="invia" /></td></tr>
   </table>
-  <input type="submit" value="Invia" /> <input type="reset" value="cancella">
   </form>    	
   <a href="#" onclick='$("#form_mansione" ).dialog("open");'>aggiungi mansione</a>
-  
+  </div>
 {% endblock %}

@@ -3,7 +3,7 @@
 
 {% block menu2 %}
 <ul>
-<li class="nuovo-turno staff"><a href="/turni/nuovo">Nuovo Turno</a></li>
+<li class="nuovo-turno staff"><a href="/calendario/turno/nuovo">Nuovo Turno</a></li>
 <li class="avanti"><a href="/calendario/settavanti">Avanti</a></li>
 <li class="oggi"><a href="/calendario/oggi">Oggi</a></li>
 <li class="indietro"><a href="/calendario/settindietro">Indietro</a></li>
@@ -17,6 +17,20 @@
 {% endblock %}
 
 {% block main %}
+<!--<script>-->
+<!-- $(function() {-->
+<!--$( "span.persona-draggable" ).draggable({ revert: true });-->
+<!--$( "div.droppable" ).droppable({-->
+<!--drop: function() {-->
+<!--alert( "dropped" );-->
+<!--}-->
+<!--});-->
+
+<!--});-->
+<!--</script>-->
+<!--<div class="menu-main">-->
+<!--	<span class="persona-draggable"> Matteo Lucchesi </span>-->
+<!--</div>-->
 
 <script>	
 $(document).ready(function(){
@@ -35,8 +49,8 @@ $(".giorno").height(maxHeight);
   {% endif %}
 
 {% for giorno, turno in calendario %}
-    <div id="giorno-{{forloop.counter}}" class="giorno {% cycle 'giorno1' 'giorno2' %}">
-    <span class="titolo-giorno">{{giorno|date:"D d M"}}</span>
+    <div id="giorno-{{forloop.counter}}" class="giorno droppable" >
+    <span class="titolo-giorno {% cycle 'giorno1' 'giorno2' %}">{{giorno|date:"D d M"}}</span>
     
 	{% for t in turno%}
 		{% include "turno.html" %}

@@ -2,8 +2,6 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
-<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
 <script type="text/javascript" src="{% static "jquery-ui-timepicker-addon.js" %}" ></script>
 {% endblock %}
 
@@ -95,7 +93,7 @@ window.onload = function()
 
 </script>
 
-
+<div style="margin:10px;">
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
@@ -109,7 +107,8 @@ window.onload = function()
   {% endifequal %}
   <table id="form_turno">
   {{form.as_table}}
+  <tr><td></td><td><input type="submit" value="invia" /></td></tr>
   </table>
-  <input type="submit" value="invia" />
   </form>
+</div>
 {% endblock %}

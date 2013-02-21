@@ -1,3 +1,15 @@
+/* css for timepicker */
+.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
+.ui-timepicker-div dl { text-align: left; }
+.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
+.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
+.ui-timepicker-div td { font-size: 90%; }
+.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
+
+.ui-timepicker-rtl{ direction: rtl; }
+.ui-timepicker-rtl dl { text-align: right; }
+.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
+
 @font-face {
 	font-family: Ubuntu;
 	src: url(Ubuntu-M.ttf);
@@ -459,7 +471,7 @@ span.statistiche-nav{
 }
 
 .giorno2{
-
+background: #ffe1b7;
 }
 
 .azioni {
@@ -561,12 +573,13 @@ span.mansione{
 
 .titolo-giorno {
 	padding-top:5px;
-	font-weight: bold;
 	font-size: 18px;
-	margin-right: 20px;
-	margin-left: 20px;
+	margin-right: 0px;
+	margin-left: 0px;
 	border-bottom: 1px solid rgb(255, 102, 102);
 	display:block;
+	text-align: center;
+	padding-bottom: 3px;
 	
 }
 
@@ -582,7 +595,7 @@ span.mansione{
 div.titolo-turno-True {
 	background: url(16/si.png) no-repeat right top;
 	width:16px;
-	height:16px;
+	height:20px;
 	float:right;
 	margin-top:-5px;
 	margin-right:5px;
@@ -592,7 +605,7 @@ div.titolo-turno-True {
 div.titolo-turno-False {
 	background: url(16/no.png) no-repeat right top;
 	width:16px;
-	height:16px;
+	height:20px;
 	float:right;
 	margin-top:-5px;
 	margin-right:5px;
@@ -601,20 +614,28 @@ div.titolo-turno-False {
 }
 
 .titolo-turno {
-	background: url(sfondo_user.png) repeat-x center top;
 	border-bottom:1px solid #aaa;
-	font-size:15px;
+	font-size:17px;
+	padding: -5px;
 	margin-bottom:10px;
 	padding-left:5px;
+	background: #ddd;
+	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
+	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -o-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
 
 }
 
 div.footer-turno {
-	background: url(sfondo_user.png) repeat-x center top;
+	background: #ddd;
 	border-top:1px solid #aaa;
 	margin-bottom:0px;
 	margin-top:6px;
-	height:24px;
+	height:22px;
 	padding-left:5px;
 	padding-top:0px;
 	font-size:14px;
@@ -695,7 +716,7 @@ span.tipo_turno {
 	float: left;
 	display: block;
 	line-height:24px;
-	color:#888;
+	color:#555;
 }
 
 span.competenza {
@@ -747,3 +768,29 @@ div.menu-main{
 	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
 }
+
+span.persona-draggable {
+	height:24px;
+	display:block;
+	float:left;
+	margin: 0px 10px;
+	border:1px solid #999;
+	border-radius:0.2em;
+	background: #eee url(24/persona.png) no-repeat left center;
+	padding:3px;
+	padding-left: 30px;
+}
+
+span.titolo-turno1{
+	font-size:20px;
+	font-weight: bold;
+	font-style: italic;
+	color:#444;
+}
+
+span.titolo-turno2{
+	font-size:15px;
+	font-style: italic;
+	color:#444;
+}
+
