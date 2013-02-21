@@ -44,7 +44,7 @@ function disp(selettore){
 	</script>
 	{% endif %}
 	{% endfor %}
-	<tr class="persona {% cycle 'riga1' 'riga2' %}" id="persona-{{persona.id}}">
+	<tr class="persona {% cycle 'riga1' 'riga2' %} stato-{{persona.stato}}" id="persona-{{persona.id}}">
 	<td class="nome">{{persona}}</td>
 	<td class="mansioni">{% for m in persona.competenze.all %}<span class="competenza">{{m}}</span>  {% endfor %}</td>
 	<td class="disponibilita">
@@ -55,6 +55,15 @@ function disp(selettore){
 </SELECT>
 	</td>
 	</tr>
+
+<script>
+$(document).ready(function() {
+	if('disponibile'!='{{persona.stato}}'){
+	$("#sel-{{persona.id}}").hide();
+	$("#persona-{{persona.id}} td.disponibilita").html("{{persona.get_stato_display}}")
+	}
+});
+</script>
 
 {% endfor%}
 </table>

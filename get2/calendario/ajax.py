@@ -209,3 +209,12 @@ def elenco_cerca_persone(request,cerca):
 	html_persona=render_to_string( 'persone/tabella_persone.html', { 'persone': persone, 'stati':STATI, 'request':request } )
 	dajax.assign("div#tabella_persone", "innerHTML", html_persona)
 	return dajax.json()
+
+@dajaxice_register
+def persona_stato(request,stato,persona):
+	dajax=Dajax()
+	per=Persona.objects.get(id=persona)
+	per.stato=stato
+	per.save()
+	dajax.script('noty({"text":"Modifiche apportate con successo","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
+	return dajax.json()	
