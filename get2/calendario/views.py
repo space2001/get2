@@ -404,6 +404,20 @@ def elimina_turno(request, turno_id):
 	t.delete()
 	return HttpResponseRedirect('/calendario/')
 
+def elimina_turno_occorrenza_succ(request, occorrenza_id):
+	o=Occorrenza.objects.get(id=occorrenza_id)
+	turni = Turno.objects.filter(occorrenza=o, inizio__gte=datetime.datetime.now())
+	for t in turni:
+		t.delete()
+	return HttpResponseRedirect('/calendario/')
+
+def elimina_turno_occorrenza(request, occorrenza_id):
+	o=Occorrenza.objects.get(id=occorrenza_id)
+	turni = Turno.objects.filter(occorrenza=o)
+	for t in turni:
+		t.delete()
+	return HttpResponseRedirect('/calendario/')
+
 #### fine turno ####
 
 

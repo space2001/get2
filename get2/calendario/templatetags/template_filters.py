@@ -16,3 +16,11 @@ def gia_disponibile(instance, arg):
 	if instance.persona_disponibilita.filter(turno=arg,tipo="Disponibile"):
 		return instance.persona_disponibilita.filter(turno=arg,tipo="Disponibile")[0].id
 	return False
+
+@register.filter
+def occorrenze(instance, arg):
+	return Turno.objects.filter(occorrenza=arg)
+
+@register.filter
+def turno_futuro(instance):
+	return instance.inizio>datetime.datetime.now()

@@ -716,7 +716,7 @@ span.tipo_turno {
 	float: left;
 	display: block;
 	line-height:24px;
-	color:#333;
+	color:#555;
 }
 
 span.competenza {
@@ -792,5 +792,27 @@ span.titolo-turno2{
 	font-size:15px;
 	font-style: italic;
 	color:#444;
+}
+
+
+span.emblem-generic{
+	padding-left: 24px;
+	font-size: 13px;
+	padding: 5px;
+	padding-left: 24px;
+	line-height: 30px;
+	background: url(22/emblem-generic.png) no-repeat left center;
+}
+
+li.occorrenze-True{
+font-size: 12px;
+border-bottom:1px solid #ccc;
+}
+
+li.occorrenze-False{
+color: #333;
+font-size: 12px;
+border-bottom:1px solid #ccc;
+background: #ddd;
 }
 

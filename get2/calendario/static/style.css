@@ -794,3 +794,26 @@ span.titolo-turno2{
 	color:#444;
 }
 
+
+span.emblem-generic{
+	padding-left: 24px;
+	font-size: 13px;
+	padding: 5px;
+	padding-left: 24px;
+	line-height: 30px;
+	background: url(22/emblem-generic.png) no-repeat left center;
+	cursor:pointer;
+}
+
+li.occorrenze-True{
+font-size: 12px;
+border-bottom:1px solid #ccc;
+}
+
+li.occorrenze-False{
+color: #333;
+font-size: 12px;
+border-bottom:1px solid #ccc;
+background: #ddd;
+}
+
