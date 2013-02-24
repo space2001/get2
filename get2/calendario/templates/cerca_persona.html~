@@ -13,6 +13,17 @@
 {% endblock %}
 
 {% block main %}
+
+<div class="menu-main">
+	Gia' Disponibili per questo turno:<div id="disponibili">
+	{% for d in turno.turno_disponibilita.all %}
+		{% if d.tipo = "Disponibile" %}
+		<span id="disponibile-{{d.id}}" class="disponibile">{{d.persona}} ({{d.mansione}})</span>
+		{% endif %}
+	{% endfor %}
+	</div>
+</div>
+
 <script type="text/javascript">
 function disp(selettore){
 	value=selettore.options[selettore.selectedIndex].value;
@@ -59,7 +70,9 @@ function disp(selettore){
 <script>
 $(document).ready(function() {
 	if('disponibile'!='{{persona.stato}}'){
-	$("#sel-{{persona.id}}").hide();}
+	$("#sel-{{persona.id}}").hide();
+	$("#persona-{{persona.id}} td.disponibilita").html("{{persona.get_stato_display}}")
+	}
 });
 </script>
 

@@ -24,3 +24,11 @@ def occorrenze(instance, arg):
 @register.filter
 def turno_futuro(instance):
 	return instance.inizio>datetime.datetime.now()
+
+@register.filter
+def turno_intervallo_disponibilita(instance):
+	return verifica_intervallo(instance)[0]
+	
+@register.filter
+def errore_turno_intervallo_disponibilita(instance):
+	return verifica_intervallo(instance)[1]

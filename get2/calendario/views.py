@@ -126,8 +126,26 @@ def cerca_persona(request, turno_id, mansione_id):
 
 ####   disponibilita   ####
 
-DISP_MIN=1
+DISP_MIN=2
 DISP_MAX=20
+
+def verifica_intervallo(turno):
+	now=datetime.datetime.now()
+	diff=turno.inizio-now
+	if diff.days<0:
+		verifica=False
+		errore='Turno passato'
+	elif diff.days<DISP_MIN:
+		verifica=False
+		errore='Troppo vicino (intervallo minore di '+str(DISP_MIN)+' giorni)'
+	elif diff.days>DISP_MAX:
+		verifica=False
+		errore='Troppo lontano (intervallo maggiore di '+str(DISP_MAX)+' giorni)'
+	else:
+		verifica=True
+		errore=''
+	return (verifica,errore)
+
 
 def disponibilita_verifica_tempo(request, turno):
 #	pdb.set_trace()
@@ -135,23 +153,11 @@ def disponibilita_verifica_tempo(request, turno):
 		verifica=True
 		errore=''
 	else:
-		now=datetime.datetime.now()
-		diff=turno.inizio-now
-		if diff.days<0:
-			verifica=False
-			errore='passato'
-		elif diff.days<DISP_MIN:
-			verifica=False
-			errore='vicino'
-		elif diff.days>DISP_MAX:
-			verifica=False
-			errore='lontano'
-		else:
-			verifica=True
-			errore=''
+		(verifica,errore)=verifica_intervallo(turno)
 	#cprint errore
 	#print diff.days
 	return (verifica,errore)
+
 
 
 def rimuovi_disponibilita(request, disp_id):

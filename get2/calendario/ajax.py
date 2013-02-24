@@ -185,8 +185,17 @@ def requisito_form(request, form, form_id):
 def disp(request, turno_id, mansione_id, persona_id, disp):
 	dajax = Dajax()
 	#pdb.set_trace()
+	p=Persona.objects.get(id=persona_id)
+	t=Turno.objects.get(id=turno_id)
+	if Disponibilita.objects.filter(persona=p,turno=t, tipo="Disponibile" ).exists():
+		d=Disponibilita.objects.get(persona=p,turno=t, tipo="Disponibile" )
+		dajax.remove('#disponibile-'+str(d.id))
 	nuova_disponibilita(request, turno_id, mansione_id, persona_id, disp)
+	d=Disponibilita.objects.get(persona=p,turno=t)
+	if d.tipo=="Disponibile":
+		dajax.append('#disponibili', 'innerHTML', '<span id="disponibile-'+str(d.id)+'" class="disponibile">'+str(d.persona)+' ('+str(d.mansione)+')</span>')
 	#dajax.alert(disponibilita)
+	dajax.script('noty({"text":"Aggiornata disponibilita per '+str(p)+'","layout":"bottomRight","type":"success","animateOpen":{"height":"toggle"},"animateClose":{"height":"toggle"},"speed":500,"timeout":5000,"closeButton":true,"closeOnSelfClick":true,"closeOnSelfOver":false});')
 	return dajax.json()
 
 @dajaxice_register

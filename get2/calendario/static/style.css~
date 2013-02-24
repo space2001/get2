@@ -754,19 +754,12 @@ span.salve {
 
 div.menu-main{
 	width: 100%;
-	border-bottom: 1px solid #bbb;
+	border-bottom: 1px solid #1da7ff;
 	background-color: #bbb;
 	text-align:center;
 	padding:7px;
-	height: 28px;
 	line-height: 20px;
-	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
-	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
-	background: -o-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
-	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
-	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
+	background: #cfdbed;
 }
 
 span.persona-draggable {
@@ -802,6 +795,17 @@ span.emblem-generic{
 	padding-left: 24px;
 	line-height: 30px;
 	background: url(22/emblem-generic.png) no-repeat left center;
+	cursor:pointer;
+}
+
+span.emblem-important{
+	padding-left: 24px;
+	font-size: 13px;
+	padding: 5px;
+	padding-left: 24px;
+	line-height: 30px;
+	background: url(22/emblem-generic.png) no-repeat left center;
+	cursor:pointer;
 }
 
 li.occorrenze-True{
@@ -816,3 +820,11 @@ border-bottom:1px solid #ccc;
 background: #ddd;
 }
 
+span.disponibile{
+	font-size: 13px;
+	padding: 4px;
+	border:1px solid #888;
+	border-radius:0.2em;
+	background: #ddd;
+	color: #111;
+}

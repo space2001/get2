@@ -13,6 +13,17 @@
 {% endblock %}
 
 {% block main %}
+
+<div class="menu-main">
+	<div id="disponibili">Gia' Disponibili per questo turno:
+	{% for d in turno.turno_disponibilita.all %}
+		{% if d.tipo = "Disponibile" %}
+		<span id="disponibile-{{d.id}}" class="disponibile">{{d.persona}} ({{d.mansione}})</span>
+		{% endif %}
+	{% endfor %}
+	</div>
+</div>
+
 <script type="text/javascript">
 function disp(selettore){
 	value=selettore.options[selettore.selectedIndex].value;
