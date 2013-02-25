@@ -60,9 +60,10 @@ function utente_staff(selettore){
 	<td class="privilegi_staff">{%if not utente.is_superuser%}
  		<input id="staff-{{utente.id}}" type="checkbox" value="{{utente.id}}" ONCHANGE="utente_staff(this);" 
 		{%if utente.is_staff%}checked="true"{%endif%}/>{%else%} superuser {%endif%}</td>
-	<td class="operazioni"><a href="/utenti/modifica/{{utente.id}}"><span class="img_modifica"></span></a>
+	<td class="operazioni">
+		{%if not utente.is_staff or request.user.is_superuser %}<a href="/utenti/modifica/{{utente.id}}"><span class="img_modifica"></span></a>
 		<a href="/utenti/modifica/{{utente.id}}/password" > modifica password </a>
-		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
+		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'><span class="img_elimina"></span></a>{% endif %}
 	</td>
 
 	<script>

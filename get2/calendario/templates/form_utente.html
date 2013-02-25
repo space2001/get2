@@ -2,8 +2,17 @@
 
 {% block title %} Inserimento/Modifica Utente {% endblock %}	
 
+{% block menu2 %}
+
+<div id="navigazione">
+<div class="nav-inizio nav"><a href="/utenti"><span class="utenti-nav"> Utenti</span></a></div>
+<div class="nav-fine nav">Modifica Utente {{user}}</div>
+</div>
+
+{% endblock %}
 
 {% block main %}
+<div class="form_solo">
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
@@ -20,6 +29,6 @@
   </table>
   <input type="submit" value="Invia" /> <input type="reset" value="cancella">
   </form>    	
-  
+</div>
   
 {% endblock %}
