@@ -9,7 +9,7 @@ class Mansione(models.Model):
 	descrizione = models.CharField('Descrizione',max_length=200)
 	def __unicode__(self):
 		return '%s' % (self.descrizione)
-	# Milite tipo A, milite tipo B, centralinista ecc...   Login 
+	# Milite tipo A, milite tipo B, centralinista ecc... 
 
 class MansioneForm(forms.ModelForm):
 	class Meta:
@@ -24,7 +24,7 @@ class Persona(models.Model):
 	nascita = models.DateField('Data di nascita')
 	#caratteristiche della persona
 	stato = models.CharField('Stato',max_length=40, choices=STATI, default='disponibile' )
-	competenze = models.ManyToManyField(Mansione, blank=True, null=True)
+	competenze = models.ManyToManyField(Mansione, blank=True, null=True, )
 	def notifiche_non_lette(self):
 		n=0
 		for m in Notifica.objects.filter(destinatario=self.user):
@@ -38,6 +38,7 @@ class PersonaForm(forms.ModelForm):
 	#nascita = forms.DateField(label='Data di nascita', required=False, widget=widgets.AdminDateWidget)
 	class Meta:
 		model = Persona
+		widgets = {'competenze': forms.CheckboxSelectMultiple}
 
 class Gruppo(models.Model):
 	nome = models.CharField('Nome',max_length=30)
@@ -172,7 +173,5 @@ class UserChangeForm2(UserChangeForm):
 		fields = ("username", "email",)
 	def clean_password(self):
 		return "" # This is a temporary fix for a django 1.4 bug
-
-
 
 

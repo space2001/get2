@@ -12,6 +12,7 @@
 {% endblock %}
 
 {% block main %}
+<div style="margin:10px;">
   {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
   {% endif %}
@@ -30,6 +31,6 @@
   </br>
   <input type="submit" value="Invia" /> <input type="reset" value="cancella">
   </form>    	
-  
+    </div>
   
 {% endblock %}

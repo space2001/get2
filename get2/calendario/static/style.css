@@ -1,14 +1,4 @@
-/* css for timepicker */
-.ui-timepicker-div .ui-widget-header { margin-bottom: 8px; }
-.ui-timepicker-div dl { text-align: left; }
-.ui-timepicker-div dl dt { height: 25px; margin-bottom: -25px; }
-.ui-timepicker-div dl dd { margin: 0 10px 10px 65px; }
-.ui-timepicker-div td { font-size: 90%; }
-.ui-tpicker-grid-label { background: none; border: none; margin: 0; padding: 0; }
 
-.ui-timepicker-rtl{ direction: rtl; }
-.ui-timepicker-rtl dl { text-align: right; }
-.ui-timepicker-rtl dl dd { margin: 0 65px 10px 10px; }
 
 @font-face {
 	font-family: Ubuntu;
@@ -255,6 +245,7 @@ span.img_applica{
 	height: 36px;
 	background: url(sfondo_user.png) repeat-x center top;
 	text-align:center;	
+	 	box-shadow:-2px 0px 2px #bbb inset;
 }
 
 #menu1{
@@ -298,6 +289,9 @@ border-top-left-radius:1em;
 border-bottom-left-radius:1em;
 overflow: hidden;
  height: auto !important;
+ 	box-shadow:1px 2px 3px #bbb inset;
+ 	
+ 	z-index:10;
 }
 
 
@@ -305,7 +299,7 @@ overflow: hidden;
 	padding: 0px;
 	margin: 0px;
 	border: none;
-	margin-top: 10px;
+	margin-top: 5px;
 	margin-bottom:5px;
 	position: relative;
 	height:64px;
@@ -463,7 +457,8 @@ span.statistiche-nav{
 	margin-top:0px;
 	float:left;
 	width: 14.2%;
-	border-right: 1px solid #ddd;
+	border-right: 1px solid #1da7ff;
+
 }
 
 .giorno1{
@@ -471,7 +466,8 @@ span.statistiche-nav{
 }
 
 .giorno2{
-background: #ffe1b7;
+background: #cfdbed;
+ 	box-shadow:0px 2px 3px #bbb inset;
 }
 
 .azioni {
@@ -573,10 +569,10 @@ span.mansione{
 
 .titolo-giorno {
 	padding-top:5px;
-	font-size: 18px;
+	font-size: 18x;
 	margin-right: 0px;
 	margin-left: 0px;
-	border-bottom: 1px solid rgb(255, 102, 102);
+	border-bottom: 2px solid #1da7ff;
 	display:block;
 	text-align: center;
 	padding-bottom: 3px;
@@ -587,8 +583,8 @@ span.mansione{
 	margin: 5px;
 	margin-top:10px;
 	border: 1px solid #999;
-	border-radius:0.3em;
 	background: rgb(242, 240, 237);
+	box-shadow:2px 2px 4px #aaa;
 
 }
 
@@ -635,7 +631,7 @@ div.footer-turno {
 	border-top:1px solid #aaa;
 	margin-bottom:0px;
 	margin-top:6px;
-	height:22px;
+	height:24px;
 	padding-left:5px;
 	padding-top:0px;
 	font-size:14px;
@@ -663,8 +659,9 @@ div.footer-turno {
 	display:block;
 	font-weight:bold;
 	color: #222;
-	margin-top: 10px;
+	margin-top: 6px;
 	background: rgb(204, 255, 153);
+	height: 24px;
 }
 
 .mansione-calendario-False {
@@ -675,22 +672,25 @@ div.footer-turno {
 	display:block;
 	font-weight:bold;
 	color: #222;
-	margin-top: 10px;
+	margin-top: 6px;
 	background: rgb(255, 204, 153);
+	height: 24px;
+	line-height:24px;
 }
 span.aggiungi {
-	background: url(16/aggiungi.png) no-repeat right top;
-	height:20px;
+	background: url(16/aggiungi.png) no-repeat right center;
+	height:24px;
 	display:block;
-	text-align:left;
-	margin-right: 3px;
+	float:right;
+	width: 50px;
+	margin-right: 5px;
 	font-size: 13px;
-	margin-top:3px;
-	padding-left:10px;
 }
 
-.img_modifica.turno, .img_elimina.turno {
-float: right;}
+.img_modifica_turno, .img_elimina_turno {
+float: right !important;
+  	padding-right: 0px !important;
+}
 
 span.persona-turno{
 
@@ -825,4 +825,10 @@ span.disponibile{
 	border-radius:0.2em;
 	background: #ddd;
 	color: #111;
+}
+
+div.form_solo{
+
+margin: 10px;
+
 }

@@ -6,7 +6,7 @@
 
 <div id="navigazione">
 <div class="nav-inizio nav"><a href="/impostazioni"><span class="impostazioni-nav"> Impostazioni</span></a></div>
-<div class="nav-fine nav">Nuovo Tipo di turno</div>
+<div class="nav-fine nav">Nuovo Tipo di Turno</div>
 </div>
 
 {% endblock %}

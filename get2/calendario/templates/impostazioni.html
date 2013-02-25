@@ -57,12 +57,14 @@
 <table>
 
 {% for mansione in mansioni %}
-	<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="masnione-{{mansione.id}}">
+	
+	<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="mansione-{{mansione.id}}">
 	<td class="mansioni">{{mansione}}</td>
 	<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione.id}}"><span class="img_modifica"></span></a>
 		<a href="/impostazioni/mansione/elimina/{{mansione.id}}"><span class="img_elimina"></span></a>
-	</td>
-	</tr>
+
+	</td></tr>
+
 {% endfor %}
 </table>
 

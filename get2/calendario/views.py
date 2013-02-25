@@ -49,7 +49,7 @@ def modifica_persona(request,persona_id):
 		form = PersonaForm(request.POST, instance=per)  # necessario per modificare la riga preesistente
 		if form.is_valid():
 			form.save()
-			return HttpResponseRedirect('/persone/elenco') # Redirect after POST
+			return HttpResponseRedirect('/persone') # Redirect after POST
 	else:
 		form = PersonaForm(instance=per)
 	return render_to_response('form_persona.html',{'request': request, 'form': form,'azione': azione, 'per': per,'mansione_form':MansioneForm()}, RequestContext(request))
@@ -310,7 +310,7 @@ def modifica_mansione(request, mansione_id):
 	return render_to_response('form_mansione.html',{'form':form,'azione': azione, 'mansione': mansione,'request':request}, RequestContext(request))
 
 def elimina_mansione(request,mansione_id):
-	m=TipoTurno.objects.get(id=mansione_id)
+	m=Mansione.objects.get(id=mansione_id)
 	m.delete()
 	return HttpResponseRedirect('/impostazioni/')
 

@@ -61,7 +61,7 @@ function utente_staff(selettore){
  		<input id="staff-{{utente.id}}" type="checkbox" value="{{utente.id}}" ONCHANGE="utente_staff(this);" 
 		{%if utente.is_staff%}checked="true"{%endif%}/>{%else%} superuser {%endif%}</td>
 	<td class="operazioni"><a href="/utenti/modifica/{{utente.id}}"><span class="img_modifica"></span></a>
-		<a href="/utente/modifica/{{utente.id}}/password" > modifica password </a>
+		<a href="/utenti/modifica/{{utente.id}}/password" > modifica password </a>
 		<a href="#" onclick='$("#elimina-utente-{{utente.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
 	</td>
 

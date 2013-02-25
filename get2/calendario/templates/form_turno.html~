@@ -2,7 +2,8 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-
+<script type="text/javascript" src="/static/js/time/jquery.ui.timepicker.js" %}" ></script>
+	<link type="text/css" href="/static/js/time/jquery.ui.timepicker.css" rel="stylesheet" />
 {% endblock %}
 
 
@@ -20,18 +21,8 @@
 <script type="text/javascript">
 jQuery(function()
     { 
-      $('#id_inizio_1').timepicker({timeFormat:'hh:mm:ss' ,stepMinute: 15,	timeText: 'Ora',
-	hourText: 'ora',
-	minuteText: 'minuto',
-	currentText: 'adesso',
-	timeOnlyTitle: 'Ora inizio turno',
-	closeText: 'chiudi',addSliderAccess: true,sliderAccessArgs: { touchonly: false }});
-      $('#id_fine_1').timepicker({timeFormat:'hh:mm:ss' ,stepMinute: 15,	timeText: 'Ora',
-	hourText: 'ora',
-	minuteText: 'minuto',
-	currentText: 'adesso',
-	timeOnlyTitle:'Ora fine turno',
-	closeText: 'chiudi',addSliderAccess: true,sliderAccessArgs: { touchonly: false }});
+      $('#id_inizio_1').timepicker({showPeriodLabels: false, hourText: 'Ora', minuteText: 'Minuto',});
+      $('#id_fine_1').timepicker();
     });
 
 window.onload = function() 

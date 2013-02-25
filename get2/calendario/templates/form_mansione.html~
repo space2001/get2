@@ -23,7 +23,7 @@
   {% endifequal %}
 
   {% ifequal azione 'modifica' %}
-  <form action="/impostazioni/mansione/modifica/{{ mansione_id }}/" method="post">{% csrf_token %}
+  <form action="/impostazioni/mansione/modifica/{{ mansione.id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table id="form_mansione">
   {{form.as_table}}
