@@ -45,8 +45,13 @@ urlpatterns += patterns('get2.calendario',
 	(r'^impostazioni/tipo_turno/nuovo/$', 'views.nuovo_tipo_turno'),
 	(r'^impostazioni/tipo_turno/modifica/(?P<tipo_turno_id>\w+)/$', 'views.modifica_tipo_turno'),
 	(r'^impostazioni/tipo_turno/elimina/(?P<tipo_turno_id>\w+)/$', 'views.elimina_tipo_turno'),
+	(r'^impostazioni/notifica/nuovo/$', 'views.nuovo_impostazioni_notifica'),
+	(r'^impostazioni/notifica/modifica/(?P<impostazioni_notifica_id>\w+)/$', 'views.modifica_impostazioni_notifica'),
+	(r'^impostazioni/notifica/elimina/(?P<impostazioni_notifica_id>\w+)/$', 'views.elimina_impostazioni_notifica'),
 	# statistiche
 	(r'^statistiche/', 'views.statistiche'),
+	# notifiche
+   	(r'^notifiche/$', 'views.elenco_notifica'),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',

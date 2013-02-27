@@ -12,10 +12,10 @@ from django.contrib.auth.decorators import login_required
 import pdb
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
-import settings_calendario
+import get2.calendario.settings_calendario as settings_calendario
+
 
 ####   persona   ####
-
 
 def elenco_persona(request):
 	#if request.user.is_staff:
@@ -126,8 +126,6 @@ def cerca_persona(request, turno_id, mansione_id):
 
 ####   disponibilita   ####
 
-DISP_MIN=2
-DISP_MAX=20
 
 def verifica_intervallo(turno):
 	now=datetime.datetime.now()
@@ -135,12 +133,12 @@ def verifica_intervallo(turno):
 	if diff.days<0:
 		verifica=False
 		errore='Turno passato'
-	elif diff.days<DISP_MIN:
+	elif diff.days<settings_calendario.DISP_MIN:
 		verifica=False
-		errore='Troppo vicino (intervallo minore di '+str(DISP_MIN)+' giorni)'
-	elif diff.days>DISP_MAX:
+		errore='Troppo vicino (intervallo minore di '+str(settings_calendario.DISP_MIN)+' giorni)'
+	elif diff.days>settings_calendario.DISP_MAX:
 		verifica=False
-		errore='Troppo lontano (intervallo maggiore di '+str(DISP_MAX)+' giorni)'
+		errore='Troppo lontano (intervallo maggiore di '+str(settings_calendario.DISP_MAX)+' giorni)'
 	else:
 		verifica=True
 		errore=''
@@ -169,9 +167,9 @@ def rimuovi_disponibilita(request, disp_id):
 def disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo):
 	if Disponibilita.objects.filter(persona_id=persona_id,turno=contemporaneo).exists():
 		for d in Disponibilita.objects.filter(persona_id=persona_id,turno=contemporaneo):
-			#if d.tipo=="Disponibile":
-				#persona= Persona.objects.get(id=persona_id)
-				#notifica_disponibilita(request,persona,contemporaneo,'Non piu disponibile',contemporaneo.mansione)
+			if d.tipo=="Disponibile":
+				persona= Persona.objects.get(id=persona_id)
+				notifica_disponibilita(request,persona,contemporaneo,'Non piu disponibile',contemporaneo.mansione)
 			rimuovi_disponibilita(d.id)
 
 
@@ -191,15 +189,15 @@ def nuova_disponibilita(request, turno_id, mansione_id, persona_id, disponibilit
 		#una persona puo avere una sola disponibilita per turno
 		if Disponibilita.objects.filter(persona=disp.persona,turno=disp.turno ).exists():
 			esistente=Disponibilita.objects.get(persona=disp.persona, turno=disp.turno )
-			#if esistente.tipo=='Disponibile':
-				#notifica_disponibilita(request,esistente.persona,esistente.turno,'Non piu disponibile',esistente.mansione)
+			if esistente.tipo=='Disponibile':
+				notifica_disponibilita(request,esistente.persona,esistente.turno,'Non piu disponibile',esistente.mansione)
 			esistente.delete()
 		#risolvo i conflitti con i turni contemporanei
 		for contemporaneo in disp.turno.contemporanei():
 			disponibilita_risolvi_contemporaneo(request,persona_id,contemporaneo)
 		disp.save()
-		#if not request.user.is_staff:
-			#notifica_disponibilita(request,disponibilita.persona,disponibilita.turno,tipo_disponibilita,disponibilita.mansione)
+		if not request.user.is_staff:
+			notifica_disponibilita(request,disp.persona,disp.turno,disponibilita,disp.mansione)
 	return verifica_tempo
 
 
@@ -215,17 +213,20 @@ def disponibilita_url(request, turno_id, mansione_id, persona_id, disponibilita)
 ####   notifica   ####
 
 def notifica_disponibilita(request,persona,turno,tipo_disponibilita,mansione):
-	for n in NOTIFICHE:
-		if turno.inizio.weekday() in n['giorni']:
-			messaggio=str(persona) + ' si e reso <b>' + str(tipo_disponibilita) + '</b> con mansione di <b>'+ str(mansione) +'</b> per il turno <b>' + 'turno' + '</b>'
-			now=datetime.datetime.now()
-			notifica=Notifica()
-			notifica.testo=messaggio
-			notifica.data=now
-			notifica.letto=False
-			destinatario_id=n['id_utente']
-			notifica.destinatario_id=destinatario_id
+	messaggio=str(persona) + ' si e reso <b>' + str(tipo_disponibilita) + '</b> con mansione di <b>'+ str(mansione) +'</b> per il turno <b>' + 'turno' + '</b>'
+	now=datetime.datetime.now()
+	notifica=Notifica()
+	notifica.testo=messaggio
+	notifica.data=now
+	notifica.letto=False
+	if Impostazioni_notifica.objects.filter(giorni__contains=turno.inizio.weekday(),tipo_turno=turno.tipo):
+		for i in Impostazioni_notifica.objects.filter(giorni__contains=turno.inizio.weekday(),tipo_turno=turno.tipo):
+			pdb.set_trace()
+			notifica.destinatario_id=i.utente.id
 			notifica.save()
+	else:
+		notifica.destinatario_id=1 # se non c'epaola' regola va al admin
+		notifica.save()
 	return True
 
 def elenco_notifica(request):
@@ -320,7 +321,7 @@ def elimina_mansione(request,mansione_id):
 
 def impostazioni(request):
 	tipi_turno=TipoTurno.objects.all()
-	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'request':request}, RequestContext(request))
+	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'impostazioni_notifica_utente':Impostazioni_notifica.objects.all(),'request':request}, RequestContext(request))
 
 
 def nuovo_tipo_turno(request):
@@ -350,7 +351,35 @@ def elimina_tipo_turno(request,tipo_turno_id):
 	t=TipoTurno.objects.get(id=tipo_turno_id)
 	t.delete()
 	return HttpResponseRedirect('/impostazioni/')
+	
+def nuovo_impostazioni_notifica(request):
+	azione = 'nuovo'
+	if request.method == 'POST': # If the form has been submitted...
+		impostazioni_notifica_form = Impostazioni_notificaForm(request.POST) # A form bound to the POST data
+		if impostazioni_notifica_form.is_valid():
+			impostazioni_notifica_form.save()
+			return HttpResponseRedirect('/impostazioni/#tabs-notifiche') # Redirect after POST
+	else:
+		impostazioni_notifica_form = Impostazioni_notificaForm()
+	return render_to_response('form_impostazioni_statistiche.html',{'form':impostazioni_notifica_form,'azione':azione,'request':request}, RequestContext(request))
 
+
+def modifica_impostazioni_notifica(request, impostazioni_notifica_id):
+	azione = 'modifica';
+	impostazioni_notifica = Impostazioni_notifica.objects.get(id=impostazioni_notifica_id)
+	if request.method == 'POST': # If the form has been submitted...
+		impostazioni_notifica_form = Impostazioni_notificaForm(request.POST, instance=impostazioni_notifica)
+		if impostazioni_notifica_form.is_valid():
+			impostazioni_notifica_form.save()
+			return HttpResponseRedirect('/impostazioni/#tabs-notifiche') # Redirect after POST
+	else:
+		impostazioni_notifica_form = Impostazioni_notificaForm(instance=impostazioni_notifica)
+	return render_to_response('form_impostazioni_statistiche.html',{'form': impostazioni_notifica_form,'azione': azione, 'impostazioni_notifica': impostazioni_notifica,'request':request}, RequestContext(request))
+
+def elimina_impostazioni_notifica(request, impostazioni_notifica_id):
+	i=Impostazioni_notifica.objects.get(id=impostazioni_notifica_id)
+	i.delete()
+	return HttpResponseRedirect('/impostazioni/#tabs-notifiche')
 
 #### fine tipo turno ####
 

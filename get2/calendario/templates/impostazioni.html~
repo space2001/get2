@@ -15,14 +15,26 @@
 {% endblock %}
 {% block main %}
 
+<script>
+var giorni = new Array();
+giorni[0] = "Lunedì";
+giorni[1] = "Martedì";
+giorni[2] = "Mercoledì";
+giorni[3] = "Giovedì";
+giorni[4] = "Venerdì";
+giorni[5] = "Sabato";
+giorni[6] = "Domenica";
+</script>
+
 <div id="tabs" class="bordo">
 	<ul>
-		<li><a href="#tabs-sistema">Impostazioni di sistema</a></li>
-		<li><a href="#tabs-personali">Impostazioni personali</a></li>
+		<li><a href="#tabs-mansioni">Mansioni</a></li>
+		<li><a href="#tabs-tipo-turno">Tipo di turno</a></li>
+		<li><a href="#tabs-notifiche">Notifiche</a></li>
 		
 	</ul>
 
-<div id="tabs-sistema">
+<div id="tabs-mansioni">
 
 
 	<script>
@@ -41,62 +53,91 @@
 	else {
 		$("#dettagli_requisito-"+tipo_turno_id).hide();}
 	}
-</script>
-	
-	
 	</script>
-
-
-<div id="mansioni">
-<span class="titolo impostazioni">Mansioni</span>
-<menu class="impostazioni">
-<ul>
-<li class="aggiungi"><a href="/impostazioni/mansione/nuovo">Aggiungi mansione</a></li>
-</ul>
-</menu>
-<table>
-
-{% for mansione in mansioni %}
-	{% if not mansione.padre %}
-	<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="mansione-{{mansione.id}}">
-	<td class="mansioni">{{mansione}}</td>
-	<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione.id}}"><span class="img_modifica"></span></a>
-		<a href="/impostazioni/mansione/elimina/{{mansione.id}}"><span class="img_elimina"></span></a>
-
-	</td></tr>
-
 	
-		{% for mansione_figlio in mansioni %}
-			{% if mansione_figlio.padre = mansione %}
-				<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="figli-mansione-{{mansione.id}}">
-				<td class="mansioni">- {{mansione_figlio}}</td>
-				<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione_figlio.id}}"><span class="img_modifica"></span></a>
-				<a href="/impostazioni/mansione/elimina/{{mansione_figlio.id}}"><span class="img_elimina"></span></a></td>
-				</tr>
-			{% endif %}
-		{% endfor %}
-	{% endif %}
-{% endfor %}
-</table>
-
-</div>
+	
+		</script>
 
 
-<div id="tipo_turno">
-<span class="titolo impostazioni">Tipi di turno</span>
-<menu class="impostazioni">
-<ul>
-<li class="aggiungi"><a href="/impostazioni/tipo_turno/nuovo">Aggiungi Tipo Turno</a></li>
-</ul>
-</menu>
-<table>
-{% for tipo_turno in tipi_turno %}
-	 <!-- {% cycle 'riga1' 'riga2' as riga %} --> {% include "elenco_tipo_turno/dettagli.html" %}
-{% endfor %}
-</table>
+	<div id="mansioni">
+	<span class="titolo impostazioni">Mansioni</span>
+	<menu class="impostazioni">
+	<ul>
+	<li class="aggiungi"><a href="/impostazioni/mansione/nuovo">Aggiungi mansione</a></li>
+	</ul>
+	</menu>
+	<table>
+
+	{% for mansione in mansioni %}
+	
+		<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="mansione-{{mansione.id}}">
+		<td class="mansioni">{{mansione}}</td>
+		<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione.id}}"><span class="img_modifica"></span></a>
+			<a href="/impostazioni/mansione/elimina/{{mansione.id}}"><span class="img_elimina"></span></a>
+
+		</td></tr>
+
+	{% endfor %}
+	</table>
+
+	</div>
 </div>
+
+<div id="tabs-tipo-turno">
+	<div id="tipo_turno">
+	<span class="titolo impostazioni">Tipi di turno</span>
+	<menu class="impostazioni">
+	<ul>
+	<li class="aggiungi"><a href="/impostazioni/tipo_turno/nuovo">Aggiungi Tipo Turno</a></li>
+	</ul>
+	</menu>
+	<table>
+	{% for tipo_turno in tipi_turno %}
+		 <!-- {% cycle 'riga1' 'riga2' as riga %} --> {% include "elenco_tipo_turno/dettagli.html" %}
+	{% endfor %}
+	</table>
+	</div>
 </div>
-<div id="tabs-personali">
+
+<div id="tabs-notifiche">
+	<div id="notifiche">
+	<span class="titolo impostazioni">Impostazioni Notifiche</span>
+	<menu class="impostazioni">
+	<ul>
+	<li class="aggiungi"><a href="/impostazioni/notifica/nuovo">Aggiungi regola notifica</a></li>
+	</ul>
+	</menu>
+	
+	<table>
+	<tr class="intestazione">
+	<th>Destinatario</th><th>Giorni</th><th>Tipo di turno</th><th>Operazioni</th>
+	</tr>
+	{% for i in impostazioni_notifica_utente %}
+	
+		<tr class="impostazioni_notifica_utente {% cycle 'riga1' 'riga2' %}" id="impostazioni_notifica_utente-{{i.id}}">
+			<td>{{i.utente}}</td>
+			<td>
+			{% for g in i.giorni %}
+			<script>document.write(giorni[{{ g }}]);</script>
+			{% endfor%}
+			</td>
+			<td>
+			{% for t in i.tipo_turno.all %}
+			{{t}}
+			{% endfor%}		
+			</td>
+			<td>
+				<a href="/impostazioni/notifica/modifica/{{i.id}}"><span class="img_modifica"></span></a>
+				<a href="/impostazioni/notifica/elimina/{{i.id}}"><span class="img_elimina"></span></a>
+			</td>
+		</tr>
+
+	{% endfor %}
+	</table>
+	
+	
+	</div>
+
 </div>
 
 </div>

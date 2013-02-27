@@ -13,6 +13,10 @@
 	<script src="/static/Delta/js/jquery-ui.toggleSwitch.js"></script>
 	<script src="/static/Delta/js/custom.js"></script>
 	<script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
+	<script type="text/javascript" src="/static/js/noty/jquery.noty.js"></script>
+	<script type="text/javascript" src="/static/js/noty/layouts/bottomRight.js"></script>
+	<script type="text/javascript" src="/static/js/noty/themes/default.js"></script>
+
 	{% block head %}{% endblock %}
 	<script>	
 	$(document).ready(function(){
@@ -40,7 +44,11 @@
 	<li class="persone staff"><a href="/persone/">Persone</a></li>
 	<li class="statistiche user"><a href="/statistiche/">Statistiche</a></li>
 	<li class="utenti staff"><a href="/utenti/">Utenti</a></li>
-	<li class="notifiche user"><a href="/notifiche/">Notifiche</a></li>
+	<li class="notifiche user"><a href="/notifiche/">Notifiche</a>
+	{% if request.user.get_profile.notifiche_non_lette %}	
+		<span class="notifiche_nonlette">{{request.user.get_profile.notifiche_non_lette}}</span>
+	{% endif %}	
+	</li>
 	<li class="impostazioni superuser"><a href="/impostazioni/">Ipostazioni</a></li>
 	</ul>
 	<script>

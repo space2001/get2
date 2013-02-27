@@ -504,8 +504,11 @@ background: #cfdbed;
 }
 
 #menu1 li.notifiche{
-	background: url(notifiche-ok.png) no-repeat center top;
+	background: url(notifiche-nonlette.png) no-repeat center top;
+}
 
+#menu1 li.notifiche-ok{
+	background: url(notifiche-ok.png) no-repeat center top;
 }
 
 #menu1 li.impostazioni{
@@ -831,4 +834,17 @@ div.form_solo{
 
 margin: 10px;
 
+}
+
+.notifiche_nonlette{
+	position:relative;
+	top: -80px;
+	left: 33px;
+	display:block;
+	width:30px;
+	text-align: center;
+	border:1px solid #aaa;
+	border-radius:0.2em;
+	color: #333;
+	box-shadow:0px 2px 3px #bbb inset;
 }
