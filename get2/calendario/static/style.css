@@ -848,3 +848,17 @@ margin: 10px;
 	color: #333;
 	box-shadow:0px 2px 3px #bbb inset;
 }
+
+
+tr.letto-True {
+	border-bottom: 1px solid #ccc;
+}
+
+tr.letto-False {
+	border-bottom: 1px solid rgb(255, 102, 102);
+	background: #ffe1b7;
+}
+
+.hide {
+	display:none;
+}

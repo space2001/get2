@@ -44,9 +44,13 @@
 	<li class="persone staff"><a href="/persone/">Persone</a></li>
 	<li class="statistiche user"><a href="/statistiche/">Statistiche</a></li>
 	<li class="utenti staff"><a href="/utenti/">Utenti</a></li>
-	<li class="notifiche user"><a href="/notifiche/">Notifiche</a>
-	{% if request.user.get_profile.notifiche_non_lette %}	
+	
+	{% if request.user.get_profile.notifiche_non_lette %}
+	<li id="menu-notifiche" class="notifiche user"><a href="/notifiche/">Notifiche</a>
 		<span class="notifiche_nonlette">{{request.user.get_profile.notifiche_non_lette}}</span>
+	{% else %}
+	<li id="menu-notifiche" class="notifiche-ok user"><a href="/notifiche/">Notifiche</a>
+		<span class="notifiche_nonlette hide"></span>
 	{% endif %}	
 	</li>
 	<li class="impostazioni superuser"><a href="/impostazioni/">Ipostazioni</a></li>

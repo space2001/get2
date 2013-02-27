@@ -267,7 +267,7 @@ class UserChangeForm2(UserChangeForm):
 		return "" # This is a temporary fix for a django 1.4 bug
 		
 class Impostazioni_notifica(models.Model):
-	utente = models.ForeignKey(User, related_name='impostazioni_notifica_utente')
+	utente = models.ForeignKey(User, related_name='impostazioni_notifica_utente', limit_choices_to = {'is_staff':True})
 	giorni = MultiSelectField(max_length=250, blank=True, choices=GIORNO)
 	tipo_turno = models.ManyToManyField(TipoTurno, blank=True, null=True)
 

@@ -97,29 +97,41 @@ def utente_staff(request,user_id):
 @dajaxice_register
 def notifiche(request,option,url):
     dajax = Dajax()
+    #pdb.set_trace()
     i=0
     dajax.assign('#sele','value','')
     for not_id in url.rsplit('_'):
         i += 1
         selector='#not-'+not_id
-        m = Notifiche.objects.get(id=not_id)
-
+        m = Notifica.objects.get(id=not_id)
         if (option == 'letto'):
             m.letto=True
             m.save()
-            dajax.remove_css_class(selector,'False')
-            dajax.add_css_class(selector,'True')
+            dajax.remove_css_class(selector,'letto-False')
+            dajax.add_css_class(selector,'letto-True')
         if (option == 'nonletto'):
             m.letto=False
             m.save()
-            dajax.remove_css_class(selector,'True')
-            dajax.add_css_class(selector,'False')
+            dajax.remove_css_class(selector,'letto-True')
+            dajax.add_css_class(selector,'letto-False')
         if (option == 'cancella'):
             m.delete()
             dajax.remove(selector)
             dajax.remove('#not-inv-'+not_id)
             #dajax.alert(request.user.get_profile().nonletti())
-    dajax.assign('#not_nonlette','innerHTML',request.user.get_profile().nonletti())
+    non=request.user.get_profile().notifiche_non_lette()
+    selector='#menu-notifiche'
+    if non >0:
+    	dajax.remove_css_class(selector,'notifiche-ok')
+        dajax.add_css_class(selector,'notifiche')
+        dajax.remove_css_class('.notifiche_nonlette','hide')
+    	dajax.assign('.notifiche_nonlette','innerHTML',non)
+    	
+    	
+    else:
+    	dajax.remove_css_class(selector,'notifiche')
+        dajax.add_css_class(selector,'notifiche-ok')
+        dajax.add_css_class('.notifiche_nonlette','hide')
     dajax.clear('.ch','checked')
     return dajax.json()
 

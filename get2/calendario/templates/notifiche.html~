@@ -2,7 +2,13 @@
 
 
 {% block title %} Notifiche {% endblock %}
+{% block menu2 %}
 
+<div id="navigazione">
+<div class="nav-solo nav"><span class="notifiche-nav"> Notifiche</span></div>
+</div>
+
+{% endblock %}
 {% block main %}
 
 <script type="text/javascript">
@@ -42,21 +48,24 @@ function uncheckAll() {
 
 
 {% if notifiche %}
-<table id="tabellamessaggi" width="100%">
-      <input type="button" name="CheckAll" value="Seleziona tutto"
-onClick="checkAll()">
-<input type="button" name="UnCheckAll" value="Annulla selezione"
-onClick="uncheckAll()">
+<div style="margin:10px;">
+<table class="cento">
+
       <form action="/notifica/letto/" method="get">
-      <tr><td colspan="8">Se selezionati:
-      <select id="sele" name="letto" onchange="notifiche(this.options[this.selectedIndex].value)">
-      <option value="">---
-      <option value="letto">segna come letto
-      <option value="nonletto">segna come NON letto
-      <option value="cancella">Elimina
-      
+      <tr><td colspan="3">
+		Se selezionati:
+      	<select id="sele" name="letto" onchange="notifiche(this.options[this.selectedIndex].value)">
+      		<option value="">---
+      		<option value="letto">segna come letto
+      		<option value="nonletto">segna come NON letto
+      		<option value="cancella">Elimina
       </select>
-      </td></tr>
+      </td>
+      <td>
+      	<input type="button" name="CheckAll" value="Seleziona tutto" onClick="checkAll()">
+		<input type="button" name="UnCheckAll" value="Annulla selezione" onClick="uncheckAll()">
+      </td>
+      </tr>
 
 
 <tr >
@@ -71,10 +80,11 @@ onClick="uncheckAll()">
       <td><input type="checkbox" name="not_id" value="{{notifica.id}}" class="ch"></td>
       <td>{{notifica.data|date:"D d M G:i"}}</td>
       <td>{{notifica.testo|safe}}</td>
-      <td><a href="/notifica/elimina/{{notifica.id}}"><img src="/media/del.png"></a></td>
+      <td><a href="/notifiche/elimina/{{notifica.id}}"><span class="img_elimina"></span></a></td>
 </tr>
 {% endfor %}
 </table></form>
+</div>
 {% else %}
     <p>Nessuna notifica ricevuta</p>
 {% endif %}
