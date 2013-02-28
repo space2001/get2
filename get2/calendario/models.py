@@ -154,11 +154,14 @@ class Requisito(models.Model):
 	operatore=models.CharField('operatore', max_length=10, choices=OPERATORI )
 	valore=models.IntegerField()
 	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno")
+	necessario=models.BooleanField('Necessario')
+	sufficiente=models.BooleanField('Sufficiente')
+	visibile=models.BooleanField('Visibile')
 
 class RequisitoForm(forms.ModelForm):
 	class Meta:
 		model = Requisito
-
+		exclude = ('tipo_turno')
 GIORNO = (
   (0, 'lunedi'),
   (1, 'martedi'),
@@ -182,19 +185,24 @@ class Turno(models.Model):
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
 	def verifica_requisito(self,requisito):
 		#pdb.set_trace()
-		contatore=0
-		for d in self.turno_disponibilita.filter(tipo="Disponibile").all():
-			if (d.mansione==requisito.mansione):
-				contatore+=1
-		operatore=ops[requisito.operatore]
-		if not operatore(contatore,requisito.valore):
-			return False
-		return True
+		if requisito.necessario:
+			contatore=0
+			for d in self.turno_disponibilita.filter(tipo="Disponibile").all():
+				if (d.mansione==requisito.mansione):
+					contatore+=1
+			operatore=ops[requisito.operatore]
+			if not operatore(contatore,requisito.valore):
+				return False
+			return True
+		else:
+			return True
 	def coperto(self):
 		if self.tipo:
 			for r in Requisito.objects.filter(tipo_turno=self.tipo_id):
 				if not self.verifica_requisito(r):
 					return False
+				elif r.sufficiente:
+					return True
 		return True
 	def contemporanei(self):
 		i=self.inizio+datetime.timedelta(seconds=1)

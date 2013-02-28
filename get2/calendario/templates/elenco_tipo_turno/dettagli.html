@@ -1,64 +1,45 @@
-<script type="">
-$(document).ready(function(){
-$("#tipo_turno-{{tipo_turno.id}} span.img_chiudi").hide();
-$("#dettagli_requisito-{{tipo_turno.id}}").hide();
-});
 
-function dettagli(tipo_turno_id,azione){
-if (azione=="apri"){
-	$("#dettagli_requisito-"+tipo_turno_id).show();
-	$("#tipo_turno-"+tipo_turno_id+" span.img_dettagli").hide();
-	$("#tipo_turno-"+tipo_turno_id+" span.img_chiudi").show();
-}
-else {
-	$("#dettagli_requisito-"+tipo_turno_id).hide();
-	$("#tipo_turno-"+tipo_turno_id+" span.img_dettagli").show();
-	$("#tipo_turno-"+tipo_turno_id+" span.img_chiudi").hide();
-	}
-}
-</script>
+{% load template_filters %}
 
 <tr class="mansioni {{riga}}" id="tipo_turno-{{tipo_turno.id}}">
 
-	<td class="tipo_turno">{{tipo_turno}}</td>
+	<td class="tipo_turno"><b>{{tipo_turno}}</b></td>
 	<td class="operazioni">
-	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica"></span></a>
-	<a href="#" onclick='dettagli({{tipo_turno.id}},"apri");'><span class="img_dettagli"></span></a>
-	<a href="#" onclick='dettagli({{tipo_turno.id}},"chiudi");'><span class="img_chiudi"></span></a>
-	<a href="impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina"></span></a>
+	<a href="/impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina" style="float:right;"></span></a>
+	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica" style="float:right;"></span></a>
+	
 	</td>
-	<td class="dettagli">
-
-		{% for requisito in tipo_turno.req_tipo_turno.all %}
-			
-			<script>$(document).ready(function(){
-				$("#form-{{requisito.mansione.id}}-{{tipo_turno.id}} select#id_operatore").val("{{requisito.operatore|escapejs}}");
-				$("#form-{{requisito.mansione.id}}-{{tipo_turno.id}} input#id_valore").val("{{requisito.valore}}")
-			});</script>
-		{% endfor %}
-	
-	<div id="dettagli_requisito-{{tipo_turno.id}}" class="dettagli_requisito">
-		{% for mansione in mansioni %}
-		
-		<div id="form-{{mansione.id}}-{{tipo_turno.id}}">
-		<form id="form-{{mansione.id}}-{{tipo_turno.id}}" action="" method="post" accept-charset="utf-8">{% csrf_token %}
-		<input type="hidden" name="mansione" value="{{mansione.id}}">
-		<input type="hidden" name="tipo_turno" value="{{tipo_turno.id}}">
-		<span class="mansione">{{mansione}}</span>
-		
-			<select name="operatore" id="id_operatore" onchange='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()' class="s">
-			<option value="NULL" selected="selected">----</option>
-			{% for op,op_val in operatori %}
-			<option value="{{op}}">{{op_val}}</option>
-			{% endfor %}
-			<input class="s" type="text" name="valore" id="id_valore" onkeydown='$("#applica-{{mansione.id}}-{{tipo_turno.id}}").show()' size="1"/>
-			</select>
-		
-		<span id="applica-{{mansione.id}}-{{tipo_turno.id}}"  style="display: none" onclick="send_form_requisiti('form#form-{{mansione.id}}-{{tipo_turno.id}}')" class="img_applica"></span>
-		</div></form>
-		
-
-    	{% endfor %}</div>
-</td>
 </tr>
-	
+<tr class="">
+	<td class="" colspan="1">Requisiti:
+	</td>
+	<td>
+	<a href="/impostazioni/tipo_turno/aggiungi_requisito/{{tipo_turno.id}}">aggiungi requisito</a>
+	</td>
+</tr>
+<tr class="tr_dettagli_requisito">
+	<td class="" colspan="2">
+		<table>
+		<tr class="requisiti"><th>Mansione</th><th>Operatore</th><th>Valore</th><th>Necessario</th><th>sufficiente</th><th>visibile</th><th>Operazioni</th></tr>
+		{% for requisito in tipo_turno.req_tipo_turno.all %}
+			<tr class="requisiti-elenco">
+			{{requisito|stampa_requisito|safe }}
+
+   			</tr>
+		{% endfor %}
+		</table>
+	</td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+
+</tr>
+<script>	
+	$(document).ready(function(){
+		$( ".tr_dettagli_requisito select").prop("disabled", true);
+		$( ".tr_dettagli_requisito input").prop("disabled", true);
+		$( ".tr_dettagli_requisito select").css("color", "333");
+		$( ".tr_dettagli_requisito input").css("color", "333");	
+		});
+</script>

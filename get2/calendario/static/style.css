@@ -69,6 +69,11 @@ tr.intestazione {
 	border-bottom: 0.2em solid rgb(255, 102, 102);
 }
 
+tr.intestazione th {
+	padding:0px 10px;
+
+}
+
 span.img_rimuovi{
 	height: 16px;
 	width: 16px;
@@ -552,7 +557,7 @@ menu.impostazioni li.aggiungi {
 	cursor:pointer;
 }
 
-div.dettagli_requisito{
+.dettagli_requisito{
 	margin-top:10px;
 	border-top: 1px solid #ccc;
 	padding: 8px;
@@ -861,4 +866,45 @@ tr.letto-False {
 
 .hide {
 	display:none;
+}
+
+tr.tr_dettagli_requisito {
+	border-bottom: 1px solid #ddd;
+}
+
+tr.intestazione-requisiti {
+	font-size: 15px;
+	border-bottom: 1px solid #ccc;
+	padding:0px 10px;
+
+}
+
+
+div.si {
+	background: url(16/si2.png) no-repeat right top;
+	width:16px;
+	height:16px;
+	margin:auto;
+
+}
+
+div.no {
+	background: url(16/no2.png) no-repeat right top;
+	width:16px;
+	height:16px;
+	margin:auto;
+}
+
+tr.requisiti{
+	font-size:14px;
+}
+
+tr.requisiti th {
+	padding:2px 10px;
+	border-bottom: 1px solid #bbb;
+}
+
+tr.requisiti-elenco td {
+	text-align:center;
+	font-size:13px;
 }

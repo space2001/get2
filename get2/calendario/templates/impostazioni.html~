@@ -108,7 +108,7 @@ giorni[6] = "Domenica";
 	</ul>
 	</menu>
 	
-	<table>
+	<table class="cento">
 	<tr class="intestazione">
 	<th>Destinatario</th><th>Giorni</th><th>Tipo di turno</th><th>Operazioni</th>
 	</tr>

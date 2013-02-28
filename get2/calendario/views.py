@@ -479,3 +479,39 @@ def statistiche_intervallo(request, inizio, fine):
 
 
 #### fine statistiche ####
+
+#### inizio requisito ####
+
+def nuovo_requisito(request,tipo_turno_id):
+	tipo_turno=TipoTurno(id=tipo_turno_id)
+	azione = 'nuovo'
+	if request.method == 'POST': # If the form has been submitted...
+		form = RequisitoForm(request.POST) # A form bound to the POST data
+		if form.is_valid():
+			r=Requisito(tipo_turno=tipo_turno)
+			form =  RequisitoForm(request.POST, instance=r)
+			form.save()
+			return HttpResponseRedirect('/impostazioni/#tabs-tipo-turno') # Redirect after POST
+	else:
+		form = RequisitoForm()
+	return render_to_response('form_requisito.html',{'request':request, 'tipo_turno': tipo_turno, 'form': form,'azione': azione}, RequestContext(request))	
+
+def modifica_requisito(request,requisito_id):
+	azione = 'modifica'
+
+	requisito = Requisito.objects.get(id=requisito_id)
+	if request.method == 'POST': # If the form has been submitted...
+		form = RequisitoForm(request.POST, instance=requisito) # necessario per modificare la riga preesistente
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/impostazioni/#tabs-tipo-turno') # Redirect after POST
+	else:
+		form = RequisitoForm(instance=requisito)
+	return render_to_response('form_requisito.html',{'form':form,'azione': azione,'requisito': requisito,'request':request}, RequestContext(request))
+
+def elimina_requisito(request,requisito_id):
+	m=Requisito.objects.get(id=requisito_id)
+	m.delete()
+	return HttpResponseRedirect('/impostazioni/#tabs-tipo-turno')
+
+#### fine requisito ####
