@@ -13,7 +13,8 @@ import pdb
 from django.template import RequestContext
 from django.forms.formsets import formset_factory
 import get2.calendario.settings_calendario as settings_calendario
-
+from django.contrib.admin.views.decorators import staff_member_required
+from django.contrib.auth.decorators import user_passes_test
 
 ####   persona   ####
 
@@ -27,7 +28,7 @@ def elenco_persona(request):
 	#else:
 	#	return render_to_response('staff-no.html')
 
-
+@staff_member_required
 def nuovo_persona(request):
 	#if request.user.is_staff:
 	azione = 'nuovo'
@@ -41,7 +42,8 @@ def nuovo_persona(request):
 	return render_to_response('form_persona.html',{'request':request,'form': form,'azione': azione,'mansione_form':MansioneForm()}, RequestContext(request))
 	#else:
 	#	return render_to_response('staff-no.html')
-
+	
+@staff_member_required
 def modifica_persona(request,persona_id):
 	azione = 'modifica'
 	per = Persona.objects.get(id=persona_id)
@@ -114,7 +116,8 @@ def calendarioazione(request,azione):
 	risposta.set_cookie('mese', value=start.month)
 	risposta.set_cookie('giorno', value=start.day)
 	return risposta
-
+	
+@staff_member_required
 def cerca_persona(request, turno_id, mansione_id):
 	mansione=Mansione.objects.get(id=mansione_id)
 	persone=Persona.objects.filter(competenze=mansione)
@@ -157,7 +160,7 @@ def disponibilita_verifica_tempo(request, turno):
 	return (verifica,errore)
 
 
-
+# attenzione ai permessi
 def rimuovi_disponibilita(request, disp_id):
 	d=Disponibilita.objects.get(id=disp_id)
 	d.tipo='Indisponibile'
@@ -228,7 +231,8 @@ def notifica_disponibilita(request,persona,turno,tipo_disponibilita,mansione):
 		notifica.destinatario_id=1 # se non c'epaola' regola va al admin
 		notifica.save()
 	return True
-
+	
+@staff_member_required
 def elenco_notifica(request):
 	u=request.user
 	notifiche=Notifica.objects.filter(destinatario=u).order_by('data').reverse()
@@ -237,7 +241,7 @@ def elenco_notifica(request):
 ####   fine notifica   ####
 
 ####   inizio utenti   ####
-
+@staff_member_required
 def elenco_utente(request):
 	#if request.user.is_staff:
 	utenti = User.objects.all()
@@ -246,7 +250,8 @@ def elenco_utente(request):
 	return risposta
 	#else:
 	#	return render_to_response('staff-no.html')
-
+	
+@staff_member_required
 def nuovo_utente(request):
 	#if request.user.is_staff:
 	# Do something for anonymous users.
@@ -260,6 +265,7 @@ def nuovo_utente(request):
 		form = UserCreationForm2()
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))
 
+@staff_member_required
 def modifica_utente(request,utente_id):
 	azione = 'modifica'
 	user = User.objects.get(id=utente_id)
@@ -272,6 +278,7 @@ def modifica_utente(request,utente_id):
 		form = UserChangeForm2(instance=user)
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione, 'user': user,}, RequestContext(request))
 
+@staff_member_required
 def modifica_password_utente(request,utente_id):
 	user = User.objects.get(id=utente_id)
 	if request.method == 'POST': # If the form has been submitted...
@@ -286,7 +293,7 @@ def modifica_password_utente(request,utente_id):
 ####   fine utenti   ####
 
 #### inizio mansioni ####
-
+@user_passes_test(lambda u: u.is_superuser)
 def nuovo_mansione(request):
 	azione = 'nuovo'
 	if request.method == 'POST': # If the form has been submitted...
@@ -297,7 +304,8 @@ def nuovo_mansione(request):
 	else:
 		form = MansioneForm()
 	return render_to_response('form_mansione.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))	
-
+	
+@user_passes_test(lambda u: u.is_superuser)
 def modifica_mansione(request, mansione_id):
 	azione = 'modifica'
 	mansione = Mansione.objects.get(id=mansione_id)
@@ -309,7 +317,8 @@ def modifica_mansione(request, mansione_id):
 	else:
 		form = MansioneForm(instance=mansione)
 	return render_to_response('form_mansione.html',{'form':form,'azione': azione, 'mansione': mansione,'request':request}, RequestContext(request))
-
+	
+@user_passes_test(lambda u: u.is_superuser)
 def elimina_mansione(request,mansione_id):
 	m=Mansione.objects.get(id=mansione_id)
 	m.delete()
@@ -319,11 +328,12 @@ def elimina_mansione(request,mansione_id):
 
 #### inzio tipo turno ####
 
+@staff_member_required
 def impostazioni(request):
 	tipi_turno=TipoTurno.objects.all()
 	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'impostazioni_notifica_utente':Impostazioni_notifica.objects.all(),'request':request}, RequestContext(request))
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def nuovo_tipo_turno(request):
 	azione = 'nuovo'
 	if request.method == 'POST': # If the form has been submitted...
@@ -335,6 +345,7 @@ def nuovo_tipo_turno(request):
 		tipo_turno_form = TipoTurnoForm()
 	return render_to_response('form_tipo_turno.html',{'tipo_turno_form':tipo_turno_form,'azione':azione,'request':request}, RequestContext(request))
 
+@user_passes_test(lambda u: u.is_superuser)
 def modifica_tipo_turno(request, tipo_turno_id):
 	azione = 'modifica';
 	tipo_turno = TipoTurno.objects.get(id=tipo_turno_id)
@@ -347,11 +358,13 @@ def modifica_tipo_turno(request, tipo_turno_id):
 		tipo_turno_form = TipoTurnoForm(instance=tipo_turno)
 	return render_to_response('form_tipo_turno.html',{'tipo_turno_form': tipo_turno_form,'azione': azione, 'tipo_turno': tipo_turno,'request':request}, RequestContext(request))
 
+@user_passes_test(lambda u: u.is_superuser)
 def elimina_tipo_turno(request,tipo_turno_id):
 	t=TipoTurno.objects.get(id=tipo_turno_id)
 	t.delete()
 	return HttpResponseRedirect('/impostazioni/')
-	
+
+@user_passes_test(lambda u: u.is_superuser)	
 def nuovo_impostazioni_notifica(request):
 	azione = 'nuovo'
 	if request.method == 'POST': # If the form has been submitted...
@@ -363,7 +376,7 @@ def nuovo_impostazioni_notifica(request):
 		impostazioni_notifica_form = Impostazioni_notificaForm()
 	return render_to_response('form_impostazioni_statistiche.html',{'form':impostazioni_notifica_form,'azione':azione,'request':request}, RequestContext(request))
 
-
+@user_passes_test(lambda u: u.is_superuser)
 def modifica_impostazioni_notifica(request, impostazioni_notifica_id):
 	azione = 'modifica';
 	impostazioni_notifica = Impostazioni_notifica.objects.get(id=impostazioni_notifica_id)
@@ -376,6 +389,7 @@ def modifica_impostazioni_notifica(request, impostazioni_notifica_id):
 		impostazioni_notifica_form = Impostazioni_notificaForm(instance=impostazioni_notifica)
 	return render_to_response('form_impostazioni_statistiche.html',{'form': impostazioni_notifica_form,'azione': azione, 'impostazioni_notifica': impostazioni_notifica,'request':request}, RequestContext(request))
 
+@user_passes_test(lambda u: u.is_superuser)
 def elimina_impostazioni_notifica(request, impostazioni_notifica_id):
 	i=Impostazioni_notifica.objects.get(id=impostazioni_notifica_id)
 	i.delete()
@@ -384,7 +398,7 @@ def elimina_impostazioni_notifica(request, impostazioni_notifica_id):
 #### fine tipo turno ####
 
 #### inizio turno ####
-
+@staff_member_required
 def nuovo_turno(request):
 	azione = 'Aggiungi'
 	if request.method == 'POST': # If the form has been submitted...
@@ -421,7 +435,8 @@ def nuovo_turno(request):
 	else:
 		form = TurnoFormRipeti()
 	return render_to_response('form_turno.html',{'form': form,'azione': azione,'request':request}, RequestContext(request))
-
+	
+@staff_member_required
 def modifica_turno(request, turno_id):
 	azione = 'Modifica';
 	turno = Turno.objects.get(id=turno_id)
@@ -434,11 +449,13 @@ def modifica_turno(request, turno_id):
 		form = TurnoForm(instance=turno)
 	return render_to_response('form_turno.html',{'form': form,'azione': azione, 'turno_id': turno_id,'request':request}, RequestContext(request))
 
+@staff_member_required
 def elimina_turno(request, turno_id):
 	t = Turno.objects.get(id=turno_id)
 	t.delete()
 	return HttpResponseRedirect('/calendario/')
 
+@staff_member_required
 def elimina_turno_occorrenza_succ(request, occorrenza_id):
 	o=Occorrenza.objects.get(id=occorrenza_id)
 	turni = Turno.objects.filter(occorrenza=o, inizio__gte=datetime.datetime.now())
@@ -446,6 +463,7 @@ def elimina_turno_occorrenza_succ(request, occorrenza_id):
 		t.delete()
 	return HttpResponseRedirect('/calendario/')
 
+@user_passes_test(lambda u: u.is_superuser)
 def elimina_turno_occorrenza(request, occorrenza_id):
 	o=Occorrenza.objects.get(id=occorrenza_id)
 	turni = Turno.objects.filter(occorrenza=o)
@@ -481,7 +499,7 @@ def statistiche_intervallo(request, inizio, fine):
 #### fine statistiche ####
 
 #### inizio requisito ####
-
+@user_passes_test(lambda u: u.is_superuser)
 def nuovo_requisito(request,tipo_turno_id):
 	t_turno=TipoTurno(id=tipo_turno_id)
 	azione = 'nuovo'
@@ -496,6 +514,7 @@ def nuovo_requisito(request,tipo_turno_id):
 		form = RequisitoForm(initial={'necessario': True, 'visibile': True})
 	return render_to_response('form_requisito.html',{'request':request, 'tipo_turno': t_turno, 'form': form,'azione': azione}, RequestContext(request))	
 
+@user_passes_test(lambda u: u.is_superuser)
 def modifica_requisito(request,requisito_id):
 	azione = 'modifica'
 
@@ -509,6 +528,7 @@ def modifica_requisito(request,requisito_id):
 		form = RequisitoForm(instance=requisito)
 	return render_to_response('form_requisito.html',{'form':form,'azione': azione,'requisito': requisito,'request':request}, RequestContext(request))
 
+@user_passes_test(lambda u: u.is_superuser)
 def elimina_requisito(request,requisito_id):
 	m=Requisito.objects.get(id=requisito_id)
 	m.delete()
