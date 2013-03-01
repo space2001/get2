@@ -113,7 +113,7 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 		<span class="titolo-turno1">{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</span><span class="titolo-turno2"> {{t.identificativo}}</span>
 		</div>
 		{% for requisito in t.tipo.req_tipo_turno.all %}
-			{% if requisito.visibile %}
+			{% if requisito.extra %}
 			<div class="mansione-calendario mansione-calendario-{{t|verifica_requisito:requisito }} necessario-{{requisito.necessario}}">
 			{% if requisito.sufficiente %}<span class="img_asterisco_16"></span>{% endif %}
 			{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small>
@@ -128,7 +128,7 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 
 		{% endfor %}
 			{% endif %}
-				{% if not requisito.visibile %}
+				{% if not requisito.extra %}
 				<div class="mansione-calendario extra">{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small></div>
 			{% endif %}
 		{% endfor %}
