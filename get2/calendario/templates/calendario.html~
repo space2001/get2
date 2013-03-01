@@ -41,7 +41,16 @@ var maxHeight = Math.max.apply(null, $(".giorno").map(function ()
 
 $(".giorno").height(maxHeight);
 
+var DimContenuto = $('#contenuto').width();
+$(".giorno").width((DimContenuto-8)/7);
+
 });
+
+$(window).resize(function() {
+var DimContenuto = $('#contenuto').width();
+$(".giorno").width(DimContenuto/7.1);
+});
+
 </script>
 
   {% if error_message %}

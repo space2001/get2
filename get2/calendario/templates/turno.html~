@@ -114,8 +114,8 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 		</div>
 		{% for requisito in t.tipo.req_tipo_turno.all %}
 			{% if requisito.visibile %}
-			<div class="mansione-calendario-{{t|verifica_requisito:requisito }} necessario-{{requisito.necessario}} sufficiente-{{requisito.sufficiente}}">
-			<span class="img_asterisco_16"></span>
+			<div class="mansione-calendario-{{t|verifica_requisito:requisito }} necessario-{{requisito.necessario}}">
+			{% if requisito.sufficiente %}<span class="img_asterisco_16"></span>{% endif %}
 			{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small>
 			{% if not requisito.operatore = "=" or not t|verifica_requisito:requisito  or not requisito.necessario %}
 				<a href="/calendario/cerca_persona/{{t.id}}/{{requisito.mansione.id}}"><span class="aggiungi staff"></span></a>

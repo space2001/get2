@@ -27,7 +27,7 @@ body {
 	padding: 0px;
 	margin: 0px;
 	font-family:Ubuntu;
-	font-size: 16px;
+	font-size: 14px;
 	background-color:#f2f0ed;
 }
 
@@ -77,12 +77,11 @@ tr.intestazione th {
 span.img_rimuovi{
 	height: 16px;
 	width: 16px;
-	margin: 0;
-  	padding-right: 10px;
-  	border: 0;
 	background: url(rimuovi.png) no-repeat center top;
 	display: block;
-	float:right;
+	position:absolute;
+	top:0px;
+	right:2px;
 	cursor:pointer;
 	text-indent:-9999px;
 }
@@ -256,7 +255,7 @@ span.img_applica{
 
 #menu1{
 	float:left;
-	padding-left: 10px;
+	padding-left: 0px;
 	padding-right: 0px;
 }
 
@@ -277,13 +276,15 @@ span.img_applica{
 	text-indent:-9999px;
 	display: block;
 	overflow: hidden; 
-    	height:96px;
+    height:96px;
 }
 
 #main{
 	/*float:left;*/
-	margin-left: 116px;
+	margin-left: 105px;
 	padding:0;
+
+
 }
 
 #contenuto{
@@ -293,11 +294,12 @@ border-left:1px solid #888;
 border-bottom:1px solid #888;
 border-top-left-radius:1em;
 border-bottom-left-radius:1em;
-overflow: hidden;
  height: auto !important;
  	box-shadow:1px 2px 3px #bbb inset;
- 	
+ 	overflow: auto;
  	z-index:10;
+ 	
+ 	min-width:1000px;
 }
 
 
@@ -314,7 +316,7 @@ overflow: hidden;
 ul {
 	list-style-type: none;
 	overflow: hidden;
-	padding-right: 20px;
+	padding-right: 5px;
 }
 
 #menu2 li {
@@ -464,7 +466,7 @@ span.statistiche-nav{
 	float:left;
 	width: 14.2%;
 	border-right: 1px solid #1da7ff;
-
+	min-width: 130px;
 }
 
 .giorno1{
@@ -589,11 +591,11 @@ span.mansione{
 }
 
 .turno {
-	margin: 5px;
+	margin: 3px;
 	margin-top:10px;
 	border: 1px solid #999;
 	background: rgb(242, 240, 237);
-	box-shadow:2px 2px 4px #aaa;
+	box-shadow:1px 1px 3px #aaa;
 
 }
 
@@ -643,48 +645,36 @@ div.footer-turno {
 	height:24px;
 	padding-left:5px;
 	padding-top:0px;
-	font-size:14px;
+	font-size:13px;
+	position:relative;
 
 }
 
 
 .mansione-calendario {
 	border-bottom:1px solid #999;
+	position:relative;
 	text-align: left;
-	padding-left:15px;
+	padding-left:8px;
 	font-size:15px;
 	display:block;
 	font-weight:bold;
-	color: #222;
-	margin-top: 10px;
-	background: #ddd;
+	color: #333;
+	margin-top: 6px;
+	height: 24px;
+	line-height:23px;
 }
 
 .mansione-calendario-True {
-	border-bottom:1px solid #999;
-	text-align: left;
-	padding-left:15px;
-	font-size:15px;
-	display:block;
-	font-weight:bold;
-	color: #222;
-	margin-top: 6px;
+
 	background: rgb(204, 255, 153);
-	height: 24px;
+
 }
 
 .mansione-calendario-False {
-	border-bottom:1px solid #999;
-	text-align: left;
-	padding-left:15px;
-	font-size:15px;
-	display:block;
-	font-weight:bold;
-	color: #222;
-	margin-top: 6px;
+
 	background: rgb(255, 204, 153);
-	height: 24px;
-	line-height:24px;
+
 }
 
 .necessario-False {
@@ -706,27 +696,38 @@ span.aggiungi {
 	background: url(16/aggiungi.png) no-repeat right center;
 	height:24px;
 	display:block;
-	float:right;
-	width: 24px;
-	margin-right: 5px;
+	position:absolute;
+	right:0px;
+	top:0px;
+	width: 16px;
+	margin-right: 0px;
 	font-size: 13px;
 	text-indent: -999px;
 }
 
-.img_modifica_turno, .img_elimina_turno {
-float: right !important;
-  	padding-right: 0px !important;
+.img_modifica_turno {
+position:absolute !important;
+top:0px;
+right:0px;
+}
+
+.img_elimina_turno {
+position:absolute;
+top:0px;
+right:20px;
 }
 
 span.persona-turno{
 
 	margin-top:3px;
 	padding-left:10px;
-	line-height:19px;
+	line-height:18px;
+	font-size:14px;
 	background: #fff;
 	border-bottom:1px solid #bbb;
 	background: #eee;
 	display:block;
+	position:relative;
 	background: #ffffff;
 	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
@@ -801,7 +802,7 @@ span.persona-draggable {
 }
 
 span.titolo-turno1{
-	font-size:20px;
+	font-size:18px;
 	font-weight: bold;
 	font-style: italic;
 	color:#444;
