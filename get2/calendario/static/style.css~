@@ -89,7 +89,7 @@ span.img_rimuovi{
 
 span.img_aggiungi{
 	height: 16px;
-	width:	text-indent:-9999px; 16px;
+	width: 16px;
 	margin: 0px;
 	padding: 0px;
   	padding-right: 10px;
@@ -98,6 +98,7 @@ span.img_aggiungi{
 	display: block;
 	float:right;
 	cursor:pointer;
+	text-indent:-9999px;
 }
 
 span.img_modifica{
@@ -685,14 +686,31 @@ div.footer-turno {
 	height: 24px;
 	line-height:24px;
 }
+
+.necessario-False {
+	background: #ddd;
+
+}
+
+
+.img_asterisco_16 {
+	background: url(16/asterisco.png) no-repeat left center;
+	display:block;
+	width:20;
+	height:16;
+	float:left;
+	margin-top:3px;
+}
+
 span.aggiungi {
 	background: url(16/aggiungi.png) no-repeat right center;
 	height:24px;
 	display:block;
 	float:right;
-	width: 50px;
+	width: 24px;
 	margin-right: 5px;
 	font-size: 13px;
+	text-indent: -999px;
 }
 
 .img_modifica_turno, .img_elimina_turno {
@@ -901,10 +919,22 @@ tr.requisiti{
 
 tr.requisiti th {
 	padding:2px 10px;
-	border-bottom: 1px solid #ddd;
+	border-bottom: 1px solid #bbb;
 }
 
 tr.requisiti-elenco td {
 	text-align:center;
 	font-size:13px;
 }
+
+span.aggiungi_requisito{
+	display:block;
+	line-height:14px;
+	float:right;
+	background:#eee;
+	border: 1px solid #ccc;
+	padding:2px;
+	padding-left: 5px;
+	border-radius:0.2em;
+}
+

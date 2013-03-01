@@ -14,7 +14,7 @@
 	<td class="" colspan="1">Requisiti:
 	</td>
 	<td>
-	<a>aggiungi requisito</a>
+
 	</td>
 </tr>
 <tr class="tr_dettagli_requisito">
@@ -32,7 +32,7 @@
 </tr>
 <tr>
 <td></td>
-<td></td>
+<td>	<a href="/impostazioni/tipo_turno/aggiungi_requisito/{{tipo_turno.id}}"><span class="aggiungi_requisito">aggiungi requisito<span class="img_aggiungi"></span></span></a></td>
 
 </tr>
 <script>	

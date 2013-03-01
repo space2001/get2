@@ -483,18 +483,18 @@ def statistiche_intervallo(request, inizio, fine):
 #### inizio requisito ####
 
 def nuovo_requisito(request,tipo_turno_id):
-	tipo_turno=TipoTurno(id=tipo_turno_id)
+	t_turno=TipoTurno(id=tipo_turno_id)
 	azione = 'nuovo'
 	if request.method == 'POST': # If the form has been submitted...
 		form = RequisitoForm(request.POST) # A form bound to the POST data
 		if form.is_valid():
-			r=Requisito(tipo_turno=tipo_turno)
+			r=Requisito(tipo_turno=t_turno)
 			form =  RequisitoForm(request.POST, instance=r)
 			form.save()
 			return HttpResponseRedirect('/impostazioni/#tabs-tipo-turno') # Redirect after POST
 	else:
-		form = RequisitoForm()
-	return render_to_response('form_requisito.html',{'request':request, 'tipo_turno': tipo_turno, 'form': form,'azione': azione}, RequestContext(request))	
+		form = RequisitoForm(initial={'necessario': True, 'visibile': True})
+	return render_to_response('form_requisito.html',{'request':request, 'tipo_turno': t_turno, 'form': form,'azione': azione}, RequestContext(request))	
 
 def modifica_requisito(request,requisito_id):
 	azione = 'modifica'

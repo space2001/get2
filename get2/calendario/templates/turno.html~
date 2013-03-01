@@ -113,11 +113,11 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 		<span class="titolo-turno1">{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</span><span class="titolo-turno2"> {{t.identificativo}}</span>
 		</div>
 		{% for requisito in t.tipo.req_tipo_turno.all %}
-			<div class="mansione-calendario-{{t|verifica_requisito:requisito }}">
-			
-			{{requisito.mansione}}
-			<small>{{requisito.operatore}} {{requisito.valore}}</small>
-			{% if not requisito.operatore = "=" or not t|verifica_requisito:requisito  %}
+			{% if requisito.visibile %}
+			<div class="mansione-calendario-{{t|verifica_requisito:requisito }} necessario-{{requisito.necessario}} sufficiente-{{requisito.sufficiente}}">
+			<span class="img_asterisco_16"></span>
+			{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small>
+			{% if not requisito.operatore = "=" or not t|verifica_requisito:requisito  or not requisito.necessario %}
 				<a href="/calendario/cerca_persona/{{t.id}}/{{requisito.mansione.id}}"><span class="aggiungi staff"></span></a>
 			{% endif %}
 			</div> 
@@ -125,20 +125,22 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 				{% if disp.mansione = requisito.mansione and disp.tipo = 'Disponibile' %}
 				<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff"></span></a></span>
 				{% endif %}
-		{% endfor %}
 
+		{% endfor %}
+			{% endif %}
 		{% endfor %}
 		{% for disp in t.turno_disponibilita.all %}
 			{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
 			{% if forloop.first %}<span class="mansione-calendario">Altre mansioni</span>{% endif  %}
 			<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff">rimuovi</span></a></span>
 			{% endif %}
+			
 		{% endfor %}
 		<div class="footer-turno">
 			{%if t|turno_futuro or request.user.is_superuser %}
-			<span id="elimina-{{t.id}}" class="img_elimina turno staff"></span>
+			<span id="elimina-{{t.id}}" class="img_elimina img_elimina_turno staff"></span>
 			{% endif %}
-			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica_turno staff"></span></a>
+			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica img_modifica_turno staff"></span></a>
 			<span class="tipo_turno">{{t.tipo}}</span>
 		<div id="elimina-turno-{{t.id}}" title="elimina turno">
 		Vuoi eliminare il turno del {{t.inizio|date:"d M"}}, ore {{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}?</br>
@@ -147,6 +149,7 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 		<div id="occorrenze-{{t.id}}"><ul>		
 		{% for o in t|occorrenze:t.occorrenza %}
 			<li class="occorrenze-{{o|turno_futuro}}">{{o.inizio|date:"d M"}}, ore {{o.inizio|time:"H:i"}} - {{o.fine|time:"H:i"}}</li>
+			
 		{% endfor %}
 		</ul></div>
 		{% endif %}

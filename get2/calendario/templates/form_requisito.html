@@ -8,7 +8,11 @@
 <div id="navigazione">
 <div class="nav-inizio nav"><a href="/impostazioni"><span class="impostazioni-nav"> Impostazioni</span></a></div>
 <div class="nav-centro nav"><a href="/impostazioni/#tabs-tipo-turno">Tipo di Turno</a></div>
-<div class="nav-centro nav">{{requisito.tipo_turno}}</div>
+{% ifequal azione "nuovo" %}
+ <div class="nav-centro nav">{{ tipo_turno }}</div>
+{% else %}
+ <div class="nav-centro nav">{{requisito.tipo_turno}}</div>
+{% endifequal %}
 <div class="nav-fine nav">{{azione}} requisito</div>
 </div>
 

@@ -153,7 +153,7 @@ class Requisito(models.Model):
 	mansione=models.ForeignKey(Mansione, related_name="req_mansione")
 	operatore=models.CharField('operatore', max_length=10, choices=OPERATORI )
 	valore=models.IntegerField()
-	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno")
+	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno",)
 	necessario=models.BooleanField('Necessario')
 	sufficiente=models.BooleanField('Sufficiente')
 	visibile=models.BooleanField('Visibile')
