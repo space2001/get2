@@ -5,8 +5,8 @@
 
 	<td class="tipo_turno"><b>{{tipo_turno}}</b></td>
 	<td class="operazioni">
-	<a href="/impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina" style="float:right;"></span></a>
-	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica" style="float:right;"></span></a>
+	<a href="/impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina superuser" style="float:right;"></span></a>
+	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica superuser" style="float:right;"></span></a>
 	
 	</td>
 </tr>

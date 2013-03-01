@@ -128,20 +128,26 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 
 		{% endfor %}
 			{% endif %}
+				{% if not requisito.visibile %}
+				<div class="mansione-calendario extra">{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small></div>
+			{% endif %}
 		{% endfor %}
 		{% for disp in t.turno_disponibilita.all %}
 			{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
 			{% if forloop.first %}<span class="mansione-calendario">Altre mansioni</span>{% endif  %}
 			<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff">rimuovi</span></a></span>
 			{% endif %}
-			
+
 		{% endfor %}
 		<div class="footer-turno">
 			{%if t|turno_futuro or request.user.is_superuser %}
 			<span id="elimina-{{t.id}}" class="img_elimina img_elimina_turno staff"></span>
 			{% endif %}
 			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica img_modifica_turno staff"></span></a>
-			<span class="tipo_turno" "><a href="/impostazioni/#tabs-tipo-turno">{{t.tipo}}</a></span>
+			<span class="tipo_turno" ">
+				{%if request.user.is_staff %}<a href="/impostazioni/#tabs-tipo-turno">{{t.tipo}}</a>
+				{%else%} {{t.tipo}}{%endif%}
+			</span>
 		<div id="elimina-turno-{{t.id}}" title="elimina turno">
 		Vuoi eliminare il turno del {{t.inizio|date:"d M"}}, ore {{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}?</br>
 		{% if t.occorrenza %}

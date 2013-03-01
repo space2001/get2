@@ -20,7 +20,7 @@
 <tr class="tr_dettagli_requisito">
 	<td class="" colspan="2">
 		<table>
-		<tr class="requisiti"><th>Mansione</th><th>Operatore</th><th>Valore</th><th>Necessario</th><th>sufficiente</th><th>visibile</th><th>Operazioni</th></tr>
+		<tr class="requisiti"><th>Mansione</th><th>Operatore</th><th>Valore</th><th>Necessario</th><th>sufficiente</th><th>Extra</th><th>Operazioni</th></tr>
 		{% for requisito in tipo_turno.req_tipo_turno.all %}
 			<tr class="requisiti-elenco">
 			{{requisito|stampa_requisito|safe }}

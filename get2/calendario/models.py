@@ -156,7 +156,7 @@ class Requisito(models.Model):
 	tipo_turno=models.ForeignKey(TipoTurno, related_name="req_tipo_turno",)
 	necessario=models.BooleanField('Necessario')
 	sufficiente=models.BooleanField('Sufficiente')
-	visibile=models.BooleanField('Visibile')
+	extra=models.BooleanField('Extra')
 
 class RequisitoForm(forms.ModelForm):
 	class Meta:
@@ -188,9 +188,9 @@ class Turno(models.Model):
 		if requisito.necessario:
 			contatore=0
 			for d in self.turno_disponibilita.filter(tipo="Disponibile").all():
-				if (requisito.visibile and d.mansione==requisito.mansione):
+				if (requisito.extra and d.mansione==requisito.mansione):
 					contatore+=1
-				if (not requisito.visibile and requisito.mansione in d.persona.competenze.all()):
+				if (not requisito.extra and requisito.mansione in d.persona.competenze.all()):
 					contatore+=1
 			operatore=ops[requisito.operatore]
 			if not operatore(contatore,requisito.valore):

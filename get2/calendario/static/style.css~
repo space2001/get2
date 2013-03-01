@@ -723,7 +723,7 @@ span.tipo_turno {
 }
 
 span.competenza {
-	display:block
+	display:block;
 	margin:2px;
 	float:left;
 	margin-right: 5px;

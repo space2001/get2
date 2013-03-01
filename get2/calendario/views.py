@@ -511,7 +511,7 @@ def nuovo_requisito(request,tipo_turno_id):
 			form.save()
 			return HttpResponseRedirect('/impostazioni/#tabs-tipo-turno') # Redirect after POST
 	else:
-		form = RequisitoForm(initial={'necessario': True, 'visibile': True})
+		form = RequisitoForm(initial={'necessario': True, 'extra': True})
 	return render_to_response('form_requisito.html',{'request':request, 'tipo_turno': t_turno, 'form': form,'azione': azione}, RequestContext(request))	
 
 @user_passes_test(lambda u: u.is_superuser)
