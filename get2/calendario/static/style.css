@@ -29,6 +29,7 @@ body {
 	font-family:Ubuntu;
 	font-size: 14px;
 	background-color:#f2f0ed;
+		min-width: 1105px;
 }
 
 table {
@@ -41,13 +42,12 @@ table {
 }
 
 table.cento{
-	width: 100%;
+	width: 98%;
 }
 
 td {
 	padding: 3px 12px;
 	vertical-align: top;
-	font-size: 16px;
 }
 
 th {
@@ -92,7 +92,7 @@ span.img_aggiungi{
 	margin: 0px;
 	padding: 0px;
   	padding-right: 10px;
-  	border	text-indent:-9999px;: 0;
+  	text-indent:-9999px;
 	background: url(aggiungi2.png) no-repeat center top;
 	display: block;
 	float:right;
@@ -188,58 +188,33 @@ span.img_applica{
 	padding-bottom: 32px;
 }
 
-#login2 input {
-	border: 1px solid #bbb;
-}
 
-#login2 input.invio {
-	border: none;
-	height:32px;
-	width:32px;
-	float: right;
-	background: url(invio.png) repeat-x center center;
-	cursor:pointer;
-	display: block;
-}
 
 #nome {
-	height: 36px;
+	height: 30px;
 	display: inline-block;
 	margin: 0px auto;
 	border:0px;
 	border-right: 1px solid #bbb;
-	padding-left:20px;
-	padding-right:20px;
+	padding:3px 10px;
 	border-left: 1px solid #bbb;
 	font-size: 15px;
 	background-color: #ddd;
 }
 
-#nome input {
-	margin: 0px;
-	margin-top: 3px;
-	margin-left: 10px;
-	border: 1px solid #bbb;
-}
+
 
 
 #login_up {
-	height: 36px;
+	height: 30px;
 	margin: 0px auto;
 	border:0px;
 	border-right: 1px solid #bbb;
-	padding-left:20px;
+	padding:3px 10px;
 	border-left: 1px solid #bbb;
 	font-size: 15px;
 	background-color: #ddd;
 	display: inline-block;
-}
-
-#login_up input {
-	margin: 0px;
-	margin-top: 3px;
-	margin-right: 10px;
-	border: 1px solid #bbb;
 }
 
 
@@ -283,6 +258,7 @@ span.img_applica{
 	/*float:left;*/
 	margin-left: 105px;
 	padding:0;
+
 
 
 }
@@ -661,8 +637,8 @@ div.footer-turno {
 	font-weight:bold;
 	color: #333;
 	margin-top: 6px;
-	height: 24px;
-	line-height:23px;
+	height: 20px;
+	line-height:19px;
 }
 
 .mansione-calendario-True {
@@ -689,7 +665,7 @@ div.footer-turno {
 	width:20;
 	height:16;
 	float:left;
-	margin-top:3px;
+	margin-top:2px;
 }
 
 span.aggiungi {
@@ -747,7 +723,7 @@ span.tipo_turno {
 }
 
 span.competenza {
-	display:block
+	display:block;
 	margin:2px;
 	float:left;
 	margin-right: 5px;
@@ -770,7 +746,8 @@ span.esci {
 span.salve {
 	display:block;
 	float:left;
-	line-height:32px;
+	line-height:28px;
+	padding-right:3px;
 }
 
 .bordo {
@@ -939,3 +916,6 @@ span.aggiungi_requisito{
 	border-radius:0.2em;
 }
 
+.ui-tooltip {
+max-width: 350px;
+}

@@ -1,9 +1,4 @@
-	<script>
-	 $(function() {
-$( "#tabs" ).tabs();
-});
-	
-	</script>
+
 <div id="tabs" class="bordo">
 	<ul>
 		{% for statistica in elenco_statistiche %}

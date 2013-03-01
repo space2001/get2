@@ -7,11 +7,7 @@
 	{% dajaxice_js_import %}
 	<script src="/static/jquery.min.js"></script>
 	<script src="/static/jquery-ui.min.js"></script>
-	<link type="text/css" href="/static/Delta/theme/jquery-ui.css" rel="stylesheet" />
-	<script src="/static/Delta/js/modernizr-2.0.6.min.js"></script>
-	<script src="/static/Delta/js/jquery.imgpreload.min.js"></script>
-	<script src="/static/Delta/js/jquery-ui.toggleSwitch.js"></script>
-	<script src="/static/Delta/js/custom.js"></script>
+	<link rel="stylesheet" type="text/css" href="{% static "css/smoothness/jquery-ui-1.10.1.custom.css" %}" />
 	<script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
 	<script type="text/javascript" src="/static/js/noty/jquery.noty.js"></script>
 	<script type="text/javascript" src="/static/js/noty/layouts/bottomRight.js"></script>
@@ -46,14 +42,14 @@
 	<li class="utenti staff"><a href="/utenti/">Utenti</a></li>
 	
 	{% if request.user.get_profile.notifiche_non_lette %}
-	<li id="menu-notifiche" class="notifiche user"><a href="/notifiche/">Notifiche</a>
+	<li id="menu-notifiche" class="notifiche staff notifiche"><a href="/notifiche/">Notifiche</a>
 		<span class="notifiche_nonlette">{{request.user.get_profile.notifiche_non_lette}}</span>
 	{% else %}
-	<li id="menu-notifiche" class="notifiche-ok user"><a href="/notifiche/">Notifiche</a>
+	<li id="menu-notifiche" class="notifiche-ok staff notifiche"><a href="/notifiche/">Notifiche</a>
 		<span class="notifiche_nonlette hide"></span>
 	{% endif %}	
 	</li>
-	<li class="impostazioni superuser"><a href="/impostazioni/">Ipostazioni</a></li>
+	<li class="impostazioni staff"><a href="/impostazioni/">Ipostazioni</a></li>
 	</ul>
 	<script>
 	var url="{{request.path}}";

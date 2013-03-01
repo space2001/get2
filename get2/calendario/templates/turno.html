@@ -141,7 +141,10 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 			<span id="elimina-{{t.id}}" class="img_elimina img_elimina_turno staff"></span>
 			{% endif %}
 			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica img_modifica_turno staff"></span></a>
-			<span class="tipo_turno">{{t.tipo}}</span>
+			<span class="tipo_turno" ">
+				{%if request.user.is_staff %}<a href="/impostazioni/#tabs-tipo-turno">{{t.tipo}}</a>
+				{%else%} {{t.tipo}}{%endif%}
+			</span>
 		<div id="elimina-turno-{{t.id}}" title="elimina turno">
 		Vuoi eliminare il turno del {{t.inizio|date:"d M"}}, ore {{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}?</br>
 		{% if t.occorrenza %}
@@ -191,6 +194,7 @@ $(document).ready(function(){
 	$("#occorrenze-{{t.id}}").hide();
 	});
 </script>
+
 
 		</div>
 		</div>

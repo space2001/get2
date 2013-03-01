@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
-<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
-{% endblock %}
+
 
 
 {% block menu2 %}
@@ -55,15 +52,19 @@ giorni[6] = "Domenica";
 	}
 	</script>
 	
+	<script>
+	 $(function() {
+$( "#tabs" ).tabs();
+});
 	
-		</script>
+	</script>
 
 
 	<div id="mansioni">
 	<span class="titolo impostazioni">Mansioni</span>
 	<menu class="impostazioni">
 	<ul>
-	<li class="aggiungi"><a href="/impostazioni/mansione/nuovo">Aggiungi mansione</a></li>
+	<li class="aggiungi superuser"><a href="/impostazioni/mansione/nuovo">Aggiungi mansione</a></li>
 	</ul>
 	</menu>
 	<table>
@@ -72,8 +73,8 @@ giorni[6] = "Domenica";
 	
 		<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="mansione-{{mansione.id}}">
 		<td class="mansioni">{{mansione}}</td>
-		<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione.id}}"><span class="img_modifica"></span></a>
-			<a href="/impostazioni/mansione/elimina/{{mansione.id}}"><span class="img_elimina"></span></a>
+		<td class="operazioni"><a href="/impostazioni/mansione/modifica/{{mansione.id}}"><span class="img_modifica superuser"></span></a>
+			<a href="/impostazioni/mansione/elimina/{{mansione.id}}"><span class="img_elimina superuser"></span></a>
 
 		</td></tr>
 
@@ -88,7 +89,7 @@ giorni[6] = "Domenica";
 	<span class="titolo impostazioni">Tipi di turno</span>
 	<menu class="impostazioni">
 	<ul>
-	<li class="aggiungi"><a href="/impostazioni/tipo_turno/nuovo">Aggiungi Tipo Turno</a></li>
+	<li class="aggiungi superuser"><a href="/impostazioni/tipo_turno/nuovo">Aggiungi Tipo Turno</a></li>
 	</ul>
 	</menu>
 	<table>
@@ -104,7 +105,7 @@ giorni[6] = "Domenica";
 	<span class="titolo impostazioni">Impostazioni Notifiche</span>
 	<menu class="impostazioni">
 	<ul>
-	<li class="aggiungi"><a href="/impostazioni/notifica/nuovo">Aggiungi regola notifica</a></li>
+	<li class="aggiungi superuser"><a href="/impostazioni/notifica/nuovo">Aggiungi regola notifica</a></li>
 	</ul>
 	</menu>
 	
@@ -127,8 +128,8 @@ giorni[6] = "Domenica";
 			{% endfor%}		
 			</td>
 			<td>
-				<a href="/impostazioni/notifica/modifica/{{i.id}}"><span class="img_modifica"></span></a>
-				<a href="/impostazioni/notifica/elimina/{{i.id}}"><span class="img_elimina"></span></a>
+				<a href="/impostazioni/notifica/modifica/{{i.id}}"><span class="img_modifica superuser"></span></a>
+				<a href="/impostazioni/notifica/elimina/{{i.id}}"><span class="img_elimina superuser"></span></a>
 			</td>
 		</tr>
 

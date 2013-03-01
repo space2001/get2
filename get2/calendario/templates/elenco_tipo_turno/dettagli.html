@@ -5,8 +5,8 @@
 
 	<td class="tipo_turno"><b>{{tipo_turno}}</b></td>
 	<td class="operazioni">
-	<a href="/impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina" style="float:right;"></span></a>
-	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica" style="float:right;"></span></a>
+	<a href="/impostazioni/tipo_turno/elimina/{{tipo_turno.id}}"><span class="img_elimina superuser" style="float:right;"></span></a>
+	<a href="/impostazioni/tipo_turno/modifica/{{tipo_turno.id}}"><span class="img_modifica superuser" style="float:right;"></span></a>
 	
 	</td>
 </tr>
@@ -32,14 +32,7 @@
 </tr>
 <tr>
 <td></td>
-<td>	<a href="/impostazioni/tipo_turno/aggiungi_requisito/{{tipo_turno.id}}"><span class="aggiungi_requisito">aggiungi requisito<span class="img_aggiungi"></span></span></a></br></br></td>
+<td>	<a href="/impostazioni/tipo_turno/aggiungi_requisito/{{tipo_turno.id}}"><span class="aggiungi_requisito superuser">aggiungi requisito<span class="img_aggiungi superuser"></span></span></a></br></br></td>
 
 </tr>
-<script>	
-	$(document).ready(function(){
-		$( ".tr_dettagli_requisito select").prop("disabled", true);
-		$( ".tr_dettagli_requisito input").prop("disabled", true);
-		$( ".tr_dettagli_requisito select").css("color", "333");
-		$( ".tr_dettagli_requisito input").css("color", "333");	
-		});
-</script>
+

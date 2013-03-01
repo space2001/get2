@@ -47,6 +47,6 @@ def stampa_requisito(instance):
 			elif val=="False":
 				val="<div class='no'></div>"
 			s+="<td>"+val+"</td>"
-		s+='<td class="operazioni"><a href="/impostazioni/requisito/modifica/'+str(instance.id)+'/"><span class="img_modifica"></span></a><a href="/impostazioni/requisito/elimina/'+str(instance.id)+'/"><span class="img_elimina"></span></a></td>'
+		s+='<td class="operazioni superuser"><a href="/impostazioni/requisito/modifica/'+str(instance.id)+'/"><span class="img_modifica"></span></a><a href="/impostazioni/requisito/elimina/'+str(instance.id)+'/"><span class="img_elimina"></span></a></td>'
 	return s
 stampa_requisito.is_safe = True
