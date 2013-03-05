@@ -73,6 +73,5 @@
   <tr><td></td><td><input type="submit" value="invia" /></td></tr>
   </table>
   </form>    	
-  <a href="#" onclick='$("#form_mansione" ).dialog("open");'>aggiungi mansione</a>
   </div>
 {% endblock %}

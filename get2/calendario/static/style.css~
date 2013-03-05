@@ -1,15 +1,15 @@
 
 
-@font-face {
-	font-family: Ubuntu;
-	src: url(Ubuntu-M.ttf);
-	font-weight: bold;
-}
+/*@font-face {*/
+/*	font-family: Ubuntu;*/
+/*	src: url(Ubuntu-M.ttf);*/
+/*	font-weight: bold;*/
+/*}*/
 
-@font-face {
-	font-family: Ubuntu;
-	src: url(Ubuntu-R.ttf);
-}
+/*@font-face {*/
+/*	font-family: Ubuntu;*/
+/*	src: url(Ubuntu-R.ttf);*/
+/*}*/
 
 a {
 	color: #1982d1;
@@ -26,7 +26,8 @@ body {
 	background: #fff;
 	padding: 0px;
 	margin: 0px;
-	font-family:Ubuntu;
+/*	font-family:Ubuntu;*/
+	font-family:sans;
 	font-size: 14px;
 	background-color:#f2f0ed;
 		min-width: 1105px;
@@ -76,14 +77,15 @@ tr.intestazione th {
 
 span.img_rimuovi{
 	height: 16px;
-	width: 16px;
-	background: url(rimuovi.png) no-repeat center top;
+	width: 100%;
+	background: url(rimuovi.png) no-repeat right top;
 	display: block;
 	position:absolute;
-	top:0px;
+	top:3px;
 	right:2px;
 	cursor:pointer;
 	text-indent:-9999px;
+	z-index:100;
 }
 
 span.img_aggiungi{
@@ -265,9 +267,9 @@ span.img_applica{
 
 #contenuto{
 background-color:#fff;
-border-top:1px solid #888;
-border-left:1px solid #888;
-border-bottom:1px solid #888;
+border-top:1px solid #777;
+border-left:1px solid #777;
+border-bottom:1px solid #777;
 border-top-left-radius:1em;
 border-bottom-left-radius:1em;
  height: auto !important;
@@ -441,7 +443,7 @@ span.statistiche-nav{
 	margin-top:0px;
 	float:left;
 	width: 14.2%;
-	border-right: 1px solid #1da7ff;
+	border-right: 1px solid #ccc;
 	min-width: 130px;
 }
 
@@ -569,11 +571,13 @@ span.mansione{
 .turno {
 	margin: 3px;
 	margin-top:10px;
-	border: 1px solid #999;
+	border: 1px solid #777;
 	background: rgb(242, 240, 237);
-	box-shadow:1px 1px 3px #aaa;
 
 }
+
+/*.turno.ombra-True{	box-shadow:1px 1px 2px #0b0;  }*/
+.turno.ombra-False{	box-shadow:0px 0px 4px #f30;  }
 
 div.titolo-turno-True {
 	background: url(16/si.png) no-repeat right top;
@@ -586,7 +590,7 @@ div.titolo-turno-True {
 }
 
 div.titolo-turno-False {
-	background: url(16/no.png) no-repeat right top;
+/*	background: url(16/no.png) no-repeat right top;*/
 	width:16px;
 	height:20px;
 	float:right;
@@ -610,7 +614,7 @@ div.titolo-turno-False {
 	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
 	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
 	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
-
+	cursor:pointer;
 }
 
 div.footer-turno {
@@ -655,9 +659,16 @@ div.footer-turno {
 
 .necessario-False {
 	background: #ddd;
-
 }
 
+.requisito-cursor {
+	cursor:pointer;
+}
+
+.extra {
+	background: #fff;
+
+}
 
 .img_asterisco_16 {
 	background: url(16/asterisco.png) no-repeat left center;
@@ -681,21 +692,37 @@ span.aggiungi {
 	text-indent: -999px;
 }
 
-.img_modifica_turno {
-position:absolute !important;
-top:0px;
-right:20px;
+.bottone-modifica_turno{
+display: block;
+width: 100%;
+padding:5px;
+margin-top:7px;
+text-align: center;
+border:1px solid #aaa;
+border-radius:0.2em;
+	background: #ddd;
+	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
+	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -o-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
+	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
+	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
+	cursor:pointer;
+
 }
 
-.img_elimina_turno {
-position:absolute;
-top:0px;
-right:-4px;
+.modifica_turno {
+
+}
+
+.elimina_turno {
+
 }
 
 span.persona-turno{
 
-	margin-top:3px;
+	padding-top:3px;
 	padding-left:10px;
 	line-height:18px;
 	font-size:14px;
@@ -704,14 +731,8 @@ span.persona-turno{
 	background: #eee;
 	display:block;
 	position:relative;
-	background: #ffffff;
-	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));
-	background: -webkit-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
-	background: -o-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
-	background: -ms-linear-gradient(top,  rgb(242, 240, 237) 0%,#ddd 100%);
-	background: linear-gradient(to bottom,  rgb(242, 240, 237) 0%,#ddd 100%);
-	filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='rgb(242, 240, 237)', endColorstr='#ddd',GradientType=0 );
+	background: #fff;
+
 }
 
 span.tipo_turno {
@@ -916,6 +937,3 @@ span.aggiungi_requisito{
 	border-radius:0.2em;
 }
 
-.ui-tooltip {
-max-width: 350px;
-}

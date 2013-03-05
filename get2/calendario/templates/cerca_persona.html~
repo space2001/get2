@@ -15,7 +15,7 @@
 {% block main %}
 
 <div class="menu-main">
-	Gia' Disponibili per questo turno:<div id="disponibili">
+	<div id="disponibili">Gia' Disponibili per questo turno:
 	{% for d in turno.turno_disponibilita.all %}
 		{% if d.tipo = "Disponibile" %}
 		<span id="disponibile-{{d.id}}" class="disponibile">{{d.persona}} ({{d.mansione}})</span>

@@ -3,9 +3,9 @@
 
 {% if request.user.get_profile and  not request.user.is_staff %}
 
-<script type="text/javascript">
-$(document).ready(function(){$('.turno').css('cursor', 'pointer');});
-</script>
+	<script type="text/javascript">
+	$(document).ready(function(){$('.turno').css('cursor', 'pointer');});
+	</script>
 
 	{% if t|turno_intervallo_disponibilita %}
 
@@ -105,99 +105,118 @@ $(document).ready(function(){$('.turno').css('cursor', 'pointer');});
 	
 {% endif %}
 
+{% if request.user.is_staff %}
+	<div id="modifica-{{t.id}}" title="Modifica turno">
+	<a href="/calendario/turno/modifica/{{t.id}}"><span class="modifica_turno bottone-modifica_turno">modifica</span></a>
+	<span class="elimina_turno bottone-modifica_turno" onclick="$('#elimina-turno-{{t.id}}' ).dialog('open');">elimina</span>
+	</div>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			$( "#modifica-{{t.id}}" ).dialog({
+				resizable: false,
+				modal: true,
+				autoOpen: false,
+				buttons: {
+					"Annulla": function() {
+						$( this ).dialog( "close" );
+					}
+				}
+			});
+		$('#titolo-turno-{{t.id}}').click(function () {$("#modifica-{{t.id}}" ).dialog("open");});
+		});
+		</script>
 
-	<div class="turno" id="turno-{{t.id}}" >
-		
-		<div class="titolo-turno-{{t.coperto}}"></div>
-		<div class="titolo-turno">
-		<span class="titolo-turno1">{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</span><span class="titolo-turno2"> {{t.identificativo}}</span>
-		</div>
-		{% for requisito in t.tipo.req_tipo_turno.all %}
-			{% if requisito.extra %}
+{% endif %}
+
+<div class="turno ombra-{{t.coperto}}" id="turno-{{t.id}}" >
+	<div class="titolo-turno-{{t.coperto}}"></div>
+	<div class="titolo-turno" id="titolo-turno-{{t.id}}">
+	<span class="titolo-turno1">{{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}</span><span class="titolo-turno2"> {{t.identificativo}}</span>
+	</div>
+	
+	{% for requisito in t.tipo.req_tipo_turno.all %}
+		{% if not requisito.extra %}
 			<div class="mansione-calendario mansione-calendario-{{t|verifica_requisito:requisito }} necessario-{{requisito.necessario}}">
 			{% if requisito.sufficiente %}<span class="img_asterisco_16"></span>{% endif %}
-			{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small>
+				{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small>
 			{% if not requisito.operatore = "=" or not t|verifica_requisito:requisito  or not requisito.necessario %}
 				<a href="/calendario/cerca_persona/{{t.id}}/{{requisito.mansione.id}}"><span class="aggiungi staff"></span></a>
 			{% endif %}
-			</div> 
+				</div> 
 			{% for disp in t.turno_disponibilita.all %}
 				{% if disp.mansione = requisito.mansione and disp.tipo = 'Disponibile' %}
-				<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff"></span></a></span>
+					<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff"></span></a></span>
 				{% endif %}
-
-		{% endfor %}
-			{% endif %}
-				{% if not requisito.extra %}
-				<div class="mansione-calendario extra">{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small></div>
-			{% endif %}
-		{% endfor %}
-		{% for disp in t.turno_disponibilita.all %}
-			{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
+			{% endfor %}
+		{% endif %}
+		{% if requisito.extra %}
+			<div class="mansione-calendario extra">{{requisito.mansione}}<small> {{requisito.operatore}} {{requisito.valore}}</small></div>
+		{% endif %}
+	{% endfor %}
+	
+	{% for disp in t.turno_disponibilita.all %}
+		{% if disp.mansione not in t.mansioni and disp.tipo = 'Disponibile' %}
 			{% if forloop.first %}<span class="mansione-calendario">Altre mansioni</span>{% endif  %}
 			<span class="persona-turno">{{disp.persona}}<a href="/calendario/rimuovi_disponibilita/{{disp.id}}"><span class="img_rimuovi staff">rimuovi</span></a></span>
-			{% endif %}
-
-		{% endfor %}
-		<div class="footer-turno">
-			{%if t|turno_futuro or request.user.is_superuser %}
-			<span id="elimina-{{t.id}}" class="img_elimina img_elimina_turno staff"></span>
-			{% endif %}
-			<a href="/calendario/turno/modifica/{{t.id}}"><span class="img_modifica img_modifica_turno staff"></span></a>
-			<span class="tipo_turno" ">
-				{%if request.user.is_staff %}<a href="/impostazioni/#tabs-tipo-turno">{{t.tipo}}</a>
-				{%else%} {{t.tipo}}{%endif%}
-			</span>
-		<div id="elimina-turno-{{t.id}}" title="elimina turno">
+		{% endif %}
+	{% endfor %}
+	
+	<div class="footer-turno">
+	
+	<span class="tipo_turno" ">
+		{%if request.user.is_staff %}<a href="/impostazioni/#tabs-tipo-turno">{{t.tipo}}</a>
+		{%else%} {{t.tipo}}{%endif%}
+	</span>
+	<div id="elimina-turno-{{t.id}}" title="elimina turno">
 		Vuoi eliminare il turno del {{t.inizio|date:"d M"}}, ore {{t.inizio|time:"H:i"}} - {{t.fine|time:"H:i"}}?</br>
 		{% if t.occorrenza %}
-		<span class="emblem-generic" onclick="$('#occorrenze-{{t.id}}').slideDown()">Il turno fa parte di una occorrenza</span>
-		<div id="occorrenze-{{t.id}}"><ul>		
-		{% for o in t|occorrenze:t.occorrenza %}
-			<li class="occorrenze-{{o|turno_futuro}}">{{o.inizio|date:"d M"}}, ore {{o.inizio|time:"H:i"}} - {{o.fine|time:"H:i"}}</li>
-			
-		{% endfor %}
-		</ul></div>
+			<span class="emblem-generic" onclick="$('#occorrenze-{{t.id}}').slideDown()">Il turno fa parte di una occorrenza</span>
+			<div id="occorrenze-{{t.id}}"><ul>		
+			{% for o in t|occorrenze:t.occorrenza %}
+				<li class="occorrenze-{{o|turno_futuro}}">{{o.inizio|date:"d M"}}, ore {{o.inizio|time:"H:i"}} - {{o.fine|time:"H:i"}}</li>
+			{% endfor %}
+			</ul></div>
 		{% endif %}
-		</div>		
-<script type="text/javascript">
+	</div>
+		
+	<script type="text/javascript">
 
-$(document).ready(function(){
-		$( "#elimina-turno-{{t.id}}" ).dialog({
-			resizable: false,
-			modal: true,
-			autoOpen: false,
-			buttons: {
-				{% if t.occorrenza %}
-				"Elimina Turno e tutte le successive occorrenze": function() {
-					var url="/calendario/turno/elimina_occorrenza/{{t.occorrenza.id}}";
-					window.location = url;
-					$( this ).dialog( "close" );
-				},
-					{% if request.user.is_superuser %}				
-				"Elimina Turno e TUTTE le occorrenze": function() {
-					var url="/calendario/turno/elimina_occorrenza_tot/{{t.occorrenza.id}}";
-					window.location = url;
-					$( this ).dialog( "close" );
-				},
+	$(document).ready(function(){
+			$( "#elimina-turno-{{t.id}}" ).dialog({
+				resizable: false,
+				modal: true,
+				autoOpen: false,
+				buttons: {
+					{% if t.occorrenza %}
+					"Elimina Turno e tutte le successive occorrenze": function() {
+						var url="/calendario/turno/elimina_occorrenza/{{t.occorrenza.id}}";
+						window.location = url;
+						$( this ).dialog( "close" );
+					},
+						{% if request.user.is_superuser %}				
+					"Elimina Turno e TUTTE le occorrenze": function() {
+						var url="/calendario/turno/elimina_occorrenza_tot/{{t.occorrenza.id}}";
+						window.location = url;
+						$( this ).dialog( "close" );
+					},
 
+						{% endif %}
 					{% endif %}
-				{% endif %}
-				"Elimina Turno": function() {
-					var url="/calendario/turno/elimina/{{t.id}}";
-					window.location = url;
-					$( this ).dialog( "close" );
-				},
-				"Annulla": function() {
-					$( this ).dialog( "close" );
+					"Elimina Turno": function() {
+						var url="/calendario/turno/elimina/{{t.id}}";
+						window.location = url;
+						$( this ).dialog( "close" );
+					},
+					"Annulla": function() {
+						$( this ).dialog( "close" );
+					}
 				}
-			}
+			});
+		$("#occorrenze-{{t.id}}").hide();
+		$('.img_rimuovi').hide();
+		$('.persona-turno').hover(	function () {$(this).find('.img_rimuovi').show();}, 	function () {$(this).find('.img_rimuovi').hide();});
 		});
-	$('#elimina-{{t.id}}').click(function () {$("#elimina-turno-{{t.id}}" ).dialog("open");});
-	$("#occorrenze-{{t.id}}").hide();
-	});
-</script>
-
-
-		</div>
-		</div>
+	</script>
+	
+	</div>
+</div>

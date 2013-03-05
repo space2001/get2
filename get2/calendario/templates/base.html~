@@ -7,7 +7,7 @@
 	{% dajaxice_js_import %}
 	<script src="/static/jquery.min.js"></script>
 	<script src="/static/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="{% static "css/smoothness/jquery-ui-1.10.1.custom.css" %}" />
+	<link rel="stylesheet" type="text/css" href="{% static "css/Aristo/Aristo.css" %}" />
 	<script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
 	<script type="text/javascript" src="/static/js/noty/jquery.noty.js"></script>
 	<script type="text/javascript" src="/static/js/noty/layouts/bottomRight.js"></script>
@@ -32,7 +32,7 @@
 	<div id="user">	{% if request.user.id%}<div id="nome"><span class="salve">Salve, <b>{{request.user.get_profile}} </b></span><a href="/accounts/logout"><input type="submit" value=" Esci " class=""></a></div>	
 	{%else%}
 	<div id="login_up">
-		<form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %} <input type="hidden" name="next" value="/calendario/" /> utente: <input id="id_username" type="text" name="username" maxlength="30">  password: <input type="password" name="password" id="id_password" ><input type="submit" value=" Accedi " class=""></form></div>
+		<form method="post" action="{% url django.contrib.auth.views.login %}">{% csrf_token %} <input type="hidden" name="next" value="/calendario/" /> utente: <input id="id_username" type="text" name="username" maxlength="30">  password: <input type="password" name="password" id="id_password" > <input type="submit" value=" Accedi " class=""></form></div>
 	{% endif %}</div>
 	<menu id='menu1'>
 	<ul>

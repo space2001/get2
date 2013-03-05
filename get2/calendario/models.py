@@ -135,7 +135,19 @@ class PersonaForm(forms.ModelForm):
 class Gruppo(models.Model):
 	nome = models.CharField('Nome',max_length=30)
 	componenti = models.ManyToManyField(Persona, blank=True, null=True, related_name='componenti_gruppo')
+	def numero_componenti(self):
+		n=0
+		for c in self.componenti.all():
+			n+=1
+		return n
+	def __unicode__(self):
+		return '%s' % (self.nome)
 
+class GruppoForm(forms.ModelForm):
+	#nascita = forms.DateField(label='Data di nascita', required=False, widget=widgets.AdminDateWidget)
+	class Meta:
+		model = Gruppo
+		exclude = ('componenti')
 
 class TipoTurno(models.Model):
 	identificativo = models.CharField(max_length=30, blank=False)
@@ -183,6 +195,7 @@ class Turno(models.Model):
 	fine = models.DateTimeField()
 	tipo = models.ForeignKey(TipoTurno, blank=True, null=True, on_delete=models.SET_NULL)
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
+	valore = models.IntegerField(default=1)
 	def verifica_requisito(self,requisito):
 		#pdb.set_trace()
 		if requisito.necessario:

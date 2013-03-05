@@ -56,6 +56,74 @@ def modifica_persona(request,persona_id):
 		form = PersonaForm(instance=per)
 	return render_to_response('form_persona.html',{'request': request, 'form': form,'azione': azione, 'per': per,'mansione_form':MansioneForm()}, RequestContext(request))
 
+@user_passes_test(lambda u: u.is_superuser)
+def elimina_persona(request,persona_id):
+	p=Persona.objects.get(id=persona_id)
+	p.delete()
+	return HttpResponseRedirect('/persone/')
+
+@staff_member_required
+def nuovo_gruppo(request):
+	#if request.user.is_staff:
+	azione = 'nuovo'
+	if request.method == 'POST':
+		form = GruppoForm(request.POST)
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/persone')
+	else:
+		form = GruppoForm()
+	return render_to_response('form_gruppo.html',{'request':request,'form': form,'azione': azione,}, RequestContext(request))
+	#else:
+	#	return render_to_response('staff-no.html')
+	
+@staff_member_required
+def modifica_gruppo(request,gruppo_id):
+	azione = 'modifica'
+	g = Gruppo.objects.get(id=gruppo_id)
+	if request.method == 'POST':  # If the form has been submitted...
+		form = GruppoForm(request.POST, instance=g)  # necessario per modificare la riga preesistente
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/persone') # Redirect after POST
+	else:
+		form = GruppoForm(instance=g)
+	return render_to_response('form_gruppo.html',{'request': request, 'form': form,'azione': azione, 'g': g,}, RequestContext(request))
+
+@staff_member_required
+def elimina_gruppo(request,gruppo_id):
+	p=Gruppo.objects.get(id=gruppo_id)
+	p.delete()
+	return HttpResponseRedirect('/persone/')
+	
+@staff_member_required
+def gruppoaggiungi(request, gruppo_id, per_id):
+	g=Gruppo.objects.get(id=gruppo_id)
+	p=Persona.objects.get(id=per_id)
+	g.componenti.add(v)
+	g.save
+	return HttpResponseRedirect('/persone/')
+	
+@staff_member_required
+def gruppoaggiungilista(request):
+	#pdb.set_trace()
+	if request.GET['gruppo_id']:	
+		gruppo_id = request.GET['gruppo_id']
+		g=Gruppo.objects.get(id=gruppo_id)
+	else:
+		return HttpResponseRedirect('/persone/')
+	persone = request.GET.getlist('persone_id')
+	for per_id in persone:
+		if request.GET['azione']=='aggiungi':
+			v=Persona.objects.get(id=per_id)
+			g.componenti.add(v)
+			g.save
+		elif request.GET['azione']=='rimuovi':
+			v=Persona.objects.get(id=per_id)
+			g.componenti.remove(v)
+			g.save
+	return HttpResponseRedirect('/persone/')
+
 ####   fine persona   ####
 
 #####   calendario   ####

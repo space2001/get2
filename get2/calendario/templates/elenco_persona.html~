@@ -22,10 +22,9 @@ $(document).ready(function(){ $("div.menu-main").hide(); });
 
 <div class="menu-main">
 	<span class="img_chiudi destra"  onclick="$('div.menu-main').slideUp()" ></span>
-	<form method="post" action="" id="intervallo_date">{% csrf_token %}
 	<label for="cerca">Nome o cognome: </label>
 	<input type="text" id="cerca" name="cerca" /> 
-	<input type="submit" value="Cerca" onclick="cerca_persone()"/></form>
+	<input type="submit" value="Cerca" onclick="cerca_persone()"/>
 </div>
 
 <script>
@@ -34,8 +33,27 @@ function cerca_persone(){
 }
 </script>
 
+<span class="titolo impostazioni">Gruppi</span>
+<menu class="impostazioni">
+<ul>
+<li class="aggiungi superuser"><a href="/persone/gruppo/nuovo">Aggiungi gruppo</a></li>
+</ul>
+</menu>
+<table class="cento">
+	{% for gruppo in gruppi %}
+	
+		<tr class="gruppi {% cycle 'riga1' 'riga2' %}" id="gruppo-{{gruppo.id}}">
+		<td class="gruppi">{{gruppo}} ({{gruppo.numero_componenti}})</td>
+		<td class="operazioni"><a href="/persone/gruppo/modifica/{{gruppo.id}}"><span class="img_modifica staff"></span></a>
+			<a href="/persone/gruppo/elimina/{{gruppo.id}}"><span class="img_elimina staff"></span></a>
+
+		</td></tr>
+
+	{% endfor %}
+</table>
+
+
 <script src="/static/sorttable.js"></script>
-</br>
 <div id="tabella_persone">
 {% include "persone/tabella_persone.html" %}
 </div>

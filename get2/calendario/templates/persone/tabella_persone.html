@@ -7,25 +7,47 @@ function persona_stato(selettore){
 }
 
 </script>
-
+<form action="/persone/gruppo/aggiungilista/" method="get">
 <table class="sortable cento">
+
+
+<tr>
+	<td  class="sorttable_nosort" colspan="6">
+	
+	Se selezionati: <select name="azione">
+		<option value="aggiungi">aggiungi al gruppo
+		<option value="rimuovi">rimuovi dal gruppo
+	</select>
+	<select name="gruppo_id">
+	<option value="">---
+	{% for gruppo in gruppi %} 
+	<option value="{{gruppo.id}}">{{gruppo.nome}}
+	{% endfor %}  
+	</select>
+	<input type="submit" value="applica">
+	</td>
+</tr>
+
 <tr class="intestazione">
-<th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th>
+	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th>
 </tr>
 {% for persona in persone %}
 
 
 	<tr class="persona {% cycle 'riga1' 'riga2' %}" id="persona-{{persona.id}}">
+	<td><input type="checkbox" name="persone_id" value="{{persona.id}}"></td>
 	<td class="nome">{{persona}}</td>
 	<td class="mansioni">{% for m in persona.competenze.all %} <span class="competenza">{{m}}</span> {% endfor %}</td>
+	<td class="gruppi">{% for g in persona.componenti_gruppo.all %} <span class="competenza">{{g}}</span> {% endfor %}</td>
 	<td class="stato"><SELECT NAME="stato"  ONCHANGE="persona_stato(this)" id="sel-{{persona.id}}">
 		{%for key,value in stati %}
 		<OPTION VALUE="{{key}}-{{persona.id}}">{{value}}
 		{% endfor%}
 		</SELECT></td>
 	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
-		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina"></span></a>
+		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
 	</td>
+	
 	</tr>
 	<script>
 	$(function() {
@@ -57,4 +79,4 @@ function persona_stato(selettore){
 $('#sel-{{persona.id}} option').filter(function(){return this.text=='{{persona.get_stato_display}}';}).attr('selected', true);
 </script>
 {% endfor %}
-</table>
+</table></form>

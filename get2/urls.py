@@ -1,5 +1,5 @@
 from django.conf.urls.defaults import *
-from django.views.generic.simple import direct_to_template
+from django.views.generic import TemplateView
 
 from dajaxice.core import dajaxice_autodiscover, dajaxice_config
 dajaxice_autodiscover()
@@ -21,6 +21,11 @@ urlpatterns += patterns('get2.calendario',
 	(r'^persone/$', 'views.elenco_persona'),
 	(r'^persone/nuovo/$', 'views.nuovo_persona'),
 	(r'^persone/modifica/(?P<persona_id>\w+)/$', 'views.modifica_persona'),
+	(r'^persone/elimina/(?P<persona_id>\w+)/$', 'views.elimina_persona'),
+	(r'^persone/gruppo/nuovo/$', 'views.nuovo_gruppo'),
+	(r'^persone/gruppo/modifica/(?P<gruppo_id>\w+)/$', 'views.modifica_gruppo'),
+	(r'^persone/gruppo/elimina/(?P<gruppo_id>\w+)/$', 'views.elimina_gruppo'),
+	(r'^persone/gruppo/aggiungilista/$', 'views.gruppoaggiungilista'),
 	# utenti
 	(r'^utenti/$', 'views.elenco_utente'),
 	(r'^utenti/nuovo/$', 'views.nuovo_utente'),
