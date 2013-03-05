@@ -106,7 +106,22 @@
 {% endif %}
 
 {% if request.user.is_staff %}
+	<script>
+	function aggiungi_gruppo(selettore){
+	url = "/calendario/disponibilita_gruppo/{{t.id}}/"+selettore.value;
+	window.location = url;
+	}
+	</script>
 	<div id="modifica-{{t.id}}" title="Turno {{t.id}}">
+	<span class="aggiungigruppo_turno bottone-modifica_turno">
+	aggiungi gruppo: 
+		<select onchange="aggiungi_gruppo(this)">
+			<option value="NULL">----
+			{%for g in gruppi%}
+				<option value="{{g.id}}">{{g}}
+			{%endfor%}
+		</select>
+	</span>
 	<a href="/calendario/turno/modifica/{{t.id}}"><span class="modifica_turno bottone-modifica_turno">modifica</span></a>
 	<span class="elimina_turno bottone-modifica_turno" onclick="$('#elimina-turno-{{t.id}}' ).dialog('open');">elimina</span>
 	</div>

@@ -630,6 +630,10 @@ div.footer-turno {
 
 }
 
+div.footer-turno a {
+	color:#555;
+}
+
 
 .mansione-calendario {
 	border-bottom:1px solid #999;

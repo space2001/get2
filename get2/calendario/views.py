@@ -159,7 +159,8 @@ def calendario(request):
 	calendario.append(turni)
 	calendario=zip(*calendario)
 	tipo_turno=TipoTurno.objects.all()
-	corpo=render_to_response('calendario.html',{'calendario':calendario,'start':start,'request':request,'tipo_turno':tipo_turno}, RequestContext(request))
+	gruppi=Gruppo.objects.all()
+	corpo=render_to_response('calendario.html',{'calendario':calendario,'start':start,'request':request,'tipo_turno':tipo_turno,'gruppi':gruppi}, RequestContext(request))
 	risposta = HttpResponse(corpo)
 	risposta.set_cookie('anno', value=anno)
 	risposta.set_cookie('mese', value=mese)
@@ -278,6 +279,11 @@ def disponibilita_url(request, turno_id, mansione_id, persona_id, disponibilita)
 		return HttpResponseRedirect('/calendario')
 	else:
 		print d[1]
+		
+def disponibilita_gruppo(request,turno_id,gruppo_id):
+	turno=Turno.objects.get(id=turno_id)
+	gruppo=Gruppo.objects.get(id=gruppo_id)
+	return render_to_response('disponibilita_gruppo.html',{'turno':turno,'gruppo':gruppo,'request':request})
 
 ####   fine disponibilita   ####
 
@@ -292,7 +298,7 @@ def notifica_disponibilita(request,persona,turno,tipo_disponibilita,mansione):
 	notifica.letto=False
 	if Impostazioni_notifica.objects.filter(giorni__contains=turno.inizio.weekday(),tipo_turno=turno.tipo):
 		for i in Impostazioni_notifica.objects.filter(giorni__contains=turno.inizio.weekday(),tipo_turno=turno.tipo):
-			pdb.set_trace()
+			#pdb.set_trace()
 			notifica.destinatario_id=i.utente.id
 			notifica.save()
 	else:

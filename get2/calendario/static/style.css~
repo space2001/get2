@@ -630,6 +630,10 @@ div.footer-turno {
 
 }
 
+div.footer-turno a {
+	color:#333;
+}
+
 
 .mansione-calendario {
 	border-bottom:1px solid #999;
@@ -693,13 +697,13 @@ span.aggiungi {
 }
 
 .bottone-modifica_turno{
-display: block;
-width: 100%;
-padding:5px;
-margin-top:7px;
-text-align: center;
-border:1px solid #aaa;
-border-radius:0.2em;
+	display: block;
+	width: 100%;
+	padding:5px;
+	margin-top:7px;
+	text-align: center;
+	border:1px solid #aaa;
+	border-radius:0.2em;
 	background: #ddd;
 	background: -moz-linear-gradient(top,  rgb(242, 240, 237) 0%, #ddd 100%);
 	background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgb(242, 240, 237)), color-stop(100%,#ddd));

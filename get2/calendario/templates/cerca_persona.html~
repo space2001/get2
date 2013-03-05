@@ -31,6 +31,7 @@ function disp(selettore){
 	if (selettore.options[0].value==''){
 		selettore.remove(0);}
 	dati=value.split("/");
+	alert(value);
 	Dajaxice.get2.calendario.disp(Dajax.process,{'turno_id':dati[0],'mansione_id':dati[1],'persona_id':dati[2],'disp':dati[3]});
 }
 </script>
@@ -40,20 +41,22 @@ function disp(selettore){
 <td>Nome</td><td>Mansioni</td><td>Disponibilita'</td>
 </tr>
 {%for persona in persone%}
-	{% for d in turno.turno_disponibilita.all %}
-	{% if persona = d.persona %}
-	<script type="text/javascript">
-	$(document).ready(function(){
-		var s = $('#sel-{{persona.id}}');
-		//s.remove(0);
-		if('{{d.mansione.id}}'!='{{mansione.id}}'){
-			if('{{d.tipo}}'=='Disponibile'){s.empty(); s.append("<option value=''>Gia Impeganto</option>");}
-			else {$('#sel-{{persona.id}} option').filter(function() { return this.text == '{{d.tipo}}';}).attr('selected', true);}
-		}
-		else { $('#sel-{{persona.id}} option').filter(function() { return this.text == '{{d.tipo}}';}).attr('selected', true);} }
-	);
-	</script>
-	{% endif %}
+	{%for c in turno.contemporanei.all %}
+		{% for d in c.turno_disponibilita.all %}
+		{% if persona = d.persona %}
+		<script type="text/javascript">
+		$(document).ready(function(){
+			var s = $('#sel-{{persona.id}}');
+			//s.remove(0);
+			if('{{d.mansione.id}}'!='{{mansione.id}}'){
+				if('{{d.tipo}}'=='Disponibile'){s.empty(); s.append("<option value=''>Gia Impeganto</option>");}
+				else {$('#sel-{{persona.id}} option').filter(function() { return this.text == '{{d.tipo}}';}).attr('selected', true);}
+			}
+			else { $('#sel-{{persona.id}} option').filter(function() { return this.text == '{{d.tipo}}';}).attr('selected', true);} }
+		);
+		</script>
+		{% endif %}
+		{% endfor %}
 	{% endfor %}
 	<tr class="persona {% cycle 'riga1' 'riga2' %} stato-{{persona.stato}}" id="persona-{{persona.id}}">
 	<td class="nome">{{persona}}</td>
