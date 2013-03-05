@@ -22,7 +22,7 @@ giorni[4] = "Venerdì";
 giorni[5] = "Sabato";
 giorni[6] = "Domenica";
 </script>
-	<script>
+<script>
 	 $(function() {
 $( "#tabs" ).tabs();
 });

@@ -33,6 +33,7 @@ $( "#tabs" ).tabs();
 		<li><a href="#tabs-mansioni">Mansioni</a></li>
 		<li><a href="#tabs-tipo-turno">Tipo di turno</a></li>
 		<li><a href="#tabs-notifiche">Notifiche</a></li>
+		<li><a href="#tabs-persone">Persone</a></li>
 		
 	</ul>
 
@@ -137,6 +138,33 @@ $( "#tabs" ).tabs();
 	</table>
 	
 	
+	</div>
+
+</div>
+
+<div id="tabs-persone">
+
+	<div id="persone">
+	<span class="titolo impostazioni">Persone</span>
+	<menu class="impostazioni">
+	<ul>
+	<li class="aggiungi superuser"><a href="/impostazioni/campo_persone/nuovo">Aggiungi campo</a></li>
+	</ul>
+	</menu>
+	<table>
+
+	{% for campo_persone in campi_persone %}
+	
+		<tr class="mansioni {% cycle 'riga1' 'riga2' %}" id="mansione-{{campo_persone.id}}">
+		<td class="mansioni">{{campo_persone.name}}</td>
+		<td class="operazioni"><a href="/impostazioni/campo_persone/modifica/{{campo_persone.id}}"><span class="img_modifica superuser"></span></a>
+			<a href="/impostazioni/campo_persone/elimina/{{campo_persone.id}}"><span class="img_elimina superuser"></span></a>
+
+		</td></tr>
+
+	{% endfor %}
+	</table>
+
 	</div>
 
 </div>

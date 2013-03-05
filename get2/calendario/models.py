@@ -10,6 +10,14 @@ import pdb
 from django.utils.text import capfirst
 from django.core import exceptions
 
+#### import per eav #####
+import os
+project = os.path.basename(os.path.dirname(__file__))
+os.environ['DJANGO_SETTINGS_MODULE'] = '%s.settings' % project
+import eav
+from eav.forms import BaseDynamicEntityForm
+from eav.models import Attribute
+#### fine import eav ####
 
 class MultiSelectFormField(forms.MultipleChoiceField):
     widget = forms.CheckboxSelectMultiple
@@ -126,11 +134,13 @@ class Persona(models.Model):
 	def __unicode__(self):
 		return '%s %s' % (self.nome,self.cognome)
 
-class PersonaForm(forms.ModelForm):
+class PersonaForm(BaseDynamicEntityForm):
 	#nascita = forms.DateField(label='Data di nascita', required=False, widget=widgets.AdminDateWidget)
 	class Meta:
 		model = Persona
 		widgets = {'competenze': forms.CheckboxSelectMultiple}
+
+eav.register(Persona) #registro il Model Persona come associazione a eav
 
 class Gruppo(models.Model):
 	nome = models.CharField('Nome',max_length=30)
@@ -300,3 +310,15 @@ class Impostazioni_notificaForm(forms.ModelForm):
 		model = Impostazioni_notifica
 		widgets = {'tipo_turno': forms.CheckboxSelectMultiple}
 
+
+#### Form per Attribute(eav) ####
+class AttributeForm(forms.ModelForm):
+	def __init__(self, *args, **kwargs):
+		super(AttributeForm, self).__init__(*args, **kwargs)
+		self.fields['name'].help_text = ''
+		self.fields['datatype'].label = 'Tipo'
+		self.fields['required'].label = 'Obbligatorio'
+
+	class Meta:
+		model = Attribute
+		exclude = ('slug', 'site', 'slug', 'description', 'enum_group', 'type')

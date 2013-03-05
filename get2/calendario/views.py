@@ -16,6 +16,8 @@ import get2.calendario.settings_calendario as settings_calendario
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
 
+
+from eav.models import Attribute #eav import
 ####   persona   ####
 
 def elenco_persona(request):
@@ -405,7 +407,7 @@ def elimina_mansione(request,mansione_id):
 @staff_member_required
 def impostazioni(request):
 	tipi_turno=TipoTurno.objects.all()
-	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'impostazioni_notifica_utente':Impostazioni_notifica.objects.all(),'request':request}, RequestContext(request))
+	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'impostazioni_notifica_utente':Impostazioni_notifica.objects.all(), 'campi_persone':Attribute.objects.all(), 'request':request}, RequestContext(request))
 
 @user_passes_test(lambda u: u.is_superuser)
 def nuovo_tipo_turno(request):
@@ -609,3 +611,38 @@ def elimina_requisito(request,requisito_id):
 	return HttpResponseRedirect('/impostazioni/#tabs-tipo-turno')
 
 #### fine requisito ####
+
+#### inizio campo_persone ####
+@user_passes_test(lambda u: u.is_superuser)
+def nuovo_campo_persone(request):
+	azione = 'nuovo'
+	if request.method == 'POST': # If the form has been submitted...
+		form = AttributeForm(request.POST) # A form bound to the POST data
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/impostazioni/#tabs-persone') # Redirect after POST
+	else:
+		form = AttributeForm()
+	return render_to_response('form_campo_persone.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))
+
+@user_passes_test(lambda u: u.is_superuser)
+def modifica_campo_persone(request, campo_persone_id):
+	azione = 'modifica'
+	campo_persone = Attribute.objects.get(id=campo_persone_id)
+	if request.method == 'POST': # If the form has been submitted...
+		form = AttributeForm(request.POST, instance=campo_persone) # necessario per modificare la riga preesistente
+		if form.is_valid():
+			form.save()
+			return HttpResponseRedirect('/impostazioni/#tabs-persone') # Redirect after POST
+	else:
+		form = AttributeForm(instance=campo_persone)
+	return render_to_response('form_campo_persone.html',{'form':form,'azione': azione, 'campo_persone': campo_persone,'request':request}, RequestContext(request))
+	
+
+@user_passes_test(lambda u: u.is_superuser)
+def elimina_campo_persone(request,campo_persone_id):
+	c=Attribute.objects.get(id=campo_persone_id)
+	c.delete()
+	return HttpResponseRedirect('/impostazioni/#tabs-persone')	
+
+#### fine campo_persone ####
