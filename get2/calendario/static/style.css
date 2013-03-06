@@ -28,7 +28,7 @@ body {
 	margin: 0px;
 /*	font-family:Ubuntu;*/
 	font-family:sans;
-	font-size: 14px;
+	font-size: 12px;
 	background-color:#f2f0ed;
 		min-width: 1105px;
 }
@@ -443,7 +443,7 @@ span.statistiche-nav{
 	margin-top:0px;
 	float:left;
 	width: 14.2%;
-	border-right: 1px solid #ccc;
+	border-right: 1px solid #999;
 	min-width: 130px;
 }
 
@@ -569,7 +569,7 @@ span.mansione{
 }
 
 .turno {
-	margin: 3px;
+	margin: 4px;
 	margin-top:10px;
 	border: 1px solid #777;
 	background: rgb(242, 240, 237);
@@ -657,7 +657,7 @@ div.footer-turno a {
 
 .mansione-calendario-False {
 
-	background: rgb(255, 204, 153);
+	background: #F79F81;
 
 }
 

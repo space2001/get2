@@ -35,10 +35,13 @@ function cerca_persone(){
 <span class="titolo impostazioni">Gruppi</span>
 <menu class="impostazioni">
 <ul>
-<li class="aggiungi superuser"><a href="/persone/gruppo/nuovo">Aggiungi gruppo</a></li>
+<li class="aggiungi staff"><a href="/persone/gruppo/nuovo">Aggiungi gruppo</a></li>
 </ul>
 </menu>
 <table class="cento">
+<tr class="intestazione">
+	<th>Nome</th><th>Operazioni</th>
+</tr>
 	{% for gruppo in gruppi %}
 	
 		<tr class="gruppi {% cycle 'riga1' 'riga2' %}" id="gruppo-{{gruppo.id}}">
@@ -54,7 +57,7 @@ function cerca_persone(){
 <span class="titolo impostazioni">Persone</span>
 <menu class="impostazioni">
 <ul>
-<li class="aggiungi superuser"><a href="/persone/nuovo">Aggiungi persona</a></li>
+<li class="aggiungi staff"><a href="/persone/nuovo">Aggiungi persona</a></li>
 </ul>
 </menu>
 <script src="/static/sorttable.js"></script>
