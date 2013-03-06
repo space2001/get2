@@ -55,6 +55,16 @@
 	    dateFormat: "dd/mm/yy",
         });
 	});
+	$(function() {
+		$( ".vDateField" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            defaultDate: "-18y",
+            maxDate: "-15y",
+            yearRange: "1900:2012",
+	    dateFormat: "dd/mm/yy",
+        });
+	});
 	};
   </script>
 

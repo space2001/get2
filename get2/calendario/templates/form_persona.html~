@@ -1,9 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
-{% block head %}
-<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
-<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
-{% endblock %}
+
 
 {% block title %} Inserimento/Modifica di una persona {% endblock %}	
 
@@ -58,6 +55,17 @@
 	    dateFormat: "dd/mm/yy",
         });
 	});
+	$(function() {
+		$( ".vDateField" ).datepicker({
+            changeMonth: true,
+            changeYear: true,
+            defaultDate: "-18y",
+            maxDate: "-15y",
+            yearRange: "1900:2012",
+	    dateFormat: "dd/mm/yy",
+        });
+	});
+	$('#id_data_abilitazione_1').hide();
 	};
   </script>
 

@@ -272,10 +272,10 @@ border-left:1px solid #777;
 border-bottom:1px solid #777;
 border-top-left-radius:1em;
 border-bottom-left-radius:1em;
- height: auto !important;
+/*height: auto !important;*/
  	box-shadow:1px 2px 3px #bbb inset;
- 	overflow: auto;
- 	z-index:10;
+ 	overflow: hidden;
+/* 	z-index:10;*/
  	
  	min-width:1000px;
 }
@@ -444,7 +444,8 @@ span.statistiche-nav{
 	float:left;
 	width: 14.2%;
 	border-right: 1px solid #999;
-	min-width: 130px;
+	min-width: 120px;
+	height:auto;
 }
 
 .giorno1{
@@ -622,10 +623,11 @@ div.footer-turno {
 	border-top:1px solid #aaa;
 	margin-bottom:0px;
 	margin-top:6px;
-	height:24px;
+	height:20px;
 	padding-left:5px;
 	padding-top:0px;
-	font-size:13px;
+	font-size:12px;
+	line-height:15px;
 	position:relative;
 
 }
