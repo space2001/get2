@@ -17,6 +17,11 @@ os.environ['DJANGO_SETTINGS_MODULE'] = '%s.settings' % project
 import eav
 from eav.forms import BaseDynamicEntityForm
 from eav.models import Attribute
+
+from south.modelsinspector import add_ignored_fields
+add_ignored_fields(["^eav\.fields\.EavDatatypeField"])
+add_ignored_fields(["^eav\.fields\.EavSlugField"])
+
 #### fine import eav ####
 
 class MultiSelectFormField(forms.MultipleChoiceField):
