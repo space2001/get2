@@ -1,10 +1,9 @@
 {% extends "base.html" %}
 {% load static %}
 {% block head %}
-<link type="text/css" href="{% static "Aristo/Aristo.css" %}" rel="stylesheet" />
-<script type="text/javascript" src="{% static "jquery-ui.js" %}"></script>
+<script type="text/javascript" src="/static/js/time/jquery.ui.timepicker.js" %}" ></script>
+	<link type="text/css" href="/static/js/time/jquery.ui.timepicker.css" rel="stylesheet" />
 {% endblock %}
-
 {% block title %} Inserimento/Modifica di una persona {% endblock %}	
 
 
