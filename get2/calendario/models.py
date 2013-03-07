@@ -218,9 +218,9 @@ class Turno(models.Model):
 		if requisito.necessario:
 			contatore=0
 			for d in self.turno_disponibilita.filter(tipo="Disponibile").all():
-				if (requisito.extra and d.mansione==requisito.mansione):
+				if (not requisito.extra and d.mansione==requisito.mansione):
 					contatore+=1
-				if (not requisito.extra and requisito.mansione in d.persona.competenze.all()):
+				if (requisito.extra and requisito.mansione in d.persona.competenze.all()):
 					contatore+=1
 			operatore=ops[requisito.operatore]
 			if not operatore(contatore,requisito.valore):
