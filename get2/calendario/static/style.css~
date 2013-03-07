@@ -896,7 +896,7 @@ tr.tr_dettagli_requisito {
 }
 
 tr.intestazione-requisiti {
-	font-size: 15px;
+	font-size: 14px;
 	border-bottom: 1px solid #ccc;
 	padding:0px 10px;
 

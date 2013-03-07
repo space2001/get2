@@ -29,7 +29,7 @@ function persona_stato(selettore){
 </tr>
 
 <tr class="intestazione">
-	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th>
+	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Note</th><th class="sorttable_nosort">Operazioni</th>
 </tr>
 {% for persona in persone %}
 
@@ -44,9 +44,12 @@ function persona_stato(selettore){
 		<OPTION VALUE="{{key}}-{{persona.id}}">{{value}}
 		{% endfor%}
 		</SELECT></td>
+	<td>{{persona.note}}
+	</td>
 	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
 		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
 	</td>
+
 	
 	</tr>
 	<script>

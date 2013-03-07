@@ -151,6 +151,7 @@ eav.register(Persona) #registro il Model Persona come associazione a eav
 class Gruppo(models.Model):
 	nome = models.CharField('Nome',max_length=30)
 	componenti = models.ManyToManyField(Persona, blank=True, null=True, related_name='componenti_gruppo')
+	note = models.TextField( blank=True, null=True, )
 	def numero_componenti(self):
 		n=0
 		for c in self.componenti.all():

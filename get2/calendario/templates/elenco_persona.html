@@ -40,12 +40,14 @@ function cerca_persone(){
 </menu>
 <table class="cento">
 <tr class="intestazione">
-	<th>Nome</th><th>Operazioni</th>
+	<th>Nome</th><th>Note</th><th>Operazioni</th>
 </tr>
 	{% for gruppo in gruppi %}
 	
 		<tr class="gruppi {% cycle 'riga1' 'riga2' %}" id="gruppo-{{gruppo.id}}">
 		<td class="gruppi">{{gruppo}} ({{gruppo.numero_componenti}})</td>
+		<td>{{gruppo.note}}
+		</td>
 		<td class="operazioni"><a href="/persone/gruppo/modifica/{{gruppo.id}}"><span class="img_modifica staff"></span></a>
 			<a href="/persone/gruppo/elimina/{{gruppo.id}}"><span class="img_elimina staff"></span></a>
 

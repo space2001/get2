@@ -39,6 +39,9 @@ function cerca_persone(){
 </ul>
 </menu>
 <table class="cento">
+<tr class="intestazione">
+	<th>Nome</th><th>Operazioni</th>
+</tr>
 	{% for gruppo in gruppi %}
 	
 		<tr class="gruppi {% cycle 'riga1' 'riga2' %}" id="gruppo-{{gruppo.id}}">

@@ -15,8 +15,8 @@ function persona_stato(selettore){
 	<td  class="sorttable_nosort" colspan="6">
 	
 	Se selezionati: <select name="azione">
-		<option value="aggiungi">aggiungi a
-		<option value="rimuovi">aggiungi dal gruppo
+		<option value="aggiungi">aggiungi al gruppo
+		<option value="rimuovi">rimuovi dal gruppo
 	</select>
 	<select name="gruppo_id">
 	<option value="">---
@@ -29,7 +29,7 @@ function persona_stato(selettore){
 </tr>
 
 <tr class="intestazione">
-	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th>
+	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th><th class="sorttable_nosort">Note</th>
 </tr>
 {% for persona in persone %}
 
@@ -46,6 +46,8 @@ function persona_stato(selettore){
 		</SELECT></td>
 	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
 		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
+	</td>
+	<td>{{persona.note}}
 	</td>
 	
 	</tr>
