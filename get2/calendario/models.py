@@ -126,7 +126,6 @@ class Persona(models.Model):
 	user = models.ForeignKey(User, unique=True, blank=True, null=True, related_name='pers_user')
 	nome = models.CharField('Nome',max_length=200)
 	cognome = models.CharField('Cognome',max_length=200)
-	nascita = models.DateField('Data di nascita')
 	#caratteristiche della persona
 	stato = models.CharField('Stato',max_length=40, choices=STATI, default='disponibile' )
 	competenze = models.ManyToManyField(Mansione, blank=True, null=True, )
