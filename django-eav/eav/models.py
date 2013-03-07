@@ -155,6 +155,7 @@ class Attribute(models.Model):
         unique_together = ('site', 'slug')
 
     TYPE_TEXT = 'text'
+    TYPE_TEXTAREA = 'textarea' ### integrazione textarea
     TYPE_FLOAT = 'float'
     TYPE_INT = 'int'
     TYPE_DATE = 'date'
@@ -163,7 +164,8 @@ class Attribute(models.Model):
     TYPE_ENUM = 'enum'
 
     DATATYPE_CHOICES = (
-        (TYPE_TEXT, _("Testo")),
+        (TYPE_TEXT, _("Testo xxx")),
+        (TYPE_TEXTAREA, _("Area di testo")), ### integrazione textarea
         (TYPE_FLOAT, _("Numero")),
         #(TYPE_INT, _(u"Integer")),
         (TYPE_DATE, _("Data")),
@@ -194,7 +196,7 @@ class Attribute(models.Model):
     def help_text(self):
         return self.description
 
-    datatype = EavDatatypeField(_(u"data type"), max_length=6,
+    datatype = EavDatatypeField(_(u"data type"), max_length=25,
                                 choices=DATATYPE_CHOICES)
 
     created = models.DateTimeField(_(u"created"), default=datetime.now,
@@ -219,6 +221,7 @@ class Attribute(models.Model):
         '''
         DATATYPE_VALIDATORS = {
             'text': validate_text,
+            'textarea' : validate_text,
             'float': validate_float,
             'int': validate_int,
             'date': validate_date,
@@ -340,6 +343,7 @@ class Value(models.Model):
                                        fk_field='entity_id')
 
     value_text = models.TextField(blank=True, null=True)
+    value_textarea = models.TextField(blank=True, null=True) ### integrazione textarea
     value_float = models.FloatField(blank=True, null=True)
     value_int = models.IntegerField(blank=True, null=True)
     value_date = models.DateField(blank=True, null=True)
@@ -530,11 +534,4 @@ class Entity(object):
         entity = getattr(kwargs['instance'], instance._eav_config_cls.eav_attr)
         entity.validate_attributes()
 
-if 'django_nose' in settings.INSTALLED_APPS:
-    '''
-    The django_nose test runner won't automatically create our Patient model
-    database table which is required for tests, unless we import it here.
 
-    Please, someone tell me a better way to do this.
-    '''
-    from .tests.models import Patient, Encounter
