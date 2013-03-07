@@ -1,0 +1,21 @@
+################ Modifiche GET2 ################
+
+Installazione pacchetto modificato:
+
+$python setup.py install
+
+################################################
+
+Modifiche apportate:
+
+Tolti tipi di dato eav:
+			-Intero
+			-Django Object
+			-Enum
+Modifica tipi di dato:
+			-Float -> Numero
+			-Date -> Data
+			-True / False -> Vero/Falso
+
+
+In eav/models.py modificata la classe degli Attributi con sostituzione del campo di tipo DateTime in Date.
