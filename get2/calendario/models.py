@@ -130,6 +130,7 @@ class Persona(models.Model):
 	#caratteristiche della persona
 	stato = models.CharField('Stato',max_length=40, choices=STATI, default='disponibile' )
 	competenze = models.ManyToManyField(Mansione, blank=True, null=True, )
+	note = models.TextField( blank=True, null=True, )
 	def notifiche_non_lette(self):
 		n=0
 		for m in Notifica.objects.filter(destinatario=self.user):
