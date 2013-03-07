@@ -22,7 +22,7 @@
 jQuery(function()
     { 
       $('#id_inizio_1').timepicker({showPeriodLabels: false, hourText: 'Ora', minuteText: 'Minuto',});
-      $('#id_fine_1').timepicker();
+      $('#id_fine_1').timepicker({showPeriodLabels: false, hourText: 'Ora', minuteText: 'Minuto',});
     });
 
 window.onload = function() 

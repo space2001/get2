@@ -47,6 +47,7 @@ class BaseDynamicEntityForm(ModelForm):
 
     FIELD_CLASSES = {
         'text': CharField,
+        'textarea' : CharField,
         'float': FloatField,
         'int': IntegerField,
         'date': DateTimeField,
@@ -85,8 +86,8 @@ class BaseDynamicEntityForm(ModelForm):
                 if value:
                     defaults.update({'initial': value.pk})
 
-            #elif datatype == attribute.TYPE_DATE:
-             #   defaults.update({'widget': AdminSplitDateTime})
+            elif datatype == attribute.TYPE_TEXTAREA:
+                defaults.update({'widget': forms.Textarea})
             elif datatype == attribute.TYPE_OBJECT:
                 continue
 

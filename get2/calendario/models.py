@@ -142,6 +142,13 @@ class Persona(models.Model):
 
 class PersonaForm(BaseDynamicEntityForm):
 	#nascita = forms.DateField(label='Data di nascita', required=False, widget=widgets.AdminDateWidget)
+	def __init__(self, *args, **kwargs):
+		super(PersonaForm, self).__init__(*args, **kwargs)
+		lista_attributi = eav.models.Entity(Persona).get_all_attributes()
+		for attributo in lista_attributi:
+			if attributo.datatype == 'date':
+	       			self.fields[attributo.name].widget.attrs['class'] = 'campo_tipo_data'
+
 	class Meta:
 		model = Persona
 		widgets = {'competenze': forms.CheckboxSelectMultiple}
