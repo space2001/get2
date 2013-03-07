@@ -642,13 +642,13 @@ div.footer-turno a {
 	position:relative;
 	text-align: left;
 	padding-left:8px;
-	font-size:15px;
+	font-size:12px;
 	display:block;
-	font-weight:bold;
+
 	color: #333;
 	margin-top: 6px;
-	height: 20px;
-	line-height:19px;
+	height: 17px;
+	line-height:16px;
 }
 
 .mansione-calendario-True {
@@ -687,7 +687,7 @@ div.footer-turno a {
 
 span.aggiungi {
 	background: url(16/aggiungi.png) no-repeat right center;
-	height:24px;
+	height:16px;
 	display:block;
 	position:absolute;
 	right:0px;
@@ -806,14 +806,14 @@ span.persona-draggable {
 }
 
 span.titolo-turno1{
-	font-size:18px;
+	font-size:16px;
 	font-weight: bold;
 	font-style: italic;
 	color:#444;
 }
 
 span.titolo-turno2{
-	font-size:15px;
+	font-size:14px;
 	font-style: italic;
 	color:#444;
 }
