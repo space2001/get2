@@ -17,6 +17,12 @@
 {% endblock %}
 
 {% block main %}
+<script type="text/javascript">
+jQuery(function()
+    { 
+      $('.campo_tipo_data').timepicker({showPeriodLabels: false, hourText: 'Ora', minuteText: 'Minuto',});
+    });
+</script>
 
 <div style="margin:10px;">
   {% if error_message %}

@@ -164,7 +164,7 @@ class Attribute(models.Model):
     TYPE_ENUM = 'enum'
 
     DATATYPE_CHOICES = (
-        (TYPE_TEXT, _("Testo xxx")),
+        (TYPE_TEXT, _("Testo")),
         (TYPE_TEXTAREA, _("Area di testo")), ### integrazione textarea
         (TYPE_FLOAT, _("Numero")),
         #(TYPE_INT, _(u"Integer")),
