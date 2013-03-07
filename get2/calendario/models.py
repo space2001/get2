@@ -111,9 +111,10 @@ add_introspection_rules([], ["^get2\.calendario\.models\.MultiSelectField"])
 
 
 class Mansione(models.Model):
-	descrizione = models.CharField('Descrizione',max_length=200)
+	nome =models.CharField('Nome',max_length=20)
+	descrizione = models.TextField('Descrizione estesa')
 	def __unicode__(self):
-		return '%s' % (self.descrizione)
+		return '%s' % (self.nome)
 	# Milite tipo A, milite tipo B, centralinista ecc... 
 
 class MansioneForm(forms.ModelForm):
