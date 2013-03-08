@@ -689,12 +689,14 @@ def elimina_campo_persone(request,campo_persone_id):
 def visualizza_persona(request,persona_id):
 	persona = Persona.objects.get(id=persona_id)
 	lista_attributi = eav.models.Entity(Persona).get_all_attributes()
-	attributi = {}
-	for attributo in lista_attributi:
-		try:
-			attributi[attributo.slug] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
+	attributi = []
+	conta_posizione_vettore = 0
+	for attributo in lista_attributi:		
+		try:			
+			attributi.append([attributo.name, eav.models.Entity(persona).get_value_by_attribute(attributo.id).value])
 		except: 
   			pass
+		conta_posizione_vettore = conta_posizione_vettore + 1
 	return render_to_response('dettaglio_persona.html',{'request': request, 'persona': persona, 'attributi': attributi}, RequestContext(request))
 
 #### fine pagina persona ####
