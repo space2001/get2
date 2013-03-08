@@ -219,7 +219,7 @@ class Turno(models.Model):
 	fine = models.DateTimeField()
 	tipo = models.ForeignKey(TipoTurno, blank=True, null=True, on_delete=models.SET_NULL)
 	occorrenza = models.ForeignKey(Occorrenza, blank=True, null=True)
-	valore = models.IntegerField(default=1)
+	valore = models.IntegerField('Punteggio',default=1)
 	def verifica_requisito(self,requisito):
 		#pdb.set_trace()
 		if requisito.necessario:

@@ -519,11 +519,30 @@ def modifica_turno(request, turno_id):
 	if request.method == 'POST': # If the form has been submitted...
 		form = TurnoForm(request.POST, instance=turno) # necessario per modificare la riga preesistente
 		if form.is_valid():
+			data = form.cleaned_data
 			form.save()
+			pdb.set_trace()
+			occ=False
+			if 'modifica_tutti' in request.POST:
+				occorrenze = Turno.objects.filter(occorrenza=turno.occorrenza)
+				occ=True
+			elif 'modifica_futuri' in request.POST:
+				occorrenze = Turno.objects.filter(occorrenza=turno.occorrenza, inizio__gte=turno.inizio)
+				occ=True
+			if occ:
+				for o in occorrenze:
+					o.tipo=turno.tipo
+					o.valore=turno.valore
+					o.identificativo=turno.identificativo
+					i=o.inizio.replace(hour=turno.inizio.hour, minute=turno.inizio.minute)
+					f=o.fine.replace(hour=turno.fine.hour, minute=turno.fine.minute)
+					o.inizio=i
+					o.fine=f
+					o.save()
 			return HttpResponseRedirect('/calendario/') # Redirect after POST
 	else:
 		form = TurnoForm(instance=turno)
-	return render_to_response('form_turno.html',{'form': form,'azione': azione, 'turno_id': turno_id,'request':request}, RequestContext(request))
+	return render_to_response('form_turno.html',{'form': form,'azione': azione, 'turno': turno,'request':request}, RequestContext(request))
 
 @staff_member_required
 def elimina_turno(request, turno_id):

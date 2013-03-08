@@ -1,6 +1,8 @@
 
 {% extends "base.html" %}
 {% load static %}
+{% load template_filters %}
+
 {% block head %}
 <script type="text/javascript" src="/static/js/time/jquery.ui.timepicker.js" %}" ></script>
 	<link type="text/css" href="/static/js/time/jquery.ui.timepicker.css" rel="stylesheet" />
@@ -11,7 +13,7 @@
 
 <div id="navigazione">
 <div class="nav-inizio nav"><a href="/calendario"><span class="calendario-nav"> Calendario</span></a></div>
-<div class="nav-fine nav">Nuovo turno</div>
+<div class="nav-fine nav">{{azione}} turno</div>
 </div>
 
 {% endblock %}
@@ -79,7 +81,11 @@ window.onload = function()
         	$(':checkbox[name=ripeti_il_giorno]').prop('disabled', true);
     	}    
      };
-
+	
+	{%if not request.user.is_superuser%}
+		$('#id_inizio_0').hide();
+		$('#id_tipo').prop('disabled', true);
+	{% endif %}
 }; 
 
 </script>
@@ -94,10 +100,22 @@ window.onload = function()
   {% endifequal %}
 
   {% ifequal azione 'Modifica' %}
-  <form action="/calendario/turno/modifica/{{ turno_id }}/" method="post">{% csrf_token %}
+  <form action="/calendario/turno/modifica/{{ turno.id }}/" method="post">{% csrf_token %}
   {% endifequal %}
   <table id="form_turno">
   {{form.as_table}}
+  {% if turno.occorrenza %}
+  	<tr><td colspan="2">
+  	<span class="emblem-generic">Il turno fa parte di una occorrenza</span>
+			<div id="occorrenze-{{turno.id}}"><ul>		
+			{% for o in turno|occorrenze:turno.occorrenza %}
+				<li class="occorrenze-{{o|turno_futuro}}">{{o.inizio|date:"d M"}}, ore {{o.inizio|time:"H:i"}} - {{o.fine|time:"H:i"}}</li>
+			{% endfor %}
+			</ul></div>
+  	</td></tr>
+  	<tr><th ><label>Modifica occorrenze successive</label></th><td><input type="checkbox" name="modifica_futuri" ></td></tr>
+  	<tr class="superuser"><th ><label>Modifica tutte le occorrenze</label></th><td><input type="checkbox" name="modifica_tutti" ></td></tr>
+  {% endif %}
   <tr><td></td><td><input type="submit" value="invia" /></td></tr>
   </table>
   </form>
