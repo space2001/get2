@@ -571,13 +571,26 @@ def elimina_turno_occorrenza(request, occorrenza_id):
 
 #### inizio statistiche ####
 elenco_statistiche=("Turni totali",
-				"Punteggi totali"
+				"Punteggi totali",
+				"Mansioni",
 			)
 
 def statistiche(request):
 	#se l' intervallo non e specificato prendo tutto
 	dati=statistiche_intervallo(request,datetime.date(2000,1,1),datetime.datetime.now().date())
 	return render_to_response('statistiche.html',{'dati': dati,'elenco_statistiche':elenco_statistiche,'request':request}, RequestContext(request))
+
+from dateutil.relativedelta import relativedelta
+
+
+
+def stat_eta():
+	eta=(20,40,60,80,100)
+	tot=0
+	anno_corrente = datetime.datetime.now()
+	for e in eta:
+		nato_dopo=anno_corrente- relativedelta(years=e)
+		tot=Persona.objects.filter(eav_data_nascita_gte=nato_dopo).count()
 
 def statistiche_intervallo(request, inizio, fine):
 	#la funzione calcola le statistiche tra due date, rihiede 2 oggetti datetime.date
@@ -586,6 +599,7 @@ def statistiche_intervallo(request, inizio, fine):
 	stat=[]
 	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile", persona_disponibilita__turno__inizio__gte=inizio, persona_disponibilita__turno__fine__lte=fine ).annotate(tot_turni=Count('persona_disponibilita')).order_by("-tot_turni"))
 	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile", persona_disponibilita__turno__inizio__gte=inizio, persona_disponibilita__turno__fine__lte=fine ).annotate(tot_punti=Sum('persona_disponibilita__turno__valore')).order_by("-tot_punti"))
+	stat.append([("x",2),("y",4),("z",8)])
 	#pdb.set_trace()
 	dati.append(stat)
 	dati=zip(*dati)

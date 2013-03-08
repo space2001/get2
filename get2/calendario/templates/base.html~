@@ -3,11 +3,11 @@
 <html>
 <head>
 	<title>{% block title %}Get 2.0{% endblock %}</title>
-	<link rel="stylesheet" type="text/css" href="{% static "style.css" %}" />
+
 	{% dajaxice_js_import %}
 	<script src="/static/jquery.min.js"></script>
 	<script src="/static/jquery-ui.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="{% static "css/Aristo/Aristo.css" %}" />
+	<link rel="stylesheet" type="text/css" href="{% static "css/smoothness/jquery-ui-1.10.1.custom.css" %}" />
 	<script type="text/javascript" src="{% static "dajax/jquery.dajax.core.js" %}"></script>
 	<script type="text/javascript" src="/static/js/noty/jquery.noty.js"></script>
 	<script type="text/javascript" src="/static/js/noty/layouts/bottomRight.js"></script>
