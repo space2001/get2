@@ -29,7 +29,7 @@ def elenco_persona(request):
 	#else:
 	#	return render_to_response('staff-no.html')
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def nuovo_persona(request):
 	#if request.user.is_staff:
 	azione = 'nuovo'
@@ -44,7 +44,7 @@ def nuovo_persona(request):
 	#else:
 	#	return render_to_response('staff-no.html')
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def modifica_persona(request,persona_id):
 	azione = 'modifica'
 	per = Persona.objects.get(id=persona_id)
@@ -63,7 +63,7 @@ def elimina_persona(request,persona_id):
 	p.delete()
 	return HttpResponseRedirect('/persone/')
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def nuovo_gruppo(request):
 	#if request.user.is_staff:
 	azione = 'nuovo'
@@ -78,7 +78,7 @@ def nuovo_gruppo(request):
 	#else:
 	#	return render_to_response('staff-no.html')
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def modifica_gruppo(request,gruppo_id):
 	azione = 'modifica'
 	g = Gruppo.objects.get(id=gruppo_id)
@@ -91,13 +91,13 @@ def modifica_gruppo(request,gruppo_id):
 		form = GruppoForm(instance=g)
 	return render_to_response('form_gruppo.html',{'request': request, 'form': form,'azione': azione, 'g': g,}, RequestContext(request))
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def elimina_gruppo(request,gruppo_id):
 	p=Gruppo.objects.get(id=gruppo_id)
 	p.delete()
 	return HttpResponseRedirect('/persone/')
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def gruppoaggiungi(request, gruppo_id, per_id):
 	g=Gruppo.objects.get(id=gruppo_id)
 	p=Persona.objects.get(id=per_id)
@@ -105,7 +105,7 @@ def gruppoaggiungi(request, gruppo_id, per_id):
 	g.save
 	return HttpResponseRedirect('/persone/')
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def gruppoaggiungilista(request):
 	#pdb.set_trace()
 	if request.GET['gruppo_id']:	
@@ -187,7 +187,7 @@ def calendarioazione(request,azione):
 	risposta.set_cookie('giorno', value=start.day)
 	return risposta
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def cerca_persona(request, turno_id, mansione_id):
 	mansione=Mansione.objects.get(id=mansione_id)
 	persone=Persona.objects.filter(competenze=mansione)
@@ -307,7 +307,7 @@ def notifica_disponibilita(request,persona,turno,tipo_disponibilita,mansione):
 		notifica.save()
 	return True
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def elenco_notifica(request):
 	u=request.user
 	notifiche=Notifica.objects.filter(destinatario=u).order_by('data').reverse()
@@ -316,7 +316,7 @@ def elenco_notifica(request):
 ####   fine notifica   ####
 
 ####   inizio utenti   ####
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def elenco_utente(request):
 	#if request.user.is_staff:
 	utenti = User.objects.all()
@@ -326,7 +326,7 @@ def elenco_utente(request):
 	#else:
 	#	return render_to_response('staff-no.html')
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def nuovo_utente(request):
 	#if request.user.is_staff:
 	# Do something for anonymous users.
@@ -340,7 +340,7 @@ def nuovo_utente(request):
 		form = UserCreationForm2()
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione}, RequestContext(request))
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def modifica_utente(request,utente_id):
 	azione = 'modifica'
 	user = User.objects.get(id=utente_id)
@@ -353,7 +353,7 @@ def modifica_utente(request,utente_id):
 		form = UserChangeForm2(instance=user)
 	return render_to_response('form_utente.html',{'request':request, 'form': form,'azione': azione, 'user': user,}, RequestContext(request))
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def modifica_password_utente(request,utente_id):
 	user = User.objects.get(id=utente_id)
 	if request.method == 'POST': # If the form has been submitted...
@@ -403,7 +403,8 @@ def elimina_mansione(request,mansione_id):
 
 #### inzio tipo turno ####
 
-@staff_member_required
+
+@user_passes_test(lambda u:u.is_staff)
 def impostazioni(request):
 	tipi_turno=TipoTurno.objects.all()
 	return render_to_response('impostazioni.html',{'tipi_turno':tipi_turno,'tipo_turno_form':TipoTurnoForm(),'operatori':OPERATORI,'mansioni':Mansione.objects.all(),'impostazioni_notifica_utente':Impostazioni_notifica.objects.all(), 'campi_persone':Attribute.objects.all(), 'request':request}, RequestContext(request))
@@ -473,7 +474,7 @@ def elimina_impostazioni_notifica(request, impostazioni_notifica_id):
 #### fine tipo turno ####
 
 #### inizio turno ####
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def nuovo_turno(request):
 	azione = 'Aggiungi'
 	if request.method == 'POST': # If the form has been submitted...
@@ -511,7 +512,7 @@ def nuovo_turno(request):
 		form = TurnoFormRipeti()
 	return render_to_response('form_turno.html',{'form': form,'azione': azione,'request':request}, RequestContext(request))
 	
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def modifica_turno(request, turno_id):
 	azione = 'Modifica';
 	turno = Turno.objects.get(id=turno_id)
@@ -543,13 +544,13 @@ def modifica_turno(request, turno_id):
 		form = TurnoForm(instance=turno)
 	return render_to_response('form_turno.html',{'form': form,'azione': azione, 'turno': turno,'request':request}, RequestContext(request))
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def elimina_turno(request, turno_id):
 	t = Turno.objects.get(id=turno_id)
 	t.delete()
 	return HttpResponseRedirect('/calendario/')
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def elimina_turno_occorrenza_succ(request, occorrenza_id):
 	o=Occorrenza.objects.get(id=occorrenza_id)
 	turni = Turno.objects.filter(occorrenza=o, inizio__gte=datetime.datetime.now())
@@ -684,7 +685,7 @@ def elimina_campo_persone(request,campo_persone_id):
 
 #### inizio pagina persona ####
 
-@staff_member_required
+@user_passes_test(lambda u:u.is_staff)
 def visualizza_persona(request,persona_id):
 	persona = Persona.objects.get(id=persona_id)
 	lista_attributi = eav.models.Entity(Persona).get_all_attributes()
