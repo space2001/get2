@@ -691,7 +691,8 @@ def visualizza_persona(request,persona_id):
 	lista_attributi = eav.models.Entity(Persona).get_all_attributes()
 	attributi = {}
 	for attributo in lista_attributi:
-		attributi[attributo.name] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
+		try:
+			attributi[attributo.name] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
 	return render_to_response('dettaglio_persona.html',{'request': request, 'persona': persona, 'attributi': attributi}, RequestContext(request))
 
 #### fine pagina persona ####
