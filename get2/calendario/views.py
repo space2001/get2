@@ -16,7 +16,6 @@ import get2.calendario.settings_calendario as settings_calendario
 from django.contrib.admin.views.decorators import staff_member_required
 from django.contrib.auth.decorators import user_passes_test
 
-
 from eav.models import Attribute #eav import
 ####   persona   ####
 
@@ -646,3 +645,17 @@ def elimina_campo_persone(request,campo_persone_id):
 	return HttpResponseRedirect('/impostazioni/#tabs-persone')	
 
 #### fine campo_persone ####
+
+
+#### inizio pagina persona ####
+
+@staff_member_required
+def visualizza_persona(request,persona_id):
+	persona = Persona.objects.get(id=persona_id)
+	lista_attributi = eav.models.Entity(Persona).get_all_attributes()
+	attributi = {}
+	for attributo in lista_attributi:
+		attributi[attributo.name] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
+	return render_to_response('dettaglio_persona.html',{'request': request, 'persona': persona, 'attributi': attributi}, RequestContext(request))
+
+#### fine pagina persona ####

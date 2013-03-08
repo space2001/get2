@@ -15,8 +15,8 @@ function persona_stato(selettore){
 	<td  class="sorttable_nosort" colspan="6">
 	
 	Se selezionati: <select name="azione">
-		<option value="aggiungi">aggiungi a
-		<option value="rimuovi">aggiungi dal gruppo
+		<option value="aggiungi">aggiungi al gruppo
+		<option value="rimuovi">rimuovi dal gruppo
 	</select>
 	<select name="gruppo_id">
 	<option value="">---
@@ -45,6 +45,7 @@ function persona_stato(selettore){
 		{% endfor%}
 		</SELECT></td>
 	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
+			       <a href="/persone/visualizza/{{persona.id}}"><span class="img_modifica">vedi</span></a>
 		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
 	</td>
 	

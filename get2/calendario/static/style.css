@@ -114,6 +114,18 @@ span.img_modifica{
 	float:left;
 }
 
+span.img_dettagli{
+	height: 24px;
+	width: 24px;
+	margin: 0px;
+	padding: 0px;
+  	padding-right: 10px;
+  	border: 0;
+	background: url(dettagli.png) no-repeat center top;
+	display: block;
+	float:left;
+}
+
 span.img_stampa{
 	height: 24px;
 	width: 24px;
