@@ -292,7 +292,7 @@ def disponibilita_gruppo(request,turno_id,gruppo_id):
 ####   notifica   ####
 
 def notifica_disponibilita(request,persona,turno,tipo_disponibilita,mansione):
-	messaggio=str(persona) + ' si e reso <b>' + str(tipo_disponibilita) + '</b> con mansione di <b>'+ str(mansione) +'</b> per il turno <b>' + 'turno' + '</b>'
+	messaggio='%s si e reso <b> %s </b> con mansione di <b>%s</b> per il turno del<b> %s </b> delle ore<b> %s - %s </b>' % (str(persona), str(tipo_disponibilita),str(mansione), turno.inizio.strftime("%d-%m-%Y"), turno.inizio.strftime("%H:%M"), turno.fine.strftime("%H:%M"))
 	now=datetime.datetime.now()
 	notifica=Notifica()
 	notifica.testo=messaggio
