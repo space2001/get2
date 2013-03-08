@@ -145,7 +145,7 @@ class PersonaForm(BaseDynamicEntityForm):
 	def __init__(self, *args, **kwargs):
 		super(PersonaForm, self).__init__(*args, **kwargs)
 		lista_attributi = eav.models.Entity(Persona).get_all_attributes()
-		pdb.set_trace()
+		#pdb.set_trace()
 		# da finire
 		for attributo in lista_attributi:
 			if attributo.datatype == 'date':
