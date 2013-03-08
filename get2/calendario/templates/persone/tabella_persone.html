@@ -47,6 +47,7 @@ function persona_stato(selettore){
 	<td>{{persona.note}}
 	</td>
 	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
+			       <a href="/persone/visualizza/{{persona.id}}"><span class="img_dettagli"></span></a>
 		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
 	</td>
 

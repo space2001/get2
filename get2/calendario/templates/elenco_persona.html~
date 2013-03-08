@@ -57,7 +57,9 @@ function cerca_persone(){
 <span class="titolo impostazioni">Persone</span>
 <menu class="impostazioni">
 <ul>
+
 <li class="aggiungi staff"><a href="/persone/nuovo">Aggiungi persona</a></li>
+
 </ul>
 </menu>
 <script src="/static/sorttable.js"></script>
