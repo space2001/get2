@@ -145,9 +145,11 @@ class PersonaForm(BaseDynamicEntityForm):
 	def __init__(self, *args, **kwargs):
 		super(PersonaForm, self).__init__(*args, **kwargs)
 		lista_attributi = eav.models.Entity(Persona).get_all_attributes()
+		pdb.set_trace()
+		# da finire
 		for attributo in lista_attributi:
 			if attributo.datatype == 'date':
-	       			self.fields[attributo.name].widget.attrs['class'] = 'campo_tipo_data'
+	       			self.fields[attributo.slug].widget.attrs['class'] = 'campo_tipo_data'
 
 	class Meta:
 		model = Persona

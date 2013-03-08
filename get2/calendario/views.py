@@ -692,7 +692,7 @@ def visualizza_persona(request,persona_id):
 	attributi = {}
 	for attributo in lista_attributi:
 		try:
-			attributi[attributo.name] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
+			attributi[attributo.slug] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
 		except: 
   			pass
 	return render_to_response('dettaglio_persona.html',{'request': request, 'persona': persona, 'attributi': attributi}, RequestContext(request))
