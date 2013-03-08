@@ -69,6 +69,11 @@ window.onload = function()
 	{%if not request.user.is_superuser %} 
 		$('#id_inizio_0').hide();
 		$('#id_tipo').prop('disabled', true);
+		jQuery(function($) {
+		    $('form').bind('submit', function() {
+	        $(this).find(':input').removeAttr('disabled');
+		    });
+		});
 	{% endif %}
 	
 	});

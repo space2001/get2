@@ -4,7 +4,7 @@ from django.http import HttpResponse, HttpResponseRedirect
 from get2.calendario.models import *
 from django.shortcuts import render_to_response
 import calendar,datetime,locale
-from django.db.models import Q, Count
+from django.db.models import Q, Count, Sum
 from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AdminPasswordChangeForm 
@@ -521,7 +521,7 @@ def modifica_turno(request, turno_id):
 		if form.is_valid():
 			data = form.cleaned_data
 			form.save()
-			pdb.set_trace()
+			#pdb.set_trace()
 			occ=False
 			if 'modifica_tutti' in request.POST:
 				occorrenze = Turno.objects.filter(occorrenza=turno.occorrenza)
@@ -571,6 +571,7 @@ def elimina_turno_occorrenza(request, occorrenza_id):
 
 #### inizio statistiche ####
 elenco_statistiche=("Turni totali",
+				"Punteggi totali"
 			)
 
 def statistiche(request):
@@ -583,7 +584,8 @@ def statistiche_intervallo(request, inizio, fine):
 	dati=[]
 	dati.append(elenco_statistiche)
 	stat=[]
-	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile", persona_disponibilita__turno__inizio__gte=inizio, persona_disponibilita__turno__fine__lte=fine ).annotate(tot_turni=Count('persona_disponibilita')))
+	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile", persona_disponibilita__turno__inizio__gte=inizio, persona_disponibilita__turno__fine__lte=fine ).annotate(tot_turni=Count('persona_disponibilita')).order_by("-tot_turni"))
+	stat.append(Persona.objects.filter(persona_disponibilita__tipo="Disponibile", persona_disponibilita__turno__inizio__gte=inizio, persona_disponibilita__turno__fine__lte=fine ).annotate(tot_punti=Sum('persona_disponibilita__turno__valore')).order_by("-tot_punti"))
 	#pdb.set_trace()
 	dati.append(stat)
 	dati=zip(*dati)
