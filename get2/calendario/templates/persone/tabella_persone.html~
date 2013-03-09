@@ -9,27 +9,55 @@ function persona_stato(selettore){
 </script>
 <form action="/persone/gruppo/aggiungilista/" method="get">
 <table class="sortable cento">
+	<script type="text/javascript">
+		var select_enable;
+		var select_gruppi;
+		var select_mansioni;
+		$(document).ready(function(){
+			select_enable = $("select[name='default_select']");
+			select_gruppi = $("<select>").attr("name", "gruppo_id").append($("<option value=''>---</option>"));
+			{% for gruppo in gruppi %}
+				select_gruppi.append($("<option>").attr("value", "{{gruppo.id}}").text("{{gruppo.nome}}"));
+			{% endfor %}
+			select_mansioni = $("<select>").attr("name", "mansione_id").append($("<option value=''>---</option>"));
+			{% for mansione in mansioni %}
+				select_mansioni.append($("<option>").attr("value", "{{mansione.id}}").text("{{mansione.nome}}"));
+			{% endfor %}
+		
 
+			$("select[name='azione']").change(function(){
+				if($(this).val() == "aggiungi_g" || $(this).val() == "rimuovi_g"){
+					$(select_enable).replaceWith(select_gruppi);
+					select_enable = select_gruppi;
+				}
+				else{
+					$(select_enable).replaceWith(select_mansioni);
+					select_enable = select_mansioni;
+				}
+			});
+		});
+		
+	</script>
 
 <tr>
 	<td  class="sorttable_nosort" colspan="6">
 	
 	Se selezionati: <select name="azione">
-		<option value="aggiungi">aggiungi al gruppo
-		<option value="rimuovi">rimuovi dal gruppo
+		<option value="">---
+		<option value="aggiungi_g">aggiungi al gruppo
+		<option value="rimuovi_g">rimuovi dal gruppo
+		<option value="aggiungi_m">aggiungi mansione
+		<option value="rimuovi_m">rimuovi mansione
 	</select>
-	<select name="gruppo_id">
-	<option value="">---
-	{% for gruppo in gruppi %} 
-	<option value="{{gruppo.id}}">{{gruppo.nome}}
-	{% endfor %}  
+	<select name="default_select">
+	<option value="">---  
 	</select>
 	<input type="submit" value="applica">
 	</td>
 </tr>
 
 <tr class="intestazione">
-	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Operazioni</th><th class="sorttable_nosort">Note</th>
+	<th></th><th>Nome</th><th class="sorttable_nosort">Mansioni</th><th>Gruppi</th><th>Stato</th><th class="sorttable_nosort">Note</th><th class="sorttable_nosort">Operazioni</th>
 </tr>
 {% for persona in persone %}
 
@@ -44,12 +72,13 @@ function persona_stato(selettore){
 		<OPTION VALUE="{{key}}-{{persona.id}}">{{value}}
 		{% endfor%}
 		</SELECT></td>
-	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
-			       <a href="/persone/visualizza/{{persona.id}}"><span class="img_modifica">vedi</span></a>
-		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
-	</td>
 	<td>{{persona.note}}
 	</td>
+	<td class="operazioni"><a href="/persone/modifica/{{persona.id}}"><span class="img_modifica"></span></a>
+			       <a href="/persone/visualizza/{{persona.id}}"><span class="img_dettagli"></span></a>
+		<a href="#" onclick='$("#elimina-persona-{{persona.id}}" ).dialog("open");'><span class="img_elimina superuser"></span></a>
+	</td>
+
 	
 	</tr>
 	<script>

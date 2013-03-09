@@ -106,23 +106,51 @@ def gruppoaggiungi(request, gruppo_id, per_id):
 	return HttpResponseRedirect('/persone/')
 	
 @user_passes_test(lambda u:u.is_staff)
-def gruppoaggiungilista(request):
-	#pdb.set_trace()
-	if request.GET['gruppo_id']:	
-		gruppo_id = request.GET['gruppo_id']
-		g=Gruppo.objects.get(id=gruppo_id)
-	else:
-		return HttpResponseRedirect('/persone/')
+def aggiungilista(request):
 	persone = request.GET.getlist('persone_id')
 	for per_id in persone:
-		if request.GET['azione']=='aggiungi':
+		if request.GET['azione']=='aggiungi_g':
+			if request.GET['gruppo_id']:	
+				gruppo_id = request.GET['gruppo_id']
+				g=Gruppo.objects.get(id=gruppo_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
 			v=Persona.objects.get(id=per_id)
 			g.componenti.add(v)
 			g.save
-		elif request.GET['azione']=='rimuovi':
+		elif request.GET['azione']=='aggiungi_m':
+			if request.GET['mansione_id']:
+				mansione_id = request.GET['mansione_id'];
+				m = Mansione.objects.get(id=mansione_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
+			v=Persona.objects.get(id=per_id)
+			v.competenze.add(m)
+			v.save
+
+		elif request.GET['azione']=='rimuovi_g':
+			if request.GET['gruppo_id']:	
+				gruppo_id = request.GET['gruppo_id']
+				g=Gruppo.objects.get(id=gruppo_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
 			v=Persona.objects.get(id=per_id)
 			g.componenti.remove(v)
 			g.save
+
+		elif request.GET['azione']=='rimuovi_m':
+			if request.GET['mansione_id']:
+				mansione_id = request.GET['mansione_id'];
+				m = Mansione.objects.get(id=mansione_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
+			v=Persona.objects.get(id=per_id)
+			v.competenze.remove(m)
+			v.save
 	return HttpResponseRedirect('/persone/')
 
 ####   fine persona   ####
