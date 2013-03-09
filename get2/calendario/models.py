@@ -280,7 +280,7 @@ class TurnoFormRipeti(TurnoForm):
 
 
 
-DISPONIBILITA = (("Disponibile","Disponibile"),("Indisponibile","Indisponibile"),("Darichiamre","Da Richiamare"),("Nonrisponde","Non Risponde"),)
+DISPONIBILITA = (("Disponibile","Disponibile"),("Indisponibile","Indisponibile"),("Darichiamare","Da Richiamare"),("Nonrisponde","Non Risponde"),)
 
 class Disponibilita(models.Model):
 	tipo = models.CharField(max_length=20, choices=DISPONIBILITA)
