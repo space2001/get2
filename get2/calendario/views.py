@@ -312,6 +312,12 @@ def elenco_notifica(request):
 	u=request.user
 	notifiche=Notifica.objects.filter(destinatario=u).order_by('data').reverse()
 	return render_to_response('notifiche.html',{'notifiche':notifiche,'request':request})
+	
+@user_passes_test(lambda u: u.is_staff)
+def elimina_notifica(request,notifica_id):
+	n=Attribute.objects.get(id=notifica_id)
+	n.delete()
+	return HttpResponseRedirect('/notifiche/')	
 
 ####   fine notifica   ####
 

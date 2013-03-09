@@ -62,6 +62,7 @@ urlpatterns += patterns('get2.calendario',
 	(r'^statistiche/', 'views.statistiche'),
 	# notifiche
    	(r'^notifiche/$', 'views.elenco_notifica'),
+   	(r'^notifiche/elimina/(?P<notifica_id>\w+)/$', 'views.elimina_notifica'),
 	#campo_persone
 	(r'^impostazioni/campo_persone/nuovo/$', 'views.nuovo_campo_persone'),
 	(r'^impostazioni/campo_persone/modifica/(?P<campo_persone_id>\w+)/$', 'views.modifica_campo_persone'),
