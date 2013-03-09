@@ -106,23 +106,51 @@ def gruppoaggiungi(request, gruppo_id, per_id):
 	return HttpResponseRedirect('/persone/')
 	
 @user_passes_test(lambda u:u.is_staff)
-def gruppoaggiungilista(request):
-	#pdb.set_trace()
-	if request.GET['gruppo_id']:	
-		gruppo_id = request.GET['gruppo_id']
-		g=Gruppo.objects.get(id=gruppo_id)
-	else:
-		return HttpResponseRedirect('/persone/')
+def aggiungilista(request):
 	persone = request.GET.getlist('persone_id')
 	for per_id in persone:
-		if request.GET['azione']=='aggiungi':
+		if request.GET['azione']=='aggiungi_g':
+			if request.GET['gruppo_id']:	
+				gruppo_id = request.GET['gruppo_id']
+				g=Gruppo.objects.get(id=gruppo_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
 			v=Persona.objects.get(id=per_id)
 			g.componenti.add(v)
 			g.save
-		elif request.GET['azione']=='rimuovi':
+		elif request.GET['azione']=='aggiungi_m':
+			if request.GET['mansione_id']:
+				mansione_id = request.GET['mansione_id'];
+				m = Mansione.objects.get(id=mansione_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
+			v=Persona.objects.get(id=per_id)
+			v.competenze.add(m)
+			v.save
+
+		elif request.GET['azione']=='rimuovi_g':
+			if request.GET['gruppo_id']:	
+				gruppo_id = request.GET['gruppo_id']
+				g=Gruppo.objects.get(id=gruppo_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
 			v=Persona.objects.get(id=per_id)
 			g.componenti.remove(v)
 			g.save
+
+		elif request.GET['azione']=='rimuovi_m':
+			if request.GET['mansione_id']:
+				mansione_id = request.GET['mansione_id'];
+				m = Mansione.objects.get(id=mansione_id)
+			else:
+				return HttpResponseRedirect('/persone/')
+
+			v=Persona.objects.get(id=per_id)
+			v.competenze.remove(m)
+			v.save
 	return HttpResponseRedirect('/persone/')
 
 ####   fine persona   ####
@@ -695,12 +723,14 @@ def elimina_campo_persone(request,campo_persone_id):
 def visualizza_persona(request,persona_id):
 	persona = Persona.objects.get(id=persona_id)
 	lista_attributi = eav.models.Entity(Persona).get_all_attributes()
-	attributi = {}
-	for attributo in lista_attributi:
-		try:
-			attributi[attributo.slug] = eav.models.Entity(persona).get_value_by_attribute(attributo.id).value
+	attributi = []
+	conta_posizione_vettore = 0
+	for attributo in lista_attributi:		
+		try:			
+			attributi.append([attributo.name, eav.models.Entity(persona).get_value_by_attribute(attributo.id).value])
 		except: 
   			pass
+		conta_posizione_vettore = conta_posizione_vettore + 1
 	return render_to_response('dettaglio_persona.html',{'request': request, 'persona': persona, 'attributi': attributi}, RequestContext(request))
 
 #### fine pagina persona ####
