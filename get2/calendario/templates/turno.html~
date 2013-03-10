@@ -231,22 +231,6 @@
 		$('.img_rimuovi').hide();
 		$('.persona-turno').hover(	function () {$(this).find('.img_rimuovi').show();}, 	function () {$(this).find('.img_rimuovi').hide();});
 		});
-		
-		$(document).ready(function(){
-		var maxHeight = Math.max.apply(null, $(".giorno").map(function () {return $(this).height();}).get());
-		alert(maxHeight);
-		$(".giorno").height(maxHeight);
-
-		var DimContenuto = $('#contenuto').width();
-		$(".giorno").width((DimContenuto-8)/7);
-
-		});
-
-		$(window).resize(function() {
-		var DimContenuto = $('#contenuto').width();
-		$(".giorno").width(DimContenuto/7.1);
-		});
-
 	</script>
 	
 	</div>

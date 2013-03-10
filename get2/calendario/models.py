@@ -150,7 +150,6 @@ class PersonaForm(BaseDynamicEntityForm):
 		for attributo in lista_attributi:
 			if attributo.datatype == 'date':
 	       			self.fields[attributo.slug].widget.attrs['class'] = 'campo_tipo_data'
-
 	class Meta:
 		model = Persona
 		widgets = {'competenze': forms.CheckboxSelectMultiple}
